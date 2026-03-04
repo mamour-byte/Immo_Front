@@ -1,0 +1,321 @@
+import React, { useState, useEffect } from 'react';
+import { ChevronDown, X, SlidersHorizontal } from 'lucide-react';
+
+export default function SidebarFilters({ onFiltersChange }) {
+  const [isOpen, setIsOpen] = useState(true);
+  const [cities, setCities] = useState([]);
+  const [selectedCityId, setSelectedCityId] = useState('');
+  const [selectedDistrictId, setSelectedDistrictId] = useState('');
+  const [filters, setFilters] = useState({
+    transactionType: '', // Vide par défaut pour afficher toutes les propriétés
+    propertyType: '',
+    minPrice: '',
+    maxPrice: '',
+    minSurface: '',
+    maxSurface: '',
+    bedrooms: '',
+    bathrooms: '',
+    region: '',
+    city: ''
+  });
+  
+  useEffect(() => {
+    fetch('http://localhost:3000/cities')
+      .then(res => res.json())
+      .then(setCities)
+      .catch(console.error);
+  }, []);
+
+  const handleFilterChange = (field, value) => {
+    setFilters(prev => ({ ...prev, [field]: value }));
+  };
+
+  const resetFilters = () => {
+    const resetFiltersState = {
+      transactionType: '', // Réinitialiser à vide pour afficher toutes les propriétés
+      propertyType: '',
+      minPrice: '',
+      maxPrice: '',
+      minSurface: '',
+      maxSurface: '',
+      bedrooms: '',
+      bathrooms: '',
+      region: '',
+      city: ''
+    };
+    setFilters(resetFiltersState);
+    setSelectedCityId('');
+    setSelectedDistrictId('');
+    
+    // Appliquer les filtres réinitialisés
+    if (onFiltersChange) {
+      onFiltersChange({
+        ...resetFiltersState,
+        cityId: '',
+        districtId: ''
+      });
+    }
+  };
+
+  const applyFilters = () => {
+    if (onFiltersChange) {
+      onFiltersChange({
+        ...filters,
+        cityId: selectedCityId,
+        districtId: selectedDistrictId
+      });
+    }
+  };
+
+  return (
+    <>
+      {/* Bouton mobile pour ouvrir/fermer */}
+      <button
+        onClick={() => setIsOpen(!isOpen)}
+        className="lg:hidden fixed bottom-6 right-6 z-50 bg-slate-900 text-white p-4 rounded-full shadow-lg hover:bg-slate-800 transition-colors"
+      >
+        <SlidersHorizontal size={24} />
+      </button>
+
+      {/* Overlay mobile */}
+      {isOpen && (
+        <div 
+          className="lg:hidden fixed inset-0 bg-black/50 z-40 transition-opacity"
+          onClick={() => setIsOpen(false)}
+        />
+      )}
+
+      {/* Sidebar */}
+      <aside
+        className={`
+          fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] 
+          w-80 bg-white border-r border-slate-200 
+          overflow-y-auto z-50 transition-transform duration-300
+          ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
+        `}
+      >
+        <div className="p-6 space-y-6">
+          
+          {/* Header */}
+          <div className="flex items-center justify-between pb-4 border-b border-slate-200">
+            <div className="flex items-center gap-2">
+              <SlidersHorizontal size={20} className="text-slate-700" />
+              <h2 className="text-lg font-semibold text-slate-900">Filtres</h2>
+            </div>
+            <button
+              onClick={() => setIsOpen(false)}
+              className="lg:hidden p-1 hover:bg-slate-100 rounded-lg transition-colors"
+            >
+              <X size={20} />
+            </button>
+          </div>
+
+          {/* Type de transaction */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Transaction
+            </label>
+            <div className="grid grid-cols-3 gap-2">
+              <button
+                onClick={() => handleFilterChange('transactionType', '')}
+                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                  !filters.transactionType || filters.transactionType === ''
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Tous
+              </button>
+              <button
+                onClick={() => handleFilterChange('transactionType', 'achat')}
+                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                  filters.transactionType === 'achat'
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Achat
+              </button>
+              <button
+                onClick={() => handleFilterChange('transactionType', 'location')}
+                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                  filters.transactionType === 'location'
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Location
+              </button>
+            </div>
+          </div>
+
+          {/* Type de bien */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Type de bien
+            </label>
+            <select
+              value={filters.propertyType}
+              onChange={(e) => handleFilterChange('propertyType', e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+            >
+              <option value="">Tous les types</option>
+              <option value="appartement">Appartement</option>
+              <option value="maison">Maison</option>
+              <option value="terrain">Terrain</option>
+              <option value="bureau">Bureau</option>
+              <option value="commerce">Commerce</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+          </div>
+
+
+          {/* Ville */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Ville
+            </label>
+            <select
+              value={selectedCityId}
+              onChange={e => {
+                setSelectedCityId(e.target.value);
+                setSelectedDistrictId('');
+                handleFilterChange('city', e.target.value);
+              }}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+            >
+              <option value="">Toutes les villes</option>
+              {cities.map(city => (
+                <option key={city.id} value={city.id}>{city.name}</option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+          </div>
+          {/* Nouveau SELECT quartiers */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Quartier
+            </label>
+            <select
+              value={selectedDistrictId}
+              onChange={e => {
+                setSelectedDistrictId(e.target.value);
+                handleFilterChange('district', e.target.value);
+              }}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+            >
+              <option value="">Tous les quartiers</option>
+              {cities.find(c => String(c.id) === String(selectedCityId))?.districts.map(d => (
+                <option key={d.id} value={d.id}>{d.name}</option>
+              ))}
+            </select>
+            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+          </div>
+
+          {/* Prix */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Budget (FCFA)
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                placeholder="Min"
+                value={filters.minPrice}
+                onChange={(e) => handleFilterChange('minPrice', e.target.value)}
+                className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+              />
+              <span className="text-slate-400">-</span>
+              <input
+                type="number"
+                placeholder="Max"
+                value={filters.maxPrice}
+                onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
+                className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Surface */}
+          <div>
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Surface (m²)
+            </label>
+            <div className="flex items-center gap-2">
+              <input
+                type="number"
+                placeholder="Min"
+                value={filters.minSurface}
+                onChange={(e) => handleFilterChange('minSurface', e.target.value)}
+                className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+              />
+              <span className="text-slate-400">-</span>
+              <input
+                type="number"
+                placeholder="Max"
+                value={filters.maxSurface}
+                onChange={(e) => handleFilterChange('maxSurface', e.target.value)}
+                className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+              />
+            </div>
+          </div>
+
+          {/* Chambres */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Chambres
+            </label>
+            <select
+              value={filters.bedrooms}
+              onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+            >
+              <option value="">Indifférent</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+              <option value="5">5+</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+          </div>
+
+          {/* Salles de bains */}
+          <div className="relative">
+            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+              Salles de bains
+            </label>
+            <select
+              value={filters.bathrooms}
+              onChange={(e) => handleFilterChange('bathrooms', e.target.value)}
+              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+            >
+              <option value="">Indifférent</option>
+              <option value="1">1+</option>
+              <option value="2">2+</option>
+              <option value="3">3+</option>
+              <option value="4">4+</option>
+            </select>
+            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+          </div>
+
+          {/* Boutons d'action */}
+          <div className="pt-4 space-y-3 border-t border-slate-200">
+            <button
+              onClick={applyFilters}
+              className="w-full bg-slate-900 text-white py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors"
+            >
+              Appliquer les filtres
+            </button>
+            <button
+              onClick={resetFilters}
+              className="w-full border-2 border-slate-300 text-slate-600 py-3 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
+            >
+              Réinitialiser
+            </button>
+          </div>
+        </div>
+      </aside>
+    </>
+  );
+}

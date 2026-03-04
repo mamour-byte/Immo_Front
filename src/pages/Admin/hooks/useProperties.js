@@ -1,0 +1,109 @@
+// hooks/useProperties.js
+import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import * as api from "../services/propertiesApi";
+import toast from "react-hot-toast";
+
+const DEFAULT_PAGE_SIZE = 10;
+
+// ----- Cities -----
+export function useCities() {
+  return useQuery({
+    queryKey: ["cities"],
+    queryFn: api.fetchCities,
+  });
+}
+
+// ----- Districts -----
+export function useDistricts() {
+  return useQuery({
+    queryKey: ["districts"],
+    queryFn: api.fetchDistricts,
+  });
+}
+
+// ----- Properties -----
+export function useProperties(params) {
+  return useQuery({
+    queryKey: ["properties", params],
+    queryFn: async () => {
+      try {
+        const data = await api.fetchProperties(params);
+        console.log("Données reçues du backend:", data);
+        return data;
+      } catch (error) {
+        console.error("Erreur dans fetchProperties:", error);
+        throw error;
+      }
+    },
+    staleTime: 10_000,
+  });
+}
+
+// ----- Create -----
+export function useCreateProperty() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: api.createProperty,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["properties"] });
+      toast.success("Bien créé");
+    },
+    onError: () => toast.error("Erreur lors de la création"),
+  });
+}
+
+// ----- Update -----
+export function useUpdateProperty() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }) => api.updateProperty(id, payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["properties"] });
+      toast.success("Bien mis à jour");
+    },
+    onError: () => toast.error("Erreur lors de la mise à jour"),
+  });
+}
+
+// ----- Delete -----
+export function useDeleteProperty() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: api.deleteProperty,
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["properties"] });
+      toast.success("Bien supprimé");
+    },
+    onError: () => toast.error("Erreur lors de la suppression"),
+  });
+}
+
+// ----- Upload Images -----
+export function useUploadImages() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ propertyId, files }) =>
+      api.uploadPropertyImages(propertyId, files),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["properties"] });
+      toast.success("Images uploadées");
+    },
+    onError: () => toast.error("Erreur upload images"),
+  });
+}
+
+// ----- Create Property WITH IMAGES (Unified route) -----
+export function useCreatePropertyWithImages() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ payload, files }) => api.createPropertyWithImages(payload, files),
+    onSuccess: (data) => {
+      qc.invalidateQueries({ queryKey: ["properties"] });
+      toast.success(data?.message || "Bien créé avec images");
+    },
+    onError: (error) => {
+      const msg = error?.response?.data?.message || error?.message || "Erreur lors de la création";
+      toast.error(msg);
+    },
+  });
+}
