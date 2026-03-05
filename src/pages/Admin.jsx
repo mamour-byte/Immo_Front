@@ -3,7 +3,7 @@
 // import { Edit, Trash } from "lucide-react";
 
 // // AJOUTEZ ceci EN HAUT DE VOTRE FICHIER
-// const API_URL = "http://localhost:3000"; // adapté à votre backend
+// const API_URL = "https://immo-backend-b2x5.onrender.com"; // adapté à votre backend
 // const TYPE_OPTIONS = [
 //   { value: "APPARTMENT", label: "Appartement" },
 //   { value: "STUDIO", label: "Studio" },

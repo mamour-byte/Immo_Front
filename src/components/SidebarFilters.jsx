@@ -20,7 +20,7 @@ export default function SidebarFilters({ onFiltersChange }) {
   });
   
   useEffect(() => {
-    fetch('http://localhost:3000/cities')
+    fetch('https://immo-backend-b2x5.onrender.com/cities')
       .then(res => res.json())
       .then(setCities)
       .catch(console.error);

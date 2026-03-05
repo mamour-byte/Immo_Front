@@ -2,7 +2,7 @@
 import axios from "axios";
 import { clearSession } from "../../../utils/authUtils";
 
-const API_URL = import.meta.env.VITE_API_URL || "http://localhost:3000";
+const API_URL = import.meta.env.VITE_API_URL || "https://immo-backend-b2x5.onrender.com";
 
 function getJwt() {
   return localStorage.getItem("jwt") || sessionStorage.getItem("jwt") || null;
