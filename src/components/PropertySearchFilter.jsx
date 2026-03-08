@@ -24,7 +24,7 @@ export default function PropertySearchFilter() {
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
 
   useEffect(() => {
-    fetch('https://immo-backend-b2x5.onrender.com/cities')
+    fetch('https://immo-backend.onrender.com/cities')
       .then(res => res.json())
       .then(setCities)
       .catch(console.error);
