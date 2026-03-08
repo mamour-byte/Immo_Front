@@ -20,7 +20,7 @@ export default function ContactForm({ property, onWhatsAppClick }) {
     setSubmitSuccess(false);
 
     try {
-      const response = await fetch('https://immo-backend.onrender.com/contact', {
+      const response = await fetch('https://immo-backend-b2x5.onrender.com/contact', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
