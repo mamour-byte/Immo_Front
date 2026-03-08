@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { ChevronDown, X, SlidersHorizontal } from 'lucide-react';
 
 export default function SidebarFilters({ onFiltersChange }) {
-  const [isOpen, setIsOpen] = useState(true);
+  const [isOpen, setIsOpen] = useState(false);
   const [cities, setCities] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
@@ -65,6 +65,7 @@ export default function SidebarFilters({ onFiltersChange }) {
         districtId: selectedDistrictId
       });
     }
+    setIsOpen(false); // close drawer on mobile after applying
   };
 
   return (
@@ -72,9 +73,10 @@ export default function SidebarFilters({ onFiltersChange }) {
       {/* Bouton mobile pour ouvrir/fermer */}
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed bottom-6 right-6 z-50 bg-slate-900 text-white p-4 rounded-full shadow-lg hover:bg-slate-800 transition-colors"
+        className="lg:hidden fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 sm:right-6 z-50 bg-slate-900 text-white p-3.5 sm:p-4 rounded-full shadow-lg hover:bg-slate-800 transition-colors touch-manipulation"
+        aria-label={isOpen ? 'Fermer les filtres' : 'Ouvrir les filtres'}
       >
-        <SlidersHorizontal size={24} />
+        <SlidersHorizontal size={22} className="sm:w-6 sm:h-6" />
       </button>
 
       {/* Overlay mobile */}
@@ -88,13 +90,14 @@ export default function SidebarFilters({ onFiltersChange }) {
       {/* Sidebar */}
       <aside
         className={`
-          fixed lg:sticky top-20 left-0 h-[calc(100vh-5rem)] 
-          w-80 bg-white border-r border-slate-200 
-          overflow-y-auto z-50 transition-transform duration-300
+          fixed lg:sticky top-0 lg:top-20 left-0 h-full lg:h-[calc(100vh-5rem)] 
+          w-[min(320px,100vw-2rem)] max-w-full lg:w-80 bg-white border-r border-slate-200 
+          overflow-y-auto z-50 transition-transform duration-300 ease-out
+          shadow-xl lg:shadow-none
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
-        <div className="p-6 space-y-6">
+        <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
           
           {/* Header */}
           <div className="flex items-center justify-between pb-4 border-b border-slate-200">
@@ -115,7 +118,7 @@ export default function SidebarFilters({ onFiltersChange }) {
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Transaction
             </label>
-            <div className="grid grid-cols-3 gap-2">
+            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
               <button
                 onClick={() => handleFilterChange('transactionType', '')}
                 className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${

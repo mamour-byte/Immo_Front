@@ -105,7 +105,7 @@ export default function ConstructionPage() {
     <div className="min-h-screen bg-slate-50">
       
       {/* Hero Section */}
-      <section className="relative h-[70vh] flex items-center bg-slate-900 overflow-hidden">
+      <section className="relative min-h-[50vh] sm:min-h-[60vh] lg:h-[70vh] flex items-center bg-slate-900 overflow-hidden py-12 sm:py-0">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1503387762-592deb58ef4e"
@@ -115,31 +115,31 @@ export default function ConstructionPage() {
         </div>
         <div className="absolute inset-0 bg-gradient-to-r from-slate-900 via-slate-900/90 to-transparent" />
         
-        <div className="relative z-10 max-w-7xl mx-auto px-6 w-full">
+        <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
           <div className="max-w-3xl">
-            <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
+            <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4 sm:mb-6">
               Ethic Construction
             </div>
-            <h1 className="text-5xl lg:text-6xl font-bold text-white mb-6 leading-tight">
+            <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
               Bâtissons ensemble vos projets d'avenir
             </h1>
-            <p className="text-xl text-slate-300 mb-8">
+            <p className="text-base sm:text-xl text-slate-300 mb-6 sm:mb-8">
               De l'étude à la réalisation, Ethic Construction vous accompagne dans tous vos projets immobiliers avec expertise et professionnalisme.
             </p>
-            <div className="flex flex-wrap gap-4">
+            <div className="flex flex-wrap gap-3 sm:gap-4">
               <a
                 href="#contact"
-                className="bg-rose-500 hover:bg-rose-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+                className="bg-rose-500 hover:bg-rose-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 touch-manipulation"
               >
                 Demander un devis
-                <ArrowRight size={20} />
+                <ArrowRight size={20} className="w-5 h-5" />
               </a>
               <a
                 href="#realisations"
-                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-8 py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2"
+                className="bg-white/10 hover:bg-white/20 backdrop-blur-sm text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 touch-manipulation"
               >
                 Nos réalisations
-                <Play size={20} />
+                <Play size={20} className="w-5 h-5" />
               </a>
             </div>
           </div>
@@ -147,9 +147,9 @@ export default function ConstructionPage() {
       </section>
 
       {/* Statistiques */}
-      <section className="bg-white py-16">
-        <div className="max-w-7xl mx-auto px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-8">
+      <section className="bg-white py-10 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
+          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
             <StatCard number="5" label="Années d'expérience" />
             <StatCard number="20+" label="Projets réalisés" />
             <StatCard number="5+" label="Collaborateurs" />
@@ -159,14 +159,14 @@ export default function ConstructionPage() {
       </section>
 
       {/* Présentation */}
-      <section className="py-20 px-6">
+      <section className="py-12 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div>
-              <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
+              <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4 sm:mb-6">
                 À propos
               </div>
-              <h2 className="text-4xl font-bold text-slate-900 mb-6">
+              <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
                 Ethic Construction, votre partenaire bâtisseur
               </h2>
               <p className="text-slate-600 text-lg leading-relaxed mb-6">
@@ -187,16 +187,16 @@ export default function ConstructionPage() {
                 </div>
               </div>
             </div>
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-2 gap-3 sm:gap-4">
               <img
                 src="https://ethic-group.com/wp-content/uploads/2025/05/WhatsApp-Image-2025-05-29-a-23.50.31_820f8c80.jpg"
                 alt="Construction site"
-                className="rounded-xl h-64 w-full object-cover"
+                className="rounded-xl h-40 sm:h-56 lg:h-64 w-full object-cover"
               />
               <img
                 src="https://ethic-group.com/wp-content/uploads/2025/05/WhatsApp-Image-2025-05-29-a-23.50.29_ea468e3c.jpg"
                 alt="Blueprint"
-                className="rounded-xl h-64 w-full object-cover mt-8"
+                className="rounded-xl h-40 sm:h-56 lg:h-64 w-full object-cover mt-4 sm:mt-8"
               />
             </div>
           </div>
@@ -204,13 +204,13 @@ export default function ConstructionPage() {
       </section>
 
       {/* Services */}
-      <section className="bg-white py-20 px-6">
+      <section className="bg-white py-12 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Nos services
             </div>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-4">
               Une expertise complète pour vos projets
             </h2>
             <p className="text-slate-600 text-lg max-w-2xl mx-auto">
@@ -218,7 +218,7 @@ export default function ConstructionPage() {
             </p>
           </div>
 
-          <div className="grid md:grid-cols-2 lg:grid-cols-4 gap-6">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-6">
             <ServiceCard
               icon={<Lightbulb size={28} />}
               title="Études & Conseil"
@@ -241,9 +241,9 @@ export default function ConstructionPage() {
             />
           </div>
 
-          <div className="mt-12 bg-slate-50 rounded-2xl p-8">
-            <h3 className="text-2xl font-bold text-slate-900 mb-6">Notre processus</h3>
-            <div className="grid md:grid-cols-5 gap-6">
+          <div className="mt-8 sm:mt-12 bg-slate-50 rounded-2xl p-4 sm:p-6 lg:p-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">Notre processus</h3>
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
               <ProcessStep number="1" title="Étude" description="Analyse du projet et faisabilité" />
               <ProcessStep number="2" title="Conception" description="Plans et design architectural" />
               <ProcessStep number="3" title="Planification" description="Calendrier et budget" />
@@ -255,13 +255,13 @@ export default function ConstructionPage() {
       </section>
 
       {/* Galerie de réalisations */}
-      <section id="realisations" className="py-20 px-6 bg-slate-50">
+      <section id="realisations" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-12">
+          <div className="text-center mb-8 sm:mb-12">
             <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Portfolio
             </div>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-4">
               Nos réalisations
             </h2>
             <p className="text-slate-600 text-lg">
@@ -270,7 +270,7 @@ export default function ConstructionPage() {
           </div>
 
           {/* Filtres */}
-          <div className="flex justify-center gap-3 mb-12 flex-wrap">
+          <div className="flex justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 flex-wrap">
             <button
               onClick={() => setActiveCategory('all')}
               className={`px-6 py-2 rounded-full font-medium transition-all ${
@@ -317,9 +317,9 @@ export default function ConstructionPage() {
       </section>
 
       {/* Équipe */}
-      <section className="py-20 px-6 bg-white">
+      <section className="py-12 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
-          <div className="text-center mb-16">
+          <div className="text-center mb-10 sm:mb-16">
             <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Notre équipe
             </div>
@@ -340,14 +340,14 @@ export default function ConstructionPage() {
       </section>
 
       {/* Section Contact */}
-      <section id="contact" className="py-20 px-6 bg-slate-900 text-white">
+      <section id="contact" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-900 text-white">
         <div className="max-w-7xl mx-auto">
-          <div className="grid lg:grid-cols-2 gap-12 items-center">
+          <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div>
               <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
                 Contact
               </div>
-              <h2 className="text-4xl font-bold mb-6">
+              <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">
                 Discutons de votre projet
               </h2>
               <p className="text-slate-300 text-lg mb-8">
@@ -398,7 +398,7 @@ export default function ConstructionPage() {
               </div>
             </div>
 
-            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-8">
+            <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8">
               <h3 className="text-2xl font-bold mb-6">Demander un devis gratuit</h3>
               <div className="space-y-4">
                 <input
@@ -439,21 +439,21 @@ export default function ConstructionPage() {
 
       {/* Modal Image */}
       {selectedImage && (
-        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4" onClick={() => setSelectedImage(null)}>
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-3 sm:p-4 overflow-y-auto" onClick={() => setSelectedImage(null)}>
           <button
             onClick={() => setSelectedImage(null)}
-            className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white p-3 sm:p-2 hover:bg-white/10 rounded-lg transition-colors touch-manipulation z-10"
           >
-            <X size={32} />
+            <X size={28} className="sm:w-8 sm:h-8" />
           </button>
-          <div className="max-w-5xl w-full" onClick={(e) => e.stopPropagation()}>
+          <div className="max-w-5xl w-full mt-12 sm:mt-0" onClick={(e) => e.stopPropagation()}>
             <img
               src={selectedImage.image}
               alt={selectedImage.title}
-              className="w-full h-auto rounded-lg mb-6"
+              className="w-full h-auto rounded-lg mb-4 sm:mb-6"
             />
             <div className="text-white">
-              <h3 className="text-3xl font-bold mb-2">{selectedImage.title}</h3>
+              <h3 className="text-xl sm:text-3xl font-bold mb-2">{selectedImage.title}</h3>
               <p className="text-slate-300 text-lg mb-4">{selectedImage.description}</p>
               <div className="flex gap-4 text-sm">
                 <span className="bg-white/10 px-3 py-1 rounded-full">{selectedImage.location}</span>

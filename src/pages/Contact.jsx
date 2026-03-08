@@ -52,28 +52,28 @@ export default function ContactPage() {
     <div className="min-h-screen bg-slate-50">
       
       {/* Hero Section */}
-      <div className="bg-slate-900 text-white py-16">
-        <div className="max-w-7xl mx-auto px-6">
+      <div className="bg-slate-900 text-white py-10 sm:py-16">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl">
             <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Contact
             </div>
-            <h1 className="text-4xl lg:text-5xl font-bold mb-4">
+            <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
               Parlons de votre projet
             </h1>
-            <p className="text-lg text-slate-300">
+            <p className="text-base sm:text-lg text-slate-300">
               Notre équipe est à votre disposition pour répondre à toutes vos questions et vous accompagner dans votre recherche immobilière.
             </p>
           </div>
         </div>
       </div>
 
-      <div className="max-w-7xl mx-auto px-6 py-16">
+      <div className="max-w-7xl mx-auto px-4 sm:px-6 py-10 sm:py-16">
         
-        <div className="grid lg:grid-cols-3 gap-8 mb-16">
+        <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 mb-12 sm:mb-16">
           
           {/* Informations de contact */}
-          <div className="lg:col-span-1 space-y-6">
+          <div className="lg:col-span-1 space-y-4 sm:space-y-6">
             
             {/* Contact Cards */}
             <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow">
@@ -136,7 +136,7 @@ export default function ContactPage() {
 
           {/* Formulaire de contact */}
           <div className="lg:col-span-2">
-            <div className="bg-white rounded-xl p-8 shadow-sm">
+            <div className="bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-sm">
               <div className="mb-8">
                 <h2 className="text-2xl font-bold text-slate-900 mb-2">
                   Envoyez-nous un message
@@ -333,13 +333,13 @@ export default function ContactPage() {
         </div>
 
         {/* Section Rendez-vous */}
-        <div className="bg-slate-900 rounded-2xl p-8 lg:p-12 text-white mb-16">
-          <div className="grid lg:grid-cols-2 gap-8 items-center">
+        <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 lg:p-12 text-white mb-12 sm:mb-16">
+          <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center">
             <div>
               <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
                 Prendre rendez-vous
               </div>
-              <h2 className="text-3xl font-bold mb-4">
+              <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
                 Visitez notre agence
               </h2>
               <p className="text-slate-300 mb-6">
@@ -378,7 +378,7 @@ export default function ContactPage() {
             <div className="flex justify-center lg:justify-end">
               <a
                 href="tel:+221770000000"
-                className="inline-block bg-rose-500 hover:bg-rose-700 text-white px-8 py-4 rounded-lg font-semibold transition-colors"
+                className="w-full sm:w-auto text-center inline-block bg-rose-500 hover:bg-rose-700 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold transition-colors touch-manipulation"
               >
                 Réserver un rendez-vous
               </a>

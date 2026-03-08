@@ -73,14 +73,14 @@ export default function PropertySearchFilter() {
   };
 
   return (
-    <div className="w-full max-w-7xl mx-auto p-4">
-      <div className="bg-white rounded-2xl shadow-xl overflow-hidden">
+    <div className="w-full max-w-7xl mx-auto px-3 sm:p-4">
+      <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
         
         {/* TYPE DE TRANSACTION */}
-        <div className="flex border-b border-slate-200">
+        <div className="flex flex-wrap sm:flex-nowrap border-b border-slate-200">
           <button
             onClick={() => setTransactionType('achat')}
-            className={`flex-1 py-4 text-sm font-semibold uppercase tracking-wide transition-colors ${
+            className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
               transactionType === 'achat'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
@@ -90,7 +90,7 @@ export default function PropertySearchFilter() {
           </button>
           <button
             onClick={() => setTransactionType('location')}
-            className={`flex-1 py-4 text-sm font-semibold uppercase tracking-wide transition-colors ${
+            className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
               transactionType === 'location'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
@@ -100,19 +100,20 @@ export default function PropertySearchFilter() {
           </button>
           <button
             onClick={() => setTransactionType('location-saisonniere')}
-            className={`flex-1 py-4 text-sm font-semibold uppercase tracking-wide transition-colors ${
+            className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
               transactionType === 'location-saisonniere'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
             }`}
           >
-            Location Saisonnière
+            <span className="hidden sm:inline">Location Saisonnière</span>
+            <span className="sm:hidden">Saisonnière</span>
           </button>
         </div>
 
         {/* FILTRES PRINCIPAUX */}
-        <div className="p-6 lg:p-8">
-          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-5">
+        <div className="p-4 sm:p-6 lg:p-8">
+          <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4 sm:gap-5">
             
             {/* Type de bien */}
             <div className="relative">
@@ -331,10 +332,10 @@ export default function PropertySearchFilter() {
           </div>
 
           {/* BOUTON RECHERCHER */}
-          <div className="mt-6">
+          <div className="mt-4 sm:mt-6">
             <button
               onClick={handleSubmit}
-              className="w-full bg-rose-500 hover:bg-rose-700 text-white py-4 rounded-lg font-semibold text-base transition-colors flex items-center justify-center space-x-2 shadow-lg shadow-rose-500/30"
+              className="w-full bg-rose-500 hover:bg-rose-700 text-white py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 shadow-lg shadow-rose-500/30"
             >
               <Search size={20} />
               <span>Chercher</span>

@@ -62,7 +62,7 @@ export default function Search() {
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-6 p-6">
+    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 pb-24 lg:pb-6">
 
       {/* Sidebar */}
       <div className="lg:col-span-1">
@@ -70,7 +70,7 @@ export default function Search() {
       </div>
 
       {/* Main content */}
-      <div className="lg:col-span-3">
+      <div className="lg:col-span-3 min-w-0">
 
         {/* Header (grid/list + sorting) */}
         <SearchHeader

@@ -1,1 +1,10 @@
 @import "tailwindcss";
+
+/* Hide scrollbar on overflow scroll (e.g. breadcrumb on mobile) */
+.scrollbar-hide {
+  -ms-overflow-style: none;
+  scrollbar-width: none;
+}
+.scrollbar-hide::-webkit-scrollbar {
+  display: none;
+}

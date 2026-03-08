@@ -21,11 +21,11 @@ export default function ImageGallery({ images = [], title }) {
 
   return (
     <>
-      <div className="mb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 h-[500px]">
+      <div className="mb-6 sm:mb-8">
+        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4 h-[240px] sm:h-[320px] lg:h-[500px]">
           {/* Image principale */}
           <div 
-            className="lg:col-span-3 relative rounded-xl overflow-hidden cursor-pointer group"
+            className="lg:col-span-3 relative rounded-lg sm:rounded-xl overflow-hidden cursor-pointer group"
             onClick={() => setShowImageModal(true)}
             role="button"
             tabIndex={0}
@@ -40,19 +40,19 @@ export default function ImageGallery({ images = [], title }) {
             />
             <button
               onClick={(e) => { e.stopPropagation(); prevImage(); }}
-              className="absolute left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-colors"
+              className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2.5 sm:p-2 rounded-full hover:bg-white transition-colors touch-manipulation"
               aria-label="Image précédente"
             >
-              <ChevronLeft size={24} />
+              <ChevronLeft size={22} className="sm:w-6 sm:h-6" />
             </button>
             <button
               onClick={(e) => { e.stopPropagation(); nextImage(); }}
-              className="absolute right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2 rounded-full hover:bg-white transition-colors"
+              className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 bg-white/90 backdrop-blur-sm p-2.5 sm:p-2 rounded-full hover:bg-white transition-colors touch-manipulation"
               aria-label="Image suivante"
             >
-              <ChevronRight size={24} />
+              <ChevronRight size={22} className="sm:w-6 sm:h-6" />
             </button>
-            <div className="absolute bottom-4 right-4 bg-black/70 text-white px-3 py-1 rounded-full text-sm">
+            <div className="absolute bottom-2 right-2 sm:bottom-4 sm:right-4 bg-black/70 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm">
               {currentImageIndex + 1} / {displayImages.length}
             </div>
           </div>
@@ -88,34 +88,34 @@ export default function ImageGallery({ images = [], title }) {
 
       {/* Modal galerie */}
       {showImageModal && (
-        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-4">
+        <div className="fixed inset-0 bg-black/95 z-50 flex items-center justify-center p-2 sm:p-4">
           <button
             onClick={() => setShowImageModal(false)}
-            className="absolute top-4 right-4 text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="absolute top-3 right-3 sm:top-4 sm:right-4 text-white p-3 sm:p-2 hover:bg-white/10 rounded-lg transition-colors touch-manipulation"
             aria-label="Fermer la galerie"
           >
-            <X size={32} />
+            <X size={28} className="sm:w-8 sm:h-8" />
           </button>
           <button
             onClick={prevImage}
-            className="absolute left-4 text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="absolute left-2 sm:left-4 top-1/2 -translate-y-1/2 text-white p-3 sm:p-2 hover:bg-white/10 rounded-lg transition-colors touch-manipulation"
             aria-label="Image précédente"
           >
-            <ChevronLeft size={40} />
+            <ChevronLeft size={32} className="sm:w-10 sm:h-10" />
           </button>
           <button
             onClick={nextImage}
-            className="absolute right-4 text-white p-2 hover:bg-white/10 rounded-lg transition-colors"
+            className="absolute right-2 sm:right-4 top-1/2 -translate-y-1/2 text-white p-3 sm:p-2 hover:bg-white/10 rounded-lg transition-colors touch-manipulation"
             aria-label="Image suivante"
           >
-            <ChevronRight size={40} />
+            <ChevronRight size={32} className="sm:w-10 sm:h-10" />
           </button>
           <img
             src={displayImages[currentImageIndex]}
             alt={`${title} - Image ${currentImageIndex + 1}`}
-            className="max-h-[90vh] max-w-[90vw] object-contain"
+            className="max-h-[85vh] sm:max-h-[90vh] max-w-[95vw] sm:max-w-[90vw] object-contain"
           />
-          <div className="absolute bottom-4 left-1/2 -translate-x-1/2 text-white text-lg">
+          <div className="absolute bottom-3 sm:bottom-4 left-1/2 -translate-x-1/2 text-white text-sm sm:text-lg">
             {currentImageIndex + 1} / {displayImages.length}
           </div>
         </div>

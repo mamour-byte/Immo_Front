@@ -31,15 +31,15 @@ export default function Layout() {
                         : 'bg-white'
                 }`}
             >
-                <nav className="container mx-auto px-6 lg:px-8">
-                    <div className="flex items-center justify-between h-20">
+                <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+                    <div className="flex items-center justify-between h-16 sm:h-20">
 
                         {/* LOGO */}
-                        <Link to="/" className="flex items-center space-x-3 group">
-                            <div className="w-9 h-9 bg-slate-900 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105">
-                                <span className="text-white font-semibold text-base">E</span>
+                        <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group min-w-0">
+                            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105 flex-shrink-0">
+                                <span className="text-white font-semibold text-sm sm:text-base">E</span>
                             </div>
-                            <span className="text-xl font-semibold text-slate-900 tracking-tight">
+                            <span className="text-base sm:text-xl font-semibold text-slate-900 tracking-tight truncate">
                                 Ethic Immobilier
                             </span>
                         </Link>
@@ -97,16 +97,16 @@ export default function Layout() {
             </header>
 
             {/* CONTENU */}
-            <main className="pt-20">
+            <main className="pt-16 sm:pt-20">
                 <Outlet />
             </main>
 
             {/* FOOTER */}
-            <footer className="bg-slate-900 text-slate-300 mt-24">
-                <div className="container mx-auto px-6 lg:px-8">
+            <footer className="bg-slate-900 text-slate-300 mt-12 sm:mt-24">
+                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
                     
                     {/* Contenu principal */}
-                    <div className="py-16 grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-12">
+                    <div className="py-10 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
 
                         {/* LOGO & DESCRIPTION */}
                         <div className="space-y-4">
@@ -164,8 +164,8 @@ export default function Layout() {
                     </div>
 
                     {/* Copyright */}
-                    <div className="border-t border-slate-800 py-6">
-                        <p className="text-center text-sm text-slate-500">
+                    <div className="border-t border-slate-800 py-4 sm:py-6 px-4">
+                        <p className="text-center text-xs sm:text-sm text-slate-500">
                             © {new Date().getFullYear()} Ethic Immobilier. Tous droits réservés.
                         </p>
                     </div>

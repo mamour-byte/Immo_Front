@@ -60,8 +60,8 @@ export default function ContactForm({ property, onWhatsAppClick }) {
   };
 
   return (
-    <div className="bg-white rounded-xl mt-10 p-6 top-24 sticky">
-      <h3 className="text-xl font-bold text-slate-900 mb-6">Contactez l'agence</h3>
+    <div className="bg-white rounded-xl p-4 sm:p-6 lg:top-24 lg:sticky lg:mt-10">
+      <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Contactez l'agence</h3>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <input 

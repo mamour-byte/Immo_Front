@@ -115,7 +115,7 @@ export default function PropertyDetailPage() {
         {/* Breadcrumb */}
         <Breadcrumb property={property} />
 
-        <div className="max-w-7xl mx-auto px-6 py-8">
+        <div className="max-w-7xl mx-auto px-4 sm:px-6 py-4 sm:py-8">
           {/* Header */}
           <PropertyHeader 
             property={property} 
@@ -130,9 +130,9 @@ export default function PropertyDetailPage() {
             title={property.title}
           />
 
-          <div className="grid lg:grid-cols-3 gap-8 mt-8">
+          <div className="grid lg:grid-cols-3 gap-6 sm:gap-8 mt-6 sm:mt-8">
             {/* Main Content */}
-            <div className="lg:col-span-2 space-y-8 mt-20">
+            <div className="lg:col-span-2 space-y-6 sm:space-y-8 order-2 lg:order-1 mt-0 lg:mt-20">
               {/* Characteristics */}
               <PropertyCharacteristics property={property} />
 
@@ -141,7 +141,7 @@ export default function PropertyDetailPage() {
             </div>
 
             {/* Sidebar */}
-            <div className="space-y-6 mt-20">
+            <div className="space-y-6 order-1 lg:order-2 mt-0 lg:mt-20">
               <ContactForm 
                 property={property}
                 onWhatsAppClick={() => openWhatsApp(property)}
