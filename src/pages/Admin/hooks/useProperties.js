@@ -1,5 +1,5 @@
 // hooks/useProperties.js
-import { useQuery, useMutation, useQueryClient } from "@tanstack/react-query";
+import { useQuery, useMutation, useQueryClient, keepPreviousData } from "@tanstack/react-query";
 import * as api from "../services/propertiesApi";
 import toast from "react-hot-toast";
 
@@ -10,6 +10,7 @@ export function useCities() {
   return useQuery({
     queryKey: ["cities"],
     queryFn: api.fetchCities,
+    staleTime: 60 * 60 * 1000,
   });
 }
 
@@ -18,6 +19,7 @@ export function useDistricts() {
   return useQuery({
     queryKey: ["districts"],
     queryFn: api.fetchDistricts,
+    staleTime: 60 * 60 * 1000,
   });
 }
 
@@ -25,17 +27,9 @@ export function useDistricts() {
 export function useProperties(params) {
   return useQuery({
     queryKey: ["properties", params],
-    queryFn: async () => {
-      try {
-        const data = await api.fetchProperties(params);
-        console.log("Données reçues du backend:", data);
-        return data;
-      } catch (error) {
-        console.error("Erreur dans fetchProperties:", error);
-        throw error;
-      }
-    },
+    queryFn: () => api.fetchProperties(params),
     staleTime: 10_000,
+    placeholderData: keepPreviousData,
   });
 }
 

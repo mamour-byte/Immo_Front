@@ -1,35 +1,58 @@
 // components/PropertyForm.jsx
-import { useState, useMemo } from "react";
+import { useEffect, useMemo, useRef, useState } from "react";
 import { TYPE_OPTIONS, PURPOSE_OPTIONS, STATUS_OPTIONS, FEATURES_OPTIONS } from "../constants/propertyOptions";
 
 export default function PropertyForm({ initial = null, cities = [], districts = [], onCancel, onSubmit, isLoading = false }) {
-  const [form, setForm] = useState(() => ({
-    id: initial?.id ?? null,
-    title: initial?.title ?? "",
-    description: initial?.description ?? "",
-    purpose: initial?.purpose ?? "VENTE",
-    type: initial?.type ?? "APPARTMENT",
-    price: initial?.price ?? "",
-    surface: initial?.surface ?? "",
-    bedrooms: initial?.bedrooms ?? "",
-    bathrooms: initial?.bathrooms ?? "",
-    toilets: initial?.toilets ?? "",
-    status: initial?.status ?? "AVAILABLE",
-    cityId: initial?.cityId || initial?.city?.id || "",
-    districtId: initial?.districtId || initial?.district?.id || "",
-    latitude: initial?.latitude ?? "",
-    longitude: initial?.longitude ?? "",
-    features: Array.isArray(initial?.features)
-      ? initial.features
-          .map((f) => (typeof f === "object" && f !== null ? f.featureId || f.id || f.value || null : f))
-          .filter((v) => v !== null && v !== undefined)
-      : [],
-    images: (initial?.images ?? []).map(i => i?.url || i).filter(Boolean) || [""],
-  }));
+  const MAX_FILES = 15;
+
+  const [form, setForm] = useState(() => {
+    const initialImageUrls = (initial?.images ?? [])
+      .map((i) => i?.url || i)
+      .filter(Boolean);
+
+    return ({
+      id: initial?.id ?? null,
+      title: initial?.title ?? "",
+      description: initial?.description ?? "",
+      purpose: initial?.purpose ?? "VENTE",
+      type: initial?.type ?? "APPARTMENT",
+      price: initial?.price ?? "",
+      surface: initial?.surface ?? "",
+      bedrooms: initial?.bedrooms ?? "",
+      bathrooms: initial?.bathrooms ?? "",
+      toilets: initial?.toilets ?? "",
+      status: initial?.status ?? "AVAILABLE",
+      cityId: initial?.cityId || initial?.city?.id || "",
+      districtId: initial?.districtId || initial?.district?.id || "",
+      latitude: initial?.latitude ?? "",
+      longitude: initial?.longitude ?? "",
+      features: Array.isArray(initial?.features)
+        ? initial.features
+            .map((f) => (typeof f === "object" && f !== null ? f.featureId || f.id || f.value || null : f))
+            .filter((v) => v !== null && v !== undefined)
+        : [],
+      // En création, on force au moins un champ visible (sinon tableau vide).
+      images: initialImageUrls.length ? initialImageUrls : [""],
+    });
+  });
 
   const [files, setFiles] = useState([]);
   const [filePreviewUrls, setFilePreviewUrls] = useState([]);
+  const previewsRef = useRef([]);
   const [errors, setErrors] = useState({});
+  const [fileError, setFileError] = useState("");
+
+  useEffect(() => {
+    previewsRef.current = filePreviewUrls;
+  }, [filePreviewUrls]);
+
+  useEffect(() => {
+    return () => {
+      previewsRef.current.forEach((p) => {
+        try { URL.revokeObjectURL(p.url); } catch {}
+      });
+    };
+  }, []);
 
   const filteredDistricts = useMemo(() => {
     return districts.filter((d) => !form.cityId || String(d.cityId) === String(form.cityId));
@@ -52,8 +75,19 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   }
 
   function handleFileChange(e) {
-    const newFiles = Array.from(e.target.files || []);
-    
+    const selected = Array.from(e.target.files || []);
+
+    // Eviter les leaks memoire (object URLs)
+    filePreviewUrls.forEach((p) => {
+      try { URL.revokeObjectURL(p.url); } catch {}
+    });
+
+    setFileError("");
+    const newFiles = selected.slice(0, MAX_FILES);
+    if (selected.length > MAX_FILES) {
+      setFileError(`Maximum ${MAX_FILES} images.`);
+    }
+
     // Créer des previews pour les nouveaux fichiers
     const newPreviews = newFiles.map(file => ({
       url: URL.createObjectURL(file),
@@ -66,6 +100,10 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   }
 
   function removeNewImage(idx) {
+    const removed = filePreviewUrls[idx];
+    if (removed?.url) {
+      try { URL.revokeObjectURL(removed.url); } catch {}
+    }
     const newPreviews = filePreviewUrls.filter((_, i) => i !== idx);
     const newFiles = files.filter((_, i) => i !== idx);
     setFilePreviewUrls(newPreviews);
@@ -116,7 +154,6 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   }
 
   const hasExistingImages = form.images.some(img => img?.trim());
-  const hasNewFiles = files.length > 0;
 
   return (
     <div className="fixed inset-0 z-50 flex items-start justify-center pt-10">
@@ -331,14 +368,47 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
             </label>
             <input 
               type="file" 
-              accept="image/*" 
+              accept="image/jpeg,image/png,image/webp"
               multiple 
               onChange={handleFileChange} 
               className="p-2 border rounded w-full text-sm"
               disabled={isLoading}
             />
-            <p className="text-xs text-gray-500 mt-1">Maximum 15 images, formats: JPG, PNG, GIF, WebP</p>
+            <p className="text-xs text-gray-500 mt-1">Maximum 15 images, formats: JPG, PNG, WebP</p>
+            {fileError && <p className="text-xs text-red-600 mt-1">{fileError}</p>}
           </div>
+
+          {/* Images existantes (édition) */}
+          {form.id && hasExistingImages && (
+            <div>
+              <label className="block text-sm font-medium mb-2">Images existantes</label>
+              <div className="grid grid-cols-3 gap-2">
+                {form.images.map((url, idx) => {
+                  const trimmed = url?.trim?.() ?? "";
+                  if (!trimmed) return null;
+                  return (
+                    <div key={`${idx}-${trimmed}`} className="relative group">
+                      <img
+                        src={trimmed}
+                        alt={`Image ${idx}`}
+                        className="w-full h-24 object-cover rounded border border-gray-200"
+                      />
+                      <button
+                        type="button"
+                        onClick={() => removeExistingImage(idx)}
+                        className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs"
+                        disabled={isLoading}
+                        title="Supprimer"
+                      >
+                        ✖
+                      </button>
+                    </div>
+                  );
+                })}
+              </div>
+              <p className="text-xs text-gray-500 mt-1">La suppression sera prise en compte à l'enregistrement.</p>
+            </div>
+          )}
 
           {/* Preview des nouvelles images uploadées */}
           {filePreviewUrls.length > 0 && (

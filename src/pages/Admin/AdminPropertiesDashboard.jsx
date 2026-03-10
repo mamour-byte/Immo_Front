@@ -1,5 +1,5 @@
 // AdminPropertiesDashboard.jsx
-import { useState, useMemo } from "react";
+import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 import { useProperties, useCreateProperty, useCreatePropertyWithImages, useUpdateProperty, useDeleteProperty, useUploadImages, useCities, useDistricts } from "./hooks/useProperties";
 import PropertyFilters from "./components/PropertyFilters";
@@ -28,14 +28,6 @@ export default function AdminPropertiesDashboard() {
   const { data: districts } = useDistricts();
 
   const { data: propsData, isLoading, isError, error } = useProperties(filters);
-
-  // Debug: afficher les données reçues
-  if (propsData) {
-    console.log("PropsData reçu:", propsData);
-  }
-  if (isError) {
-    console.error("Erreur lors du chargement des biens:", error);
-  }
 
   // propsData attendu : { items: [], total: N } ou tableau simple
   const items = Array.isArray(propsData) 
@@ -69,8 +61,8 @@ export default function AdminPropertiesDashboard() {
     setSelected(item);
     setShowForm(true);
   }
-  async function handleDelete(id) {
-    if (!confirm("Confirmez la suppression ?")) return;
+  function handleDelete(id) {
+    if (!window.confirm("Confirmez la suppression ?")) return;
     deleteMutation.mutate(id);
   }
 
