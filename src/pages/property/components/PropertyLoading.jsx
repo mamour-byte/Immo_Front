@@ -1,6 +1,15 @@
+import LottieLoader from "../../../components/LottieLoader";
+
 export default function PropertyLoading() {
   return (
     <div className="min-h-screen bg-slate-50">
+      <div className="fixed inset-0 z-10 grid place-items-center pointer-events-none">
+        <div className="flex flex-col items-center gap-2 rounded-xl bg-white/80 px-6 py-5 shadow-sm ring-1 ring-slate-200">
+          <LottieLoader size={120} title="Chargement..." />
+          <div className="text-sm font-medium text-slate-700">Chargement...</div>
+        </div>
+      </div>
+
       <div className="bg-white border-b border-slate-200 px-6 py-4">
         <div className="max-w-7xl mx-auto h-6 bg-slate-200 rounded w-1/3 animate-pulse"></div>
       </div>
