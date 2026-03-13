@@ -5,6 +5,14 @@ import toast from "react-hot-toast";
 
 const DEFAULT_PAGE_SIZE = 10;
 
+function getErrorMessage(error, fallback) {
+  const msg =
+    error?.response?.data?.message ||
+    error?.message ||
+    fallback;
+  return Array.isArray(msg) ? msg[0] : msg;
+}
+
 // ----- Cities -----
 export function useCities() {
   return useQuery({
@@ -39,10 +47,10 @@ export function useCreateProperty() {
   return useMutation({
     mutationFn: api.createProperty,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"] });
+      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
       toast.success("Bien créé");
     },
-    onError: () => toast.error("Erreur lors de la création"),
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la création")),
   });
 }
 
@@ -52,10 +60,10 @@ export function useUpdateProperty() {
   return useMutation({
     mutationFn: ({ id, payload }) => api.updateProperty(id, payload),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"] });
+      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
       toast.success("Bien mis à jour");
     },
-    onError: () => toast.error("Erreur lors de la mise à jour"),
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la mise à jour")),
   });
 }
 
@@ -65,10 +73,10 @@ export function useDeleteProperty() {
   return useMutation({
     mutationFn: api.deleteProperty,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"] });
+      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
       toast.success("Bien supprimé");
     },
-    onError: () => toast.error("Erreur lors de la suppression"),
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la suppression")),
   });
 }
 
@@ -79,10 +87,10 @@ export function useUploadImages() {
     mutationFn: ({ propertyId, files }) =>
       api.uploadPropertyImages(propertyId, files),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"] });
+      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
       toast.success("Images uploadées");
     },
-    onError: () => toast.error("Erreur upload images"),
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur upload images")),
   });
 }
 
@@ -92,12 +100,11 @@ export function useCreatePropertyWithImages() {
   return useMutation({
     mutationFn: ({ payload, files }) => api.createPropertyWithImages(payload, files),
     onSuccess: (data) => {
-      qc.invalidateQueries({ queryKey: ["properties"] });
+      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
       toast.success(data?.message || "Bien créé avec images");
     },
     onError: (error) => {
-      const msg = error?.response?.data?.message || error?.message || "Erreur lors de la création";
-      toast.error(msg);
+      toast.error(getErrorMessage(error, "Erreur lors de la création"));
     },
   });
 }
