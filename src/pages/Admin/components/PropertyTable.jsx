@@ -2,6 +2,44 @@
 import Loading from "./Loading";
 import { Edit, Trash } from "lucide-react";
 
+function normalizeStatus(value) {
+  return (value ?? "")
+    .toString()
+    .trim()
+    .toLowerCase()
+    .normalize("NFD")
+    .replace(/[\u0300-\u036f]/g, "");
+}
+
+function getStatusBadgeClasses(status) {
+  const normalized = normalizeStatus(status);
+
+  if (normalized.includes("disponible") || normalized.includes("available")) {
+    return "bg-emerald-100 text-emerald-800";
+  }
+
+  if (
+    normalized.includes("loue") ||
+    normalized.includes("rented") ||
+    normalized.includes("vendu") ||
+    normalized.includes("vendue") ||
+    normalized.includes("sold")
+  ) {
+    return "bg-red-100 text-red-800";
+  }
+
+  if (
+    normalized.includes("archive") ||
+    normalized.includes("archived") ||
+    normalized.includes("en attente") ||
+    normalized.includes("pending")
+  ) {
+    return "bg-orange-100 text-orange-800";
+  }
+
+  return "bg-gray-200 text-gray-800";
+}
+
 export default function PropertyTable({ data = [], loading, onEdit, onDelete }) {
   if (loading) return <Loading />;
 
@@ -34,7 +72,14 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete }) 
               <td className="p-3">{p.price ? Number(p.price).toLocaleString() : "-"}</td>
               <td className="p-3">{p.type}</td>
               <td className="p-3">
-                <span className="px-2 py-1 rounded text-xs bg-gray-200">{p.status || "-"}</span>
+                <span
+                  className={[
+                    "inline-flex items-center rounded px-2 py-1 text-xs font-medium",
+                    getStatusBadgeClasses(p.status),
+                  ].join(" ")}
+                >
+                  {p.status || "-"}
+                </span>
               </td>
               <td className="p-3 flex items-center gap-3">
                 <button onClick={() => onEdit(p)} title="Editer" className="p-1">
