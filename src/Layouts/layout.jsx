@@ -1,11 +1,12 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, MapPin, Mail, ChevronDown } from 'lucide-react'
+import { Menu, X, Phone, MapPin, Mail, ChevronDown, User, LayoutDashboard } from 'lucide-react'
 
 export default function Layout() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
+    const [auth, setAuth] = useState(() => readAuth())
     const location = useLocation()
 
     useEffect(() => {
@@ -20,6 +21,23 @@ export default function Layout() {
         setMenuOpen(false)
         setServicesDropdownOpen(false)
     }, [location])
+
+    useEffect(() => {
+        const refresh = () => setAuth(readAuth())
+        refresh()
+        window.addEventListener('storage', refresh)
+        return () => window.removeEventListener('storage', refresh)
+    }, [location.pathname])
+
+    const dashboardPath = auth?.role === 'ADMIN'
+        ? '/admin'
+        : auth?.role === 'AGENT'
+            ? '/dashboard'
+            : auth?.token
+                ? '/account'
+                : '/login'
+
+    const profilePath = auth?.token ? '/account' : '/login'
 
     return (
         <>
@@ -50,8 +68,23 @@ export default function Layout() {
                             <NavLink to="/search" label="Biens Immobillier" />
                             <NavLink to="/build" label="Construire" />
                             <NavLink to="/contact" label="Contact" />
-                            <NavLink to="/account" label="Mon compte" />
-                            <NavLink to="/login" label="Connexion" />
+
+                            <Link
+                                to={dashboardPath}
+                                className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium"
+                            >
+                                <LayoutDashboard size={18} />
+                                <span>Tableau de bord</span>
+                            </Link>
+
+                            <Link
+                                to={profilePath}
+                                aria-label="Profil"
+                                title="Profil"
+                                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors"
+                            >
+                                <User size={20} />
+                            </Link>
 
                             {/* CTA */}
                             <Link
@@ -81,8 +114,8 @@ export default function Layout() {
                                 <MobileNavLink to="/search" label="Biens Immobillier" />
                                 <MobileNavLink to="/build" label="construire" />
                                 <MobileNavLink to="/contact" label="Contact" />
-                                <MobileNavLink to="/account" label="Mon compte" />
-                                <MobileNavLink to="/login" label="Connexion" />
+                                <MobileNavLink to={dashboardPath} label="Tableau de bord" />
+                                <MobileNavLink to={profilePath} label="Profil" />
 
 
                                 <div className="pt-4">
@@ -179,6 +212,37 @@ export default function Layout() {
 }
 
 /* --- COMPONENTS --- */
+
+function readAuth() {
+    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
+    if (!token) return null
+
+    const raw = localStorage.getItem('user') || sessionStorage.getItem('user')
+    let storedUser = null
+    if (raw) {
+        try { storedUser = JSON.parse(raw) } catch { storedUser = null }
+    }
+
+    const role = storedUser?.role || decodeJwtRole(token)
+    return { token, role }
+}
+
+function decodeJwtRole(token) {
+    try {
+        const payloadPart = token.split('.')[1]
+        if (!payloadPart) return null
+        const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/')
+        const json = decodeURIComponent(
+            atob(base64)
+                .split('')
+                .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
+                .join('')
+        )
+        return JSON.parse(json)?.role ?? null
+    } catch {
+        return null
+    }
+}
 
 function NavLink({ to, label }) {
     return (
