@@ -74,6 +74,41 @@ export async function fetchProperties(params = {}) {
   return res.data;
 }
 
+export async function fetchMyProperties(params = {}) {
+  const backendParams = {
+    page: params.page || 1,
+    limit: params.pageSize || 10,
+  };
+
+  if (params.query && params.query.trim()) {
+    backendParams.search = params.query.trim();
+  }
+  if (params.type && params.type.trim()) {
+    backendParams.type = params.type;
+  }
+  if (params.purpose && params.purpose.trim()) {
+    backendParams.purpose = params.purpose;
+  }
+  if (params.cityId && params.cityId !== "") {
+    backendParams.cityId = Number(params.cityId);
+  }
+  if (params.districtId && params.districtId !== "") {
+    backendParams.districtId = Number(params.districtId);
+  }
+  if (params.status && params.status.trim()) {
+    backendParams.status = params.status;
+  }
+  if (params.sortField && params.sortField.trim()) {
+    backendParams.sortBy = params.sortField;
+  }
+  if (params.sortDir && params.sortDir.trim()) {
+    backendParams.order = params.sortDir;
+  }
+
+  const res = await api.get("/properties/mine", { params: backendParams });
+  return res.data;
+}
+
 export async function fetchCities() {
   const res = await api.get("/cities");
   return res.data;

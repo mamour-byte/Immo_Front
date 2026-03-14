@@ -2,7 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Navigate, useNavigate } from 'react-router-dom';
 import { isSessionExpired, clearSession, getTimeUntilSessionExpires } from '../utils/authUtils';
 
-export default function PrivateRoute({ children }) {
+export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [sessionExpiringSoon, setSessionExpiringSoon] = useState(false);
@@ -60,7 +60,7 @@ export default function PrivateRoute({ children }) {
         storedUser?.role ||
         decodeJwtPayload(token)?.role;
 
-      if (role !== 'ADMIN') {
+      if (!role || !roles.includes(role)) {
         clearSession();
         setIsAuthenticated(false);
         navigate('/login');

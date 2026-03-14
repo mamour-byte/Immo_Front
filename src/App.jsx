@@ -7,8 +7,11 @@ import Property from "./pages/property";
 import Contact from "./pages/Contact";
 import Build from "./pages/Build";
 import Admin from "./pages/Admin/AdminPropertiesDashboard";
+import AgentDashboard from "./pages/AgentDashboard";
 import Login from "./pages/login";
 import PrivateRoute from "./components/PrivateRoute";
+import AgentApply from "./pages/AgentApply";
+import Account from "./pages/Account";
 
 function App() {
   return (
@@ -23,7 +26,10 @@ function App() {
           <Route path="property/:id" element={<Property />} />       {/* page 404 */}
           <Route path="contact" element={<Contact />} />       {/* page 404 */}
           <Route path="build" element={<Build />} />       {/* page 404 */}
-            <Route path="admin" element={<PrivateRoute><Admin /></PrivateRoute>} />       {/* page 404 */}
+            <Route path="admin" element={<PrivateRoute roles={['ADMIN']}><Admin /></PrivateRoute>} />
+            <Route path="dashboard" element={<PrivateRoute roles={['AGENT']}><AgentDashboard /></PrivateRoute>} />
+            <Route path="account" element={<PrivateRoute roles={['USER','AGENT','ADMIN']}><Account /></PrivateRoute>} />
+            <Route path="agent/apply" element={<AgentApply />} />
           <Route path="login" element={<Login />} />       {/* page 404 */}
       
         </Route>

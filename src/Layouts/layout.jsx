@@ -50,7 +50,8 @@ export default function Layout() {
                             <NavLink to="/search" label="Biens Immobillier" />
                             <NavLink to="/build" label="Construire" />
                             <NavLink to="/contact" label="Contact" />
-                            <NavLink to="/admin" label="admin" />
+                            <NavLink to="/account" label="Mon compte" />
+                            <NavLink to="/login" label="Connexion" />
 
                             {/* CTA */}
                             <Link
@@ -80,6 +81,8 @@ export default function Layout() {
                                 <MobileNavLink to="/search" label="Biens Immobillier" />
                                 <MobileNavLink to="/build" label="construire" />
                                 <MobileNavLink to="/contact" label="Contact" />
+                                <MobileNavLink to="/account" label="Mon compte" />
+                                <MobileNavLink to="/login" label="Connexion" />
 
 
                                 <div className="pt-4">

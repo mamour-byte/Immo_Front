@@ -41,6 +41,15 @@ export function useProperties(params) {
   });
 }
 
+export function useMyProperties(params) {
+  return useQuery({
+    queryKey: ["my-properties", params],
+    queryFn: () => api.fetchMyProperties(params),
+    staleTime: 10_000,
+    placeholderData: keepPreviousData,
+  });
+}
+
 // ----- Create -----
 export function useCreateProperty() {
   const qc = useQueryClient();

@@ -73,12 +73,6 @@ export default function AdminLoginPage() {
   
       if (token) {
         const role = user?.role || decodeJwtPayload(token)?.role;
-        if (role !== 'ADMIN') {
-          setError("Ce compte n'a pas les droits administrateur.");
-          setIsLoading(false);
-          return;
-        }
-
         // Stocker le timestamp de connexion (en millisecondes)
         const loginTimestamp = Date.now();
         if (rememberMe) {
@@ -90,7 +84,9 @@ export default function AdminLoginPage() {
           sessionStorage.setItem("jwtTimestamp", loginTimestamp.toString());
           if (user) sessionStorage.setItem("user", JSON.stringify(user));
         }
-        navigate("/admin");
+        if (role === 'ADMIN') navigate("/admin");
+        else if (role === 'AGENT') navigate("/dashboard");
+        else navigate("/account");
       } else {
         setError("Token manquant dans la réponse serveur");
       }
@@ -105,10 +101,10 @@ export default function AdminLoginPage() {
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
           <h1 className="text-3xl font-bold text-slate-900 mb-2">
-            Connexion Admin
+            Connexion
           </h1>
           <p className="text-slate-600">
-            Accédez à votre espace d'administration
+            Accédez à votre espace
           </p>
         </div>
         <div className="bg-white rounded-2xl p-8 shadow-sm">
@@ -201,6 +197,14 @@ export default function AdminLoginPage() {
           </form>
         </div>
         <div className="mt-6 text-center">
+          <div className="mb-2">
+            <Link
+              to="/agent/apply"
+              className="text-sm font-medium text-slate-600 hover:text-slate-900 transition-colors"
+            >
+              Demander un compte agent
+            </Link>
+          </div>
           <Link
             to="/"
             className="text-sm text-slate-600 hover:text-slate-900 transition-colors"
