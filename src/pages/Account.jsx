@@ -55,8 +55,14 @@ export default function Account() {
       });
       const data = await resp.json().catch(() => ({}));
       if (!resp.ok) {
-        clearSession();
-        navigate("/login", { replace: true });
+        if (resp.status === 401) {
+          clearSession();
+          navigate("/login", { replace: true });
+          return;
+        }
+        const msg = data?.message || "Impossible de charger le profil";
+        toast.error(Array.isArray(msg) ? msg[0] : msg);
+        setLoading(false);
         return;
       }
       setMe(data);
@@ -118,6 +124,11 @@ export default function Account() {
       });
       const data = await resp.json().catch(() => ({}));
       if (!resp.ok) {
+        if (resp.status === 401) {
+          clearSession();
+          navigate("/login", { replace: true });
+          return;
+        }
         const msg = data?.message || "Erreur lors de la sauvegarde";
         toast.error(Array.isArray(msg) ? msg[0] : msg);
         setSaving(false);
@@ -142,6 +153,11 @@ export default function Account() {
       });
       const data = await resp.json().catch(() => ({}));
       if (!resp.ok) {
+        if (resp.status === 401) {
+          clearSession();
+          navigate("/login", { replace: true });
+          return;
+        }
         const msg = data?.message || "Erreur lors de la sauvegarde";
         toast.error(Array.isArray(msg) ? msg[0] : msg);
         setAppSaving(false);
@@ -166,6 +182,11 @@ export default function Account() {
       });
       const data = await resp.json().catch(() => ({}));
       if (!resp.ok) {
+        if (resp.status === 401) {
+          clearSession();
+          navigate("/login", { replace: true });
+          return;
+        }
         const msg = data?.message || "Erreur lors de l'envoi";
         toast.error(Array.isArray(msg) ? msg[0] : msg);
         setAppSaving(false);

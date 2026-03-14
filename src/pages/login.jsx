@@ -84,6 +84,12 @@ export default function AdminLoginPage() {
           sessionStorage.setItem("jwtTimestamp", loginTimestamp.toString());
           if (user) sessionStorage.setItem("user", JSON.stringify(user));
         }
+        const next = location.state?.next;
+        if (next && next !== "/login") {
+          navigate(next, { replace: true });
+          return;
+        }
+
         if (role === 'ADMIN') navigate("/admin");
         else if (role === 'AGENT') navigate("/dashboard");
         else navigate("/account");

@@ -1,9 +1,10 @@
 import React, { useState, useEffect } from 'react';
-import { Navigate, useNavigate } from 'react-router-dom';
+import { Navigate, useLocation, useNavigate } from 'react-router-dom';
 import { isSessionExpired, clearSession, getTimeUntilSessionExpires } from '../utils/authUtils';
 
 export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
   const navigate = useNavigate();
+  const location = useLocation();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [sessionExpiringSoon, setSessionExpiringSoon] = useState(false);
   const [redirectTo, setRedirectTo] = useState(null);
@@ -112,6 +113,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
 
   // Non authentifié
   if (!isAuthenticated) {
+    if (redirectTo === '/login') return <Navigate to="/login" state={{ next: location.pathname }} replace />;
     if (redirectTo) return <Navigate to={redirectTo} replace />;
     return <Navigate to="/login" replace />;
   }

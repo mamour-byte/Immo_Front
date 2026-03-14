@@ -6,7 +6,6 @@ export default function Layout() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
-    const [auth, setAuth] = useState(() => readAuth())
     const location = useLocation()
 
     useEffect(() => {
@@ -22,22 +21,9 @@ export default function Layout() {
         setServicesDropdownOpen(false)
     }, [location])
 
-    useEffect(() => {
-        const refresh = () => setAuth(readAuth())
-        refresh()
-        window.addEventListener('storage', refresh)
-        return () => window.removeEventListener('storage', refresh)
-    }, [location.pathname])
-
-    const dashboardPath = auth?.role === 'ADMIN'
-        ? '/admin'
-        : auth?.role === 'AGENT'
-            ? '/dashboard'
-            : auth?.token
-                ? '/account'
-                : '/login'
-
-    const profilePath = auth?.token ? '/account' : '/login'
+    // Liens simples: la logique d'autorisation/redirect est gérée par PrivateRoute
+    const dashboardPath = '/dashboard'
+    const profilePath = '/account'
 
     return (
         <>
@@ -212,37 +198,6 @@ export default function Layout() {
 }
 
 /* --- COMPONENTS --- */
-
-function readAuth() {
-    const token = localStorage.getItem('jwt') || sessionStorage.getItem('jwt')
-    if (!token) return null
-
-    const raw = localStorage.getItem('user') || sessionStorage.getItem('user')
-    let storedUser = null
-    if (raw) {
-        try { storedUser = JSON.parse(raw) } catch { storedUser = null }
-    }
-
-    const role = storedUser?.role || decodeJwtRole(token)
-    return { token, role }
-}
-
-function decodeJwtRole(token) {
-    try {
-        const payloadPart = token.split('.')[1]
-        if (!payloadPart) return null
-        const base64 = payloadPart.replace(/-/g, '+').replace(/_/g, '/')
-        const json = decodeURIComponent(
-            atob(base64)
-                .split('')
-                .map((c) => `%${('00' + c.charCodeAt(0).toString(16)).slice(-2)}`)
-                .join('')
-        )
-        return JSON.parse(json)?.role ?? null
-    } catch {
-        return null
-    }
-}
 
 function NavLink({ to, label }) {
     return (
