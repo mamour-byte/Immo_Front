@@ -53,15 +53,16 @@ export default function Layout() {
                             <NavLink to="/" label="Accueil" />
                             <NavLink to="/search" label="Biens Immobillier" />
                             <NavLink to="/build" label="Construire" />
-                            <NavLink to="/contact" label="Contact" />
+                            
 
                             <Link
                                 to={dashboardPath}
                                 className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium"
                             >
-                                <LayoutDashboard size={18} />
+                                {/* <LayoutDashboard size={18} /> */}
                                 <span>Tableau de bord</span>
                             </Link>
+                            <NavLink to="/contact" label="Contact" />
 
                             <Link
                                 to={profilePath}
