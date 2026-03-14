@@ -6,6 +6,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
   const navigate = useNavigate();
   const [isAuthenticated, setIsAuthenticated] = useState(null);
   const [sessionExpiringSoon, setSessionExpiringSoon] = useState(false);
+  const [redirectTo, setRedirectTo] = useState(null);
 
   const getStoredUser = () => {
     const raw = localStorage.getItem('user') || sessionStorage.getItem('user');
@@ -41,6 +42,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
       
       // Si pas de token, pas authentifié
       if (!token) {
+        setRedirectTo('/login');
         setIsAuthenticated(false);
         return;
       }
@@ -60,13 +62,22 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
         storedUser?.role ||
         decodeJwtPayload(token)?.role;
 
-      if (!role || !roles.includes(role)) {
+      if (!role) {
         clearSession();
+        setRedirectTo('/login');
         setIsAuthenticated(false);
-        navigate('/login');
         return;
       }
 
+      if (!roles.includes(role)) {
+        // Ne pas dÃ©connecter : authentifiÃ© mais pas autorisÃ© pour cette route
+        const target = role === 'ADMIN' ? '/admin' : role === 'AGENT' ? '/dashboard' : '/account';
+        setRedirectTo(target);
+        setIsAuthenticated(false);
+        return;
+      }
+
+      setRedirectTo(null);
       setIsAuthenticated(true);
 
       // Vérifier si session expire dans les 2 minutes
@@ -101,6 +112,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
 
   // Non authentifié
   if (!isAuthenticated) {
+    if (redirectTo) return <Navigate to={redirectTo} replace />;
     return <Navigate to="/login" replace />;
   }
 

@@ -22,12 +22,12 @@ api.interceptors.request.use((cfg) => {
   return cfg;
 });
 
-// Interceptor global: si 401/403 -> logout + redirect login
+// Interceptor global: si 401 -> logout + redirect login
 api.interceptors.response.use(
   (res) => res,
   (err) => {
     const status = err?.response?.status;
-    if (status === 401 || status === 403) {
+    if (status === 401) {
       clearSession();
       // éviter d'empiler l'historique
       window.location.replace("/login");

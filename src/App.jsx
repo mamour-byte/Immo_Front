@@ -6,7 +6,8 @@ import Search from "./pages/Search";
 import Property from "./pages/property";
 import Contact from "./pages/Contact";
 import Build from "./pages/Build";
-import Admin from "./pages/Admin/AdminPropertiesDashboard";
+import AdminDashboard from "./pages/Admin/AdminDashboard";
+import AdminPropertiesDashboard from "./pages/Admin/AdminPropertiesDashboard";
 import AgentDashboard from "./pages/AgentDashboard";
 import Login from "./pages/login";
 import PrivateRoute from "./components/PrivateRoute";
@@ -26,7 +27,8 @@ function App() {
           <Route path="property/:id" element={<Property />} />       {/* page 404 */}
           <Route path="contact" element={<Contact />} />       {/* page 404 */}
           <Route path="build" element={<Build />} />       {/* page 404 */}
-            <Route path="admin" element={<PrivateRoute roles={['ADMIN']}><Admin /></PrivateRoute>} />
+            <Route path="admin" element={<PrivateRoute roles={['ADMIN']}><AdminDashboard /></PrivateRoute>} />
+            <Route path="admin/properties" element={<PrivateRoute roles={['ADMIN']}><AdminPropertiesDashboard /></PrivateRoute>} />
             <Route path="dashboard" element={<PrivateRoute roles={['AGENT']}><AgentDashboard /></PrivateRoute>} />
             <Route path="account" element={<PrivateRoute roles={['USER','AGENT','ADMIN']}><Account /></PrivateRoute>} />
             <Route path="agent/apply" element={<AgentApply />} />
