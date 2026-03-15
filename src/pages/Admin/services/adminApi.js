@@ -37,6 +37,16 @@ export async function fetchUsers() {
   return res.data;
 }
 
+export async function updateUser(id, payload) {
+  const res = await api.patch(`/users/${id}`, payload);
+  return res.data;
+}
+
+export async function deleteUser(id) {
+  const res = await api.delete(`/users/${id}`);
+  return res.data;
+}
+
 export async function fetchAgentApplications(status) {
   const params = status ? { status } : undefined;
   const res = await api.get("/agent-applications", { params });
@@ -52,4 +62,3 @@ export async function rejectAgentApplication(id, decisionNote) {
   const res = await api.post(`/agent-applications/${id}/reject`, { decisionNote });
   return res.data;
 }
-

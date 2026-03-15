@@ -16,6 +16,30 @@ export function useUsers() {
   });
 }
 
+export function useUpdateUser() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, payload }) => api.updateUser(id, payload),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-users"], exact: false });
+      toast.success("Utilisateur mis à jour");
+    },
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la mise à jour")),
+  });
+}
+
+export function useDeleteUser() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: (id) => api.deleteUser(id),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-users"], exact: false });
+      toast.success("Utilisateur supprimé");
+    },
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la suppression")),
+  });
+}
+
 export function useAgentApplications(status) {
   return useQuery({
     queryKey: ["agent-applications", status || "ALL"],
@@ -49,4 +73,3 @@ export function useRejectApplication() {
     onError: (error) => toast.error(getErrorMessage(error, "Erreur lors du refus")),
   });
 }
-
