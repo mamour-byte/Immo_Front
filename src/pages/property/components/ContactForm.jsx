@@ -1,8 +1,16 @@
 import { useState } from 'react';
 import { MessageCircle, Phone, Mail } from 'lucide-react';
 import { showError, showSuccess } from '../utils/notifications';
+import { API_URL } from '../../services/http';
 
 export default function ContactForm({ property, onWhatsAppClick }) {
+  const agent = property?.agent;
+  const agentProfile = agent?.agentProfile;
+  const agentName = agent?.fullName || 'Agent';
+  const agentCompany = agentProfile?.companyName;
+  const agentAvatarUrl = agentProfile?.avatarUrl;
+  const hasWhatsApp = Boolean(agentProfile?.whatsapp || agent?.phone);
+
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
@@ -20,7 +28,7 @@ export default function ContactForm({ property, onWhatsAppClick }) {
     setSubmitSuccess(false);
 
     try {
-      const response = await fetch('https://immo-backend-b2x5.onrender.com/contact', {
+      const response = await fetch(`${API_URL}/contact`, {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -61,7 +69,26 @@ export default function ContactForm({ property, onWhatsAppClick }) {
 
   return (
     <div className="bg-white rounded-xl p-4 sm:p-6 lg:top-24 lg:sticky lg:mt-10">
-      <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4 sm:mb-6">Contactez l'agence</h3>
+      <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Contactez l'agent</h3>
+
+      <div className="flex items-center gap-3 rounded-lg bg-slate-50 border border-slate-200 p-3 mb-6">
+        {agentAvatarUrl ? (
+          <img
+            src={agentAvatarUrl}
+            alt={agentName}
+            className="h-12 w-12 rounded-full object-cover border border-slate-200"
+            loading="lazy"
+          />
+        ) : (
+          <div className="h-12 w-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-semibold">
+            {(agentName || "A").slice(0, 1).toUpperCase()}
+          </div>
+        )}
+        <div className="min-w-0">
+          <p className="font-semibold text-slate-900 truncate">{agent ? agentName : "Agent non renseignÃ©"}</p>
+          <p className="text-sm text-slate-600 truncate">{agentCompany || (agent?.email ? agent.email : "")}</p>
+        </div>
+      </div>
       
       <form onSubmit={handleSubmit} className="space-y-4">
         <input 
@@ -121,29 +148,34 @@ export default function ContactForm({ property, onWhatsAppClick }) {
       <div className="mt-4 space-y-3">
         <button
           onClick={onWhatsAppClick}
-          className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors flex items-center justify-center gap-2"
+          type="button"
+          disabled={!hasWhatsApp}
+          className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
         >
           <MessageCircle size={20} />
           Contacter via WhatsApp
         </button>
+        {!hasWhatsApp && (
+          <p className="text-xs text-slate-500 text-center">WhatsApp non disponible pour ce bien.</p>
+        )}
       </div>
 
       {/* Agent info */}
       <div className="mt-6 pt-6 border-t border-slate-200 space-y-3">
-        {property.agent ? (
+        {agent ? (
           <>
-            {property.agent.phone && (
+            {agent.phone && (
               <a 
-                href={`tel:${property.agent.phone}`} 
+                href={`tel:${agent.phone}`} 
                 className="flex items-center justify-center gap-2 w-full bg-rose-50 text-rose-500 py-3 rounded-lg font-semibold hover:bg-rose-100 transition-colors"
               >
                 <Phone size={18} />
                 Appeler
               </a>
             )}
-            {property.agent.email && (
+            {agent.email && (
               <a 
-                href={`mailto:${property.agent.email}`} 
+                href={`mailto:${agent.email}`} 
                 className="flex items-center justify-center gap-2 w-full border-2 border-slate-300 text-slate-700 py-3 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
               >
                 <Mail size={18} />

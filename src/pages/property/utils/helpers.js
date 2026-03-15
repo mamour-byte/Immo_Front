@@ -53,9 +53,17 @@ export function getWhatsAppMessage(property) {
 /**
  * Ouvre WhatsApp avec le message pré-rempli
  */
+function normalizeWhatsAppNumber(value) {
+  if (!value) return null;
+  const digits = String(value).replace(/[^\d]/g, "");
+  return digits.length ? digits : null;
+}
+
 export function openWhatsApp(property, phoneNumber = '221778569823') {
+  const normalized = normalizeWhatsAppNumber(phoneNumber);
+  if (!normalized) return;
   const message = encodeURIComponent(getWhatsAppMessage(property));
-  window.open(`https://wa.me/${phoneNumber}?text=${message}`, '_blank');
+  window.open(`https://wa.me/${normalized}?text=${message}`, '_blank');
 }
 
 /**

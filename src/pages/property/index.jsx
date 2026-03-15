@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 import { Helmet } from 'react-helmet-async';
 
@@ -31,6 +31,7 @@ export default function PropertyDetailPage() {
   const images = property.images?.length 
     ? property.images.map(i => i.url) 
     : ['https://picsum.photos/500/300?random'];
+  const agentWhatsApp = property?.agent?.agentProfile?.whatsapp || property?.agent?.phone;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -41,7 +42,7 @@ export default function PropertyDetailPage() {
           url: window.location.href,
         });
       } catch (err) {
-        console.log('Partage annulé');
+        console.log('Partage annulé', err);
       }
     } else {
       // Fallback: copier le lien
@@ -144,7 +145,7 @@ export default function PropertyDetailPage() {
             <div className="space-y-6 order-1 lg:order-2 mt-0 lg:mt-20">
               <ContactForm 
                 property={property}
-                onWhatsAppClick={() => openWhatsApp(property)}
+                onWhatsAppClick={() => openWhatsApp(property, agentWhatsApp)}
               />
             </div>
           </div>

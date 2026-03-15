@@ -1,4 +1,5 @@
 import { useState, useEffect } from 'react';
+import { API_URL } from '../../services/http';
 
 export function usePropertyFetch(propertyId) {
   const [property, setProperty] = useState(null);
@@ -11,7 +12,7 @@ export function usePropertyFetch(propertyId) {
         setLoading(true);
         setError(null);
         
-        const response = await fetch(`https://immo-backend-b2x5.onrender.com/properties/${propertyId}`, {
+        const response = await fetch(`${API_URL}/properties/${propertyId}`, {
           headers: {
             'Accept': 'application/json',
           },
@@ -60,7 +61,7 @@ export function useSimilarProperties(cityId, propertyId) {
       try {
         setLoading(true);
         
-        const response = await fetch(`https://immo-backend-b2x5.onrender.com/properties?cityId=${cityId}`, {
+        const response = await fetch(`${API_URL}/properties?cityId=${cityId}`, {
           signal: AbortSignal.timeout(8000),
         });
 

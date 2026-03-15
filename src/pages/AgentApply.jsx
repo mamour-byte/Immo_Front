@@ -11,6 +11,7 @@ export default function AgentApply() {
     password: "",
     fullName: "",
     phone: "",
+    whatsapp: "",
     companyName: "",
     bio: "",
   });
@@ -60,6 +61,7 @@ export default function AgentApply() {
               <Field label="Nom complet" name="fullName" value={form.fullName} onChange={onChange} />
               <Field label="Téléphone" name="phone" value={form.phone} onChange={onChange} />
             </div>
+            <Field label="WhatsApp" name="whatsapp" value={form.whatsapp} onChange={onChange} />
             <Field label="Email" name="email" type="email" value={form.email} onChange={onChange} required />
             <Field label="Mot de passe (min 8)" name="password" type="password" value={form.password} onChange={onChange} required />
             <Field label="Entreprise (optionnel)" name="companyName" value={form.companyName} onChange={onChange} />
@@ -109,4 +111,3 @@ function TextArea({ label, ...props }) {
     </div>
   );
 }
-

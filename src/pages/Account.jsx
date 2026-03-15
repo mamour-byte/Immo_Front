@@ -32,6 +32,7 @@ export default function Account() {
     companyName: "",
     bio: "",
     avatarUrl: "",
+    whatsapp: "",
   });
 
   const [applicationForm, setApplicationForm] = useState({
@@ -40,6 +41,7 @@ export default function Account() {
     companyName: "",
     bio: "",
     avatarUrl: "",
+    whatsapp: "",
   });
 
   async function fetchMe() {
@@ -72,6 +74,7 @@ export default function Account() {
         companyName: data?.agentProfile?.companyName || "",
         bio: data?.agentProfile?.bio || "",
         avatarUrl: data?.agentProfile?.avatarUrl || "",
+        whatsapp: data?.agentProfile?.whatsapp || "",
       });
       setApplicationForm({
         fullName: data?.fullName || "",
@@ -79,6 +82,7 @@ export default function Account() {
         companyName: data?.agentApplication?.companyName || "",
         bio: data?.agentApplication?.bio || "",
         avatarUrl: data?.agentApplication?.avatarUrl || "",
+        whatsapp: data?.agentApplication?.whatsapp || "",
       });
 
       const stored = getStoredUser();
@@ -243,6 +247,7 @@ export default function Account() {
 
             {me?.role === "AGENT" && (
               <>
+                <Field label="WhatsApp" name="whatsapp" value={profileForm.whatsapp} onChange={onProfileChange} />
                 <Field label="Entreprise" name="companyName" value={profileForm.companyName} onChange={onProfileChange} />
                 <TextArea label="Bio" name="bio" value={profileForm.bio} onChange={onProfileChange} />
                 <Field label="Avatar URL" name="avatarUrl" value={profileForm.avatarUrl} onChange={onProfileChange} />
@@ -259,7 +264,7 @@ export default function Account() {
           </form>
         </section>
 
-        {me?.agentApplication ? (
+        {me?.role === "USER" && (me?.agentApplication ? (
           <section className="bg-white rounded-2xl p-6 shadow-sm">
             <div className="flex items-start justify-between gap-4">
               <div>
@@ -285,6 +290,7 @@ export default function Account() {
                   <Field label="Nom complet" name="fullName" value={applicationForm.fullName} onChange={onApplicationChange} />
                   <Field label="Téléphone" name="phone" value={applicationForm.phone} onChange={onApplicationChange} />
                 </div>
+                <Field label="WhatsApp" name="whatsapp" value={applicationForm.whatsapp} onChange={onApplicationChange} />
                 <Field label="Entreprise" name="companyName" value={applicationForm.companyName} onChange={onApplicationChange} />
                 <TextArea label="Bio" name="bio" value={applicationForm.bio} onChange={onApplicationChange} />
                 <Field label="Avatar URL" name="avatarUrl" value={applicationForm.avatarUrl} onChange={onApplicationChange} />
@@ -307,6 +313,7 @@ export default function Account() {
                 <Field label="Nom complet" name="fullName" value={applicationForm.fullName} onChange={onApplicationChange} />
                 <Field label="Téléphone" name="phone" value={applicationForm.phone} onChange={onApplicationChange} />
               </div>
+              <Field label="WhatsApp" name="whatsapp" value={applicationForm.whatsapp} onChange={onApplicationChange} />
               <Field label="Entreprise" name="companyName" value={applicationForm.companyName} onChange={onApplicationChange} />
               <TextArea label="Bio" name="bio" value={applicationForm.bio} onChange={onApplicationChange} />
               <Field label="Avatar URL" name="avatarUrl" value={applicationForm.avatarUrl} onChange={onApplicationChange} />
@@ -323,7 +330,7 @@ export default function Account() {
               </p>
             </form>
           </section>
-        )}
+        ))}
       </div>
     </div>
   );
