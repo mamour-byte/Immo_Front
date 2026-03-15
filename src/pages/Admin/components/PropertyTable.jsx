@@ -40,7 +40,7 @@ function getStatusBadgeClasses(status) {
   return "bg-gray-200 text-gray-800";
 }
 
-export default function PropertyTable({ data = [], loading, onEdit, onDelete }) {
+export default function PropertyTable({ data = [], loading, onEdit, onDelete, showAgent = false }) {
   if (loading) return <Loading />;
 
   if (!data || data.length === 0) {
@@ -53,6 +53,7 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete }) 
         <thead className="bg-slate-900 text-white">
           <tr>
             <th className="p-3">ID</th>
+            {showAgent && <th className="p-3">Agent</th>}
             <th className="p-3">Titre</th>
             <th className="p-3">Ville</th>
             <th className="p-3">Quartier</th>
@@ -66,6 +67,12 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete }) 
           {data.map((p) => (
             <tr key={p.id} className="border-t">
               <td className="p-3">{p.id}</td>
+              {showAgent && (
+                <td className="p-3">
+                  <div className="font-medium">{p.agent?.fullName || "-"}</div>
+                  <div className="text-xs text-slate-600">{p.agent?.email || ""}</div>
+                </td>
+              )}
               <td className="p-3">{p.title}</td>
               <td className="p-3">{p.city?.name || ""}</td>
               <td className="p-3">{p.district?.name || ""}</td>

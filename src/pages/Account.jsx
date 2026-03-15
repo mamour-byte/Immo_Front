@@ -227,7 +227,7 @@ export default function Account() {
               </Link>
             )}
             {me?.role === "ADMIN" && (
-              <Link to="/admin" className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800">
+              <Link to="/dashboard" className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800">
                 Admin
               </Link>
             )}

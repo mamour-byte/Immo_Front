@@ -13,6 +13,11 @@ function getErrorMessage(error, fallback) {
   return Array.isArray(msg) ? msg[0] : msg;
 }
 
+function invalidateProperties(qc) {
+  qc.invalidateQueries({ queryKey: ["properties"], exact: false });
+  qc.invalidateQueries({ queryKey: ["my-properties"], exact: false });
+}
+
 // ----- Cities -----
 export function useCities() {
   return useQuery({
@@ -56,7 +61,7 @@ export function useCreateProperty() {
   return useMutation({
     mutationFn: api.createProperty,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
+      invalidateProperties(qc);
       toast.success("Bien créé");
     },
     onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la création")),
@@ -69,7 +74,7 @@ export function useUpdateProperty() {
   return useMutation({
     mutationFn: ({ id, payload }) => api.updateProperty(id, payload),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
+      invalidateProperties(qc);
       toast.success("Bien mis à jour");
     },
     onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la mise à jour")),
@@ -82,7 +87,7 @@ export function useDeleteProperty() {
   return useMutation({
     mutationFn: api.deleteProperty,
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
+      invalidateProperties(qc);
       toast.success("Bien supprimé");
     },
     onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la suppression")),
@@ -96,7 +101,7 @@ export function useUploadImages() {
     mutationFn: ({ propertyId, files }) =>
       api.uploadPropertyImages(propertyId, files),
     onSuccess: () => {
-      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
+      invalidateProperties(qc);
       toast.success("Images uploadées");
     },
     onError: (error) => toast.error(getErrorMessage(error, "Erreur upload images")),
@@ -109,7 +114,7 @@ export function useCreatePropertyWithImages() {
   return useMutation({
     mutationFn: ({ payload, files }) => api.createPropertyWithImages(payload, files),
     onSuccess: (data) => {
-      qc.invalidateQueries({ queryKey: ["properties"], exact: false });
+      invalidateProperties(qc);
       toast.success(data?.message || "Bien créé avec images");
     },
     onError: (error) => {

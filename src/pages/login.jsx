@@ -90,8 +90,7 @@ export default function AdminLoginPage() {
           return;
         }
 
-        if (role === 'ADMIN') navigate("/admin");
-        else if (role === 'AGENT') navigate("/dashboard");
+        if (role === 'ADMIN' || role === 'AGENT') navigate("/dashboard");
         else navigate("/account");
       } else {
         setError("Token manquant dans la réponse serveur");

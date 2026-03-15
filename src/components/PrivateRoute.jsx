@@ -72,7 +72,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
 
       if (!roles.includes(role)) {
         // Ne pas dÃ©connecter : authentifiÃ© mais pas autorisÃ© pour cette route
-        const target = role === 'ADMIN' ? '/admin' : role === 'AGENT' ? '/dashboard' : '/account';
+        const target = role === 'ADMIN' || role === 'AGENT' ? '/dashboard' : '/account';
         setRedirectTo(target);
         setIsAuthenticated(false);
         return;
