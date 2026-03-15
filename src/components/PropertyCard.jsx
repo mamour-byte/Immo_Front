@@ -10,6 +10,11 @@ const STATUS_LABEL = {
   ARCHIVED: "Archivé",
 };
 
+const PURPOSE_LABEL = {
+  VENTE: "Vente",
+  LOCATION: "Location",
+};
+
 function formatNumber(value) {
   const num = Number(value);
   if (!Number.isFinite(num)) return null;
@@ -54,6 +59,7 @@ export default function PropertyCard({ property, view = "grid" }) {
     .filter(Boolean)
     .join(", ");
   const statusLabel = STATUS_LABEL[property?.status] || property?.status || null;
+  const purposeLabel = PURPOSE_LABEL[property?.purpose] || null;
   const priceText = formatNumber(property?.price) ? `${formatNumber(property?.price)} FCFA` : "-";
 
   if (view === "list") {
@@ -79,11 +85,18 @@ export default function PropertyCard({ property, view = "grid" }) {
               <h3 className="text-base sm:text-lg font-semibold text-slate-900 leading-snug line-clamp-2">
                 {property.title}
               </h3>
-              {statusLabel && (
-                <span className="shrink-0 text-xs font-medium px-2 py-1 rounded-full bg-slate-100 text-slate-700">
-                  {statusLabel}
-                </span>
-              )}
+              <div className="shrink-0 flex flex-wrap items-center justify-end gap-2">
+                {purposeLabel && (
+                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-rose-50 text-rose-600">
+                    {purposeLabel}
+                  </span>
+                )}
+                {statusLabel && (
+                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-slate-100 text-slate-700">
+                    {statusLabel}
+                  </span>
+                )}
+              </div>
             </div>
 
             {location && (
@@ -133,13 +146,20 @@ export default function PropertyCard({ property, view = "grid" }) {
   return (
     <div className="rounded-xl shadow-md bg-white overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col h-full">
       {/* Image */}
-      <div className="w-full aspect-[4/3] sm:h-52 lg:h-56 bg-slate-200 overflow-hidden flex-shrink-0">
+      <div className="w-full aspect-[4/3] sm:h-52 lg:h-56 bg-slate-200 overflow-hidden flex-shrink-0 relative">
         <img
           src={imageUrl}
           alt={property.title}
           className="w-full h-full object-cover"
           loading="lazy"
         />
+        {purposeLabel && (
+          <div className="absolute top-3 left-3">
+            <span className="text-xs font-medium px-2 py-1 rounded-full bg-white/90 text-slate-900 backdrop-blur border border-white/50">
+              {purposeLabel}
+            </span>
+          </div>
+        )}
       </div>
 
       {/* Content */}
@@ -151,6 +171,21 @@ export default function PropertyCard({ property, view = "grid" }) {
         <p className="text-xs sm:text-sm text-slate-500 line-clamp-2">
           {property.district?.name}, {property.city?.name}
         </p>
+
+        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 pt-1">
+          {Number.isFinite(Number(property?.bedrooms)) && (
+            <MetaItem icon={<BedIcon />} text={`${Number(property.bedrooms)} ch`} />
+          )}
+          {Number.isFinite(Number(property?.bathrooms)) && (
+            <MetaItem icon={<BathIcon />} text={`${Number(property.bathrooms)} sdb`} />
+          )}
+          {Number.isFinite(Number(property?.surfaceM2 ?? property?.surface)) && (
+            <MetaItem
+              icon={<AreaIcon />}
+              text={`${Number(property.surfaceM2 ?? property.surface)} m2`}
+            />
+          )}
+        </div>
 
         <div className="flex flex-wrap items-center justify-between gap-2 mt-auto pt-2">
           <p className="text-base sm:text-xl font-bold text-rose-500 truncate min-w-0">

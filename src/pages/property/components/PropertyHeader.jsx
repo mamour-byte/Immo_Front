@@ -1,6 +1,8 @@
 import { MapPin, Share2, Heart } from 'lucide-react';
 
 export default function PropertyHeader({ property, isFavorite, onFavoriteToggle, onShare }) {
+  const purposeLabel = property?.purpose === "VENTE" ? "Vente" : property?.purpose === "LOCATION" ? "Location" : null;
+
   const formatPrice = (price) => {
     if (!price) return '0';
     return price.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ' ');
@@ -14,6 +16,11 @@ export default function PropertyHeader({ property, isFavorite, onFavoriteToggle,
             <span className="bg-rose-50 text-rose-500 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
               {property.status}
             </span>
+            {purposeLabel && (
+              <span className="bg-white border border-slate-200 text-slate-700 px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
+                {purposeLabel}
+              </span>
+            )}
             {property.isFeatured && (
               <span className="bg-slate-900 text-white px-2.5 sm:px-3 py-1 rounded-full text-xs sm:text-sm font-semibold">
                 À la une

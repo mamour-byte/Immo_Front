@@ -10,7 +10,7 @@ import { useSearchProperties } from "./hooks/useSearchProperties";
 
 export default function Search() {
   const [searchParams] = useSearchParams();
-  const [viewMode, setViewMode] = useState("grid");
+  const [viewMode, setViewMode] = useState("list");
   const [sortBy, setSortBy] = useState("recent");
   const [favorites, setFavorites] = useState([]);
 

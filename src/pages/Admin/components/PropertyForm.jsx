@@ -252,6 +252,14 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
               className="p-2 border rounded"
               disabled={isLoading}
             />
+            <input
+              value={form.bathrooms}
+              onChange={(e) => update("bathrooms", e.target.value)}
+              type="number"
+              placeholder="Salles de bain"
+              className="p-2 border rounded"
+              disabled={isLoading}
+            />
             <input 
               value={form.toilets} 
               onChange={(e) => update("toilets", e.target.value)} 
