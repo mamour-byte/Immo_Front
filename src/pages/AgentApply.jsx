@@ -26,7 +26,7 @@ const STEPS = [
 
 const PROFILE_TYPES = [
   {
-    value: "INDEPENDENT",
+    value: "INDEPENDANT",
     label: "Agent indépendant",
     icon: FiUser,
     desc: "Travailleur indépendant",
@@ -53,7 +53,7 @@ const INIT = {
   phone: "",
   city: "",
   address: "",
-  profileType: "INDEPENDENT",
+  profileType: "INDEPENDANT",
   agencyName: "",
   yearsExperience: "",
   activityZone: "",
@@ -104,7 +104,7 @@ export default function AgentApply() {
     e.preventDefault();
     setIsLoading(true);
     try {
-      const safeProfileType = form.profileType || "INDEPENDENT";
+      const safeProfileType = form.profileType || "INDEPENDANT";
       const fd = new FormData();
       Object.entries(form).forEach(([k, v]) =>
         fd.append(k, Array.isArray(v) ? JSON.stringify(v) : v ?? ""),
@@ -326,7 +326,7 @@ export default function AgentApply() {
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
                     <FileField label="Pièce d'identité *" name="idDocument" onChange={onFileChange} required accept="image/*,application/pdf" value={files.idDocument} />
                     {isAgency && <FileField label="Registre de commerce *" name="tradeRegister" onChange={onFileChange} required accept="image/*,application/pdf" value={files.tradeRegister} />}
-                    {(form.profileType === "INDEPENDENT" || isDeveloper) && <FileField label="Carte professionnelle" name="professionalCard" onChange={onFileChange} accept="image/*,application/pdf" value={files.professionalCard} />}
+                    {(form.profileType === "INDEPENDANT" || isDeveloper) && <FileField label="Carte professionnelle" name="professionalCard" onChange={onFileChange} accept="image/*,application/pdf" value={files.professionalCard} />}
                     {isAgency && (
                       <>
                         <FileField label="Logo de l'agence *" name="agencyLogo" onChange={onFileChange} required accept="image/*" value={files.agencyLogo} />
