@@ -104,8 +104,14 @@ export default function AgentApply() {
     e.preventDefault();
     setIsLoading(true);
     try {
+      const safeProfileType = form.profileType || "INDEPENDENT";
       const fd = new FormData();
-      Object.entries(form).forEach(([k, v]) => fd.append(k, Array.isArray(v) ? JSON.stringify(v) : v ?? ""));
+      Object.entries(form).forEach(([k, v]) =>
+        fd.append(k, Array.isArray(v) ? JSON.stringify(v) : v ?? ""),
+      );
+      // Sécurise le champ même si l'utilisateur ne visite pas l'étape "Profil"
+      // (certaines implémentations backend ignorent les champs vides sur multipart).
+      fd.set("profileType", safeProfileType);
       Object.entries(files).forEach(([k, f]) => f && fd.append(k, f));
       const resp = await fetch(`${API_URL}/agent-applications/apply-full`, { method: "POST", body: fd });
       const data = await resp.json().catch(() => ({}));
