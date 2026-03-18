@@ -153,7 +153,7 @@ export default function SidebarFilters({ onFiltersChange }) {
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Transaction
             </label>
-            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-2 gap-1.5 sm:gap-2">
               <button
                 onClick={() => handleFilterChange('transactionType', '')}
                 className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
