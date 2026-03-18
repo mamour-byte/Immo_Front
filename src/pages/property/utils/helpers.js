@@ -2,7 +2,13 @@
  * Génère les métadonnées SEO pour une propriété
  */
 export function generatePropertySEO(property) {
-  const title = `${property.title} - ${property.price} FCFA | Ethic-Immo`;
+  const priceSuffix =
+    property?.purpose === "LOCATION"
+      ? property?.rentalMode === "DAILY"
+        ? " / jour"
+        : " / mois"
+      : "";
+  const title = `${property.title} - ${property.price} FCFA${priceSuffix} | Ethic-Immo`;
   const description = property.description
     ? property.description.substring(0, 160)
     : `Découvrez ${property.title} à ${property.city?.name || 'Dakar'}. Voir les détails, photos et contacter l'agence.`;
@@ -11,6 +17,11 @@ export function generatePropertySEO(property) {
     property.type,
     property.city?.name,
     property.district?.name,
+    property?.purpose === 'LOCATION'
+      ? property?.rentalMode === 'DAILY'
+        ? 'location journaliere'
+        : 'location mensuelle'
+      : null,
     'immobilier',
     'bien',
     'à vendre',

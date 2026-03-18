@@ -1,7 +1,20 @@
 import { MapPin, Share2, Heart } from 'lucide-react';
 
 export default function PropertyHeader({ property, isFavorite, onFavoriteToggle, onShare }) {
-  const purposeLabel = property?.purpose === "VENTE" ? "Vente" : property?.purpose === "LOCATION" ? "Location" : null;
+  const purposeLabel =
+    property?.purpose === "VENTE"
+      ? "Vente"
+      : property?.purpose === "LOCATION"
+        ? property?.rentalMode === "DAILY"
+          ? "Location journaliere"
+          : "Location mensuelle"
+        : null;
+  const priceSuffix =
+    property?.purpose === "LOCATION"
+      ? property?.rentalMode === "DAILY"
+        ? " / jour"
+        : " / mois"
+      : "";
 
   const formatPrice = (price) => {
     if (!price) return '0';
@@ -58,7 +71,7 @@ export default function PropertyHeader({ property, isFavorite, onFavoriteToggle,
         </div>
       </div>
       <div className="text-2xl sm:text-3xl font-bold text-rose-500 break-all">
-        {formatPrice(property.price)} FCFA
+        {formatPrice(property.price)} FCFA{priceSuffix}
       </div>
     </div>
   );

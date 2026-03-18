@@ -3,6 +3,12 @@ import { MapPin } from 'lucide-react';
 
 export default function SimilarPropertyCard({ property }) {
   const images = property.images?.length ? property.images.map(i => i.url) : ['https://picsum.photos/500/300?random'];
+  const priceSuffix =
+    property?.purpose === "LOCATION"
+      ? property?.rentalMode === "DAILY"
+        ? " / jour"
+        : " / mois"
+      : "";
   
   const formatPrice = (price) => {
     if (!price) return '0';
@@ -27,7 +33,7 @@ export default function SimilarPropertyCard({ property }) {
           {property.title}
         </h3>
         <p className="text-rose-500 font-bold text-xl mb-3">
-          {formatPrice(property.price)} FCFA
+          {formatPrice(property.price)} FCFA{priceSuffix}
         </p>
         <p className="text-slate-500 text-sm mb-4 flex items-center gap-1">
           <MapPin size={14} />

@@ -19,6 +19,7 @@ const DEFAULT_FILTERS = {
   query: "",
   type: "",
   purpose: "",
+  rentalMode: "",
   cityId: "",
   districtId: "",
   status: "",

@@ -47,6 +47,17 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
     return <div className="p-6 text-center text-gray-600">Aucun bien trouvé.</div>;
   }
 
+  function formatPrice(p) {
+    if (!p?.price) return "-";
+    const suffix =
+      p?.purpose === "LOCATION"
+        ? p?.rentalMode === "DAILY"
+          ? " / jour"
+          : " / mois"
+        : "";
+    return `${Number(p.price).toLocaleString()}${suffix}`;
+  }
+
   return (
     <div className="overflow-x-auto">
       <table className="w-full text-left text-sm">
@@ -58,6 +69,7 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
             <th className="p-3">Ville</th>
             <th className="p-3">Quartier</th>
             <th className="p-3">Prix</th>
+            <th className="p-3">Mode loc.</th>
             <th className="p-3">Type</th>
             <th className="p-3">Statut</th>
             <th className="p-3">Actions</th>
@@ -76,7 +88,10 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
               <td className="p-3">{p.title}</td>
               <td className="p-3">{p.city?.name || ""}</td>
               <td className="p-3">{p.district?.name || ""}</td>
-              <td className="p-3">{p.price ? Number(p.price).toLocaleString() : "-"}</td>
+              <td className="p-3">{formatPrice(p)}</td>
+              <td className="p-3">
+                {p.purpose === "LOCATION" ? (p.rentalMode === "DAILY" ? "Journaliere" : "Mensuelle") : "-"}
+              </td>
               <td className="p-3">{p.type}</td>
               <td className="p-3">
                 <span

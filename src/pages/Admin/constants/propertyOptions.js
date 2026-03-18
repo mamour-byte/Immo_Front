@@ -9,10 +9,15 @@ export const TYPE_OPTIONS = [
     { value: "AUTRE", label: "Autre" },
   ];
   
-  export const PURPOSE_OPTIONS = [
+export const PURPOSE_OPTIONS = [
     { value: "VENTE", label: "Vente" },
     { value: "LOCATION", label: "Location" },
   ];
+
+export const RENTAL_MODE_OPTIONS = [
+  { value: "MONTHLY", label: "Location mensuelle" },
+  { value: "DAILY", label: "Location journaliere" },
+];
   
   export const STATUS_OPTIONS = [
     { value: "AVAILABLE", label: "Disponible" },

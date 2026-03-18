@@ -15,6 +15,18 @@ export function mapTransactionType(type) {
   return mapping[type.toLowerCase()] || null;
 }
 
+export function mapRentalMode(type) {
+  if (!type) return null;
+  const normalized = String(type).toLowerCase();
+  if (normalized === "daily" || normalized === "journaliere" || normalized === "location-journaliere") {
+    return "DAILY";
+  }
+  if (normalized === "monthly" || normalized === "mensuelle" || normalized === "location-mensuelle" || normalized === "location") {
+    return "MONTHLY";
+  }
+  return null;
+}
+
 export function mapPropertyType(type) {
   if (!type) return null;
 
@@ -41,6 +53,12 @@ export function buildPropertyQuery(filters = {}, sortBy) {
   const isDailyRental = String(filters.transactionType || "").toLowerCase() === "location-journaliere";
 
   if (filters.transactionType) params.purpose = mapTransactionType(filters.transactionType);
+  if (filters.rentalMode) {
+    params.rentalMode = String(filters.rentalMode).toUpperCase();
+  } else {
+    const mappedRentalMode = mapRentalMode(filters.transactionType);
+    if (mappedRentalMode) params.rentalMode = mappedRentalMode;
+  }
   if (filters.propertyType) params.type = mapPropertyType(filters.propertyType);
 
   const numeric = isDailyRental
@@ -53,7 +71,13 @@ export function buildPropertyQuery(filters = {}, sortBy) {
     if (!isNaN(num) && num > 0) params[key] = num;
   }
 
-  if (sortBy) params.sortBy = sortBy;
+  if (sortBy) {
+    const sortMap = {
+      priceLow: "price-asc",
+      priceHigh: "price-desc",
+    };
+    params.sortBy = sortMap[sortBy] || sortBy;
+  }
 
   return params;
 }

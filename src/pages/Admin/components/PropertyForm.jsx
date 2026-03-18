@@ -1,6 +1,6 @@
 // components/PropertyForm.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import { TYPE_OPTIONS, PURPOSE_OPTIONS, STATUS_OPTIONS, FEATURES_OPTIONS } from "../constants/propertyOptions";
+import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS, FEATURES_OPTIONS } from "../constants/propertyOptions";
 
 export default function PropertyForm({ initial = null, cities = [], districts = [], onCancel, onSubmit, isLoading = false }) {
   const MAX_FILES = 15;
@@ -15,6 +15,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
       title: initial?.title ?? "",
       description: initial?.description ?? "",
       purpose: initial?.purpose ?? "VENTE",
+      rentalMode: initial?.rentalMode ?? "MONTHLY",
       type: initial?.type ?? "APPARTMENT",
       price: initial?.price ?? "",
       surface: initial?.surface ?? "",
@@ -59,7 +60,16 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   }, [districts, form.cityId]);
 
   function update(key, val) {
-    setForm(f => ({ ...f, [key]: val }));
+    setForm((f) => {
+      if (key === "purpose") {
+        return {
+          ...f,
+          [key]: val,
+          rentalMode: val === "LOCATION" ? (f.rentalMode || "MONTHLY") : null,
+        };
+      }
+      return { ...f, [key]: val };
+    });
     // Clear error for this field when user starts editing
     if (errors[key]) {
       setErrors(e => ({ ...e, [key]: null }));
@@ -137,6 +147,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
 
     const payload = {
       ...form,
+      rentalMode: form.purpose === "LOCATION" ? (form.rentalMode || "MONTHLY") : null,
       // Ne garder que les URLs d'images non vides
       images: (form.images || []).map((u) => u?.trim?.() ?? "").filter((u) => u.length > 0),
       price: form.price ? Number(form.price) : undefined,
@@ -185,6 +196,23 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
               </select>
             </div>
 
+            {form.purpose === "LOCATION" && (
+              <div>
+                <select
+                  value={form.rentalMode || "MONTHLY"}
+                  onChange={(e) => update("rentalMode", e.target.value)}
+                  className="p-2 border rounded w-full"
+                  disabled={isLoading}
+                >
+                  {RENTAL_MODE_OPTIONS.map((mode) => (
+                    <option key={mode.value} value={mode.value}>
+                      {mode.label}
+                    </option>
+                  ))}
+                </select>
+              </div>
+            )}
+
             <div>
               <select 
                 value={form.type} 
@@ -227,7 +255,13 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                 value={form.price} 
                 onChange={(e) => update("price", e.target.value)} 
                 type="number" 
-                placeholder="Prix *" 
+                placeholder={
+                  form.purpose === "LOCATION"
+                    ? form.rentalMode === "DAILY"
+                      ? "Prix par jour *"
+                      : "Prix par mois *"
+                    : "Prix *"
+                }
                 className={`p-2 border rounded w-full ${errors.price ? 'border-red-500' : ''}`}
                 disabled={isLoading}
               />

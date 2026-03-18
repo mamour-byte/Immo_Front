@@ -1,7 +1,7 @@
 // components/PropertyFilters.jsx
 import { useState, useEffect } from "react";
 import { useCities, useDistricts } from "../hooks/useProperties";
-import { TYPE_OPTIONS, PURPOSE_OPTIONS, STATUS_OPTIONS } from "../constants/propertyOptions";
+import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS } from "../constants/propertyOptions";
 
 export default function PropertyFilters({ filters, setFilters }) {
   const { data: cities = [] } = useCities();
@@ -16,7 +16,7 @@ export default function PropertyFilters({ filters, setFilters }) {
     setFilters(local);
   }
   function reset() {
-    const defaults = { query: "", type: "", purpose: "", cityId: "", districtId: "", status: "", sortField: "createdAt", sortDir: "desc", page: 1, pageSize: 10 };
+    const defaults = { query: "", type: "", purpose: "", rentalMode: "", cityId: "", districtId: "", status: "", sortField: "createdAt", sortDir: "desc", page: 1, pageSize: 10 };
     setLocal(defaults);
     setFilters(defaults);
   }
@@ -37,6 +37,18 @@ export default function PropertyFilters({ filters, setFilters }) {
         <select value={local.purpose} onChange={(e) => setLocal({ ...local, purpose: e.target.value })} className="w-full p-2 border rounded">
           <option value="">Tous objectifs</option>
           {PURPOSE_OPTIONS.map(p => (<option key={p.value} value={p.value}>{p.label}</option>))}
+        </select>
+
+        <select
+          value={local.rentalMode || ""}
+          onChange={(e) => setLocal({ ...local, rentalMode: e.target.value })}
+          className="w-full p-2 border rounded"
+          disabled={local.purpose && local.purpose !== "LOCATION"}
+        >
+          <option value="">Mode de location (tous)</option>
+          {RENTAL_MODE_OPTIONS.map((mode) => (
+            <option key={mode.value} value={mode.value}>{mode.label}</option>
+          ))}
         </select>
 
         <select value={local.cityId} onChange={(e) => { setLocal({ ...local, cityId: e.target.value, districtId: "" }) }} className="w-full p-2 border rounded">

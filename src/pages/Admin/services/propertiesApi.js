@@ -53,6 +53,9 @@ export async function fetchProperties(params = {}) {
   if (params.purpose && params.purpose.trim()) {
     backendParams.purpose = params.purpose;
   }
+  if (params.rentalMode && params.rentalMode.trim()) {
+    backendParams.rentalMode = params.rentalMode;
+  }
   if (params.cityId && params.cityId !== "") {
     backendParams.cityId = Number(params.cityId);
   }
@@ -88,6 +91,9 @@ export async function fetchMyProperties(params = {}) {
   }
   if (params.purpose && params.purpose.trim()) {
     backendParams.purpose = params.purpose;
+  }
+  if (params.rentalMode && params.rentalMode.trim()) {
+    backendParams.rentalMode = params.rentalMode;
   }
   if (params.cityId && params.cityId !== "") {
     backendParams.cityId = Number(params.cityId);
@@ -204,3 +210,4 @@ export async function uploadPropertyImages(propertyId, files = []) {
   });
   return res.data;
 }
+

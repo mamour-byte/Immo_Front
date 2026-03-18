@@ -20,6 +20,7 @@ export default function PropertySearchFilter() {
     guests: '',
     startDate: '',
     endDate: '',
+    stayDays: '',
   });
   // Ajouts dynamiques cities/districts
   const [cities, setCities] = useState([]);
@@ -40,6 +41,8 @@ export default function PropertySearchFilter() {
     
     // Ajouter les filtres non-vides
     if (transactionType) params.append('transactionType', transactionType);
+    if (transactionType === 'location') params.append('rentalMode', 'MONTHLY');
+    if (transactionType === 'location-journaliere') params.append('rentalMode', 'DAILY');
     if (filters.propertyType) params.append('propertyType', filters.propertyType);
     if (selectedCityId) params.append('cityId', selectedCityId);
     if (selectedDistrictId) params.append('districtId', selectedDistrictId);
@@ -49,6 +52,7 @@ export default function PropertySearchFilter() {
       if (filters.guests) params.append('guests', filters.guests);
       if (filters.startDate) params.append('startDate', filters.startDate);
       if (filters.endDate) params.append('endDate', filters.endDate);
+      if (filters.stayDays) params.append('stayDays', filters.stayDays);
     } else {
       if (filters.minSurface) params.append('minSurface', filters.minSurface);
       if (filters.maxSurface) params.append('maxSurface', filters.maxSurface);
@@ -80,12 +84,13 @@ export default function PropertySearchFilter() {
       guests: '',
       startDate: '',
       endDate: '',
+      stayDays: '',
     });
     setSelectedCityId('');
     setSelectedDistrictId('');
   };
 
-  const stayDays = (() => {
+  const stayDaysFromDates = (() => {
     if (!filters.startDate || !filters.endDate) return null;
     const start = new Date(filters.startDate);
     const end = new Date(filters.endDate);
@@ -95,15 +100,30 @@ export default function PropertySearchFilter() {
     return days > 0 ? days : null;
   })();
 
+  useEffect(() => {
+    if (!stayDaysFromDates) return;
+    setFilters((prev) =>
+      String(prev.stayDays || "") === String(stayDaysFromDates)
+        ? prev
+        : { ...prev, stayDays: String(stayDaysFromDates) },
+    );
+  }, [stayDaysFromDates]);
+
+  const effectiveStayDays = Number(filters.stayDays) > 0 ? Number(filters.stayDays) : stayDaysFromDates;
+  const estimatedMinTotal =
+    effectiveStayDays && Number(filters.minPrice) > 0 ? Number(filters.minPrice) * effectiveStayDays : null;
+  const estimatedMaxTotal =
+    effectiveStayDays && Number(filters.maxPrice) > 0 ? Number(filters.maxPrice) * effectiveStayDays : null;
+
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:p-4">
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
         
         {/* TYPE DE TRANSACTION */}
-        <div className="flex flex-wrap sm:flex-nowrap border-b border-slate-200">
+        <div className="grid grid-cols-3 gap-1 sm:gap-0 border-b border-slate-200 bg-slate-50">
           <button
             onClick={() => setTransactionType('achat')}
-            className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
+            className={`min-w-0 px-2 py-3 sm:py-4 text-[11px] sm:text-sm font-semibold leading-tight transition-colors rounded-sm sm:rounded-none ${
               transactionType === 'achat'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
@@ -113,17 +133,18 @@ export default function PropertySearchFilter() {
           </button>
           <button
             onClick={() => setTransactionType('location')}
-            className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
+            className={`min-w-0 px-2 py-3 sm:py-4 text-[11px] sm:text-sm font-semibold leading-tight transition-colors rounded-sm sm:rounded-none ${
               transactionType === 'location'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
             }`}
           >
-            Location
+            <span className="hidden sm:inline">Location mensuelle</span>
+            <span className="sm:hidden">Mensuelle</span>
           </button>
           <button
             onClick={() => setTransactionType('location-journaliere')}
-            className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
+            className={`min-w-0 px-2 py-3 sm:py-4 text-[11px] sm:text-sm font-semibold leading-tight transition-colors rounded-sm sm:rounded-none ${
               transactionType === 'location-journaliere'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
@@ -297,7 +318,34 @@ export default function PropertySearchFilter() {
                         onChange={(e) => handleFilterChange('endDate', e.target.value)}
                         className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
                       />
-                      {stayDays && <p className="text-xs text-slate-500 mt-2">Duree estimee: {stayDays} jour(s)</p>}
+                      {stayDaysFromDates && <p className="text-xs text-slate-500 mt-2">Duree estimee: {stayDaysFromDates} jour(s)</p>}
+                    </div>
+
+                    <div className="min-w-0">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Nombre de jours
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        placeholder="Ex: 3"
+                        value={filters.stayDays}
+                        onChange={(e) => handleFilterChange('stayDays', e.target.value)}
+                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      />
+                    </div>
+
+                    <div className="min-w-0 sm:col-span-2 lg:col-span-3 rounded-lg border border-rose-100 bg-rose-50 p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-rose-700 mb-1">Estimation rapide</p>
+                      <p className="text-sm text-slate-700">
+                        Total sejour ({effectiveStayDays || 0} jour(s)):
+                        {" "}
+                        {estimatedMinTotal ? `${estimatedMinTotal.toLocaleString()} FCFA` : "-"}
+                        {" "}
+                        a
+                        {" "}
+                        {estimatedMaxTotal ? `${estimatedMaxTotal.toLocaleString()} FCFA` : "-"}
+                      </p>
                     </div>
                   </>
                 ) : (

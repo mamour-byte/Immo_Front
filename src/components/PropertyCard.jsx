@@ -59,8 +59,19 @@ export default function PropertyCard({ property, view = "grid" }) {
     .filter(Boolean)
     .join(", ");
   const statusLabel = STATUS_LABEL[property?.status] || property?.status || null;
-  const purposeLabel = PURPOSE_LABEL[property?.purpose] || null;
-  const priceText = formatNumber(property?.price) ? `${formatNumber(property?.price)} FCFA` : "-";
+  const purposeLabel =
+    property?.purpose === "LOCATION"
+      ? property?.rentalMode === "DAILY"
+        ? "Location journaliere"
+        : "Location mensuelle"
+      : PURPOSE_LABEL[property?.purpose] || null;
+  const priceSuffix =
+    property?.purpose === "LOCATION"
+      ? property?.rentalMode === "DAILY"
+        ? " / jour"
+        : " / mois"
+      : "";
+  const priceText = formatNumber(property?.price) ? `${formatNumber(property?.price)} FCFA${priceSuffix}` : "-";
 
   if (view === "list") {
     return (
@@ -189,7 +200,7 @@ export default function PropertyCard({ property, view = "grid" }) {
 
         <div className="flex flex-wrap items-center justify-between gap-2 mt-auto pt-2">
           <p className="text-base sm:text-xl font-bold text-rose-500 truncate min-w-0">
-            {(property?.price ?? 0).toLocaleString()} FCFA
+            {(property?.price ?? 0).toLocaleString()} FCFA{priceSuffix}
           </p>
 
           <Link

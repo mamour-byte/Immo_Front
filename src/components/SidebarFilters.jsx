@@ -18,6 +18,7 @@ export default function SidebarFilters({ onFiltersChange }) {
     guests: '',
     startDate: '',
     endDate: '',
+    stayDays: '',
     region: '',
     city: '',
   });
@@ -31,7 +32,7 @@ export default function SidebarFilters({ onFiltersChange }) {
 
   const isDailyRental = filters.transactionType === 'location-journaliere';
 
-  const stayDays = useMemo(() => {
+  const stayDaysFromDates = useMemo(() => {
     if (!filters.startDate || !filters.endDate) return null;
     const start = new Date(filters.startDate);
     const end = new Date(filters.endDate);
@@ -40,6 +41,21 @@ export default function SidebarFilters({ onFiltersChange }) {
     const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
     return days > 0 ? days : null;
   }, [filters.startDate, filters.endDate]);
+
+  useEffect(() => {
+    if (!stayDaysFromDates) return;
+    setFilters((prev) =>
+      String(prev.stayDays || "") === String(stayDaysFromDates)
+        ? prev
+        : { ...prev, stayDays: String(stayDaysFromDates) },
+    );
+  }, [stayDaysFromDates]);
+
+  const effectiveStayDays = Number(filters.stayDays) > 0 ? Number(filters.stayDays) : stayDaysFromDates;
+  const estimatedMinTotal =
+    effectiveStayDays && Number(filters.minPrice) > 0 ? Number(filters.minPrice) * effectiveStayDays : null;
+  const estimatedMaxTotal =
+    effectiveStayDays && Number(filters.maxPrice) > 0 ? Number(filters.maxPrice) * effectiveStayDays : null;
 
   const handleFilterChange = (field, value) => {
     setFilters((prev) => ({ ...prev, [field]: value }));
@@ -58,6 +74,7 @@ export default function SidebarFilters({ onFiltersChange }) {
       guests: '',
       startDate: '',
       endDate: '',
+      stayDays: '',
       region: '',
       city: '',
     };
@@ -79,6 +96,12 @@ export default function SidebarFilters({ onFiltersChange }) {
     if (onFiltersChange) {
       onFiltersChange({
         ...filters,
+        rentalMode:
+          filters.transactionType === 'location-journaliere'
+            ? 'DAILY'
+            : filters.transactionType === 'location'
+              ? 'MONTHLY'
+              : '',
         cityId: selectedCityId,
         districtId: selectedDistrictId,
       });
@@ -90,7 +113,7 @@ export default function SidebarFilters({ onFiltersChange }) {
     <>
       <button
         onClick={() => setIsOpen(!isOpen)}
-        className="lg:hidden fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 sm:right-6 z-50 bg-slate-900 text-white p-3.5 sm:p-4 rounded-full shadow-lg hover:bg-slate-800 transition-colors touch-manipulation"
+        className="lg:hidden fixed top-[max(4.5rem,env(safe-area-inset-top))] left-4 z-50 bg-slate-900 text-white p-3.5 rounded-full shadow-lg hover:bg-slate-800 transition-colors touch-manipulation"
         aria-label={isOpen ? 'Fermer les filtres' : 'Ouvrir les filtres'}
       >
         <SlidersHorizontal size={22} className="sm:w-6 sm:h-6" />
@@ -130,7 +153,7 @@ export default function SidebarFilters({ onFiltersChange }) {
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Transaction
             </label>
-            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
+            <div className="grid grid-cols-2 sm:grid-cols-4 gap-1.5 sm:gap-2">
               <button
                 onClick={() => handleFilterChange('transactionType', '')}
                 className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
@@ -157,7 +180,7 @@ export default function SidebarFilters({ onFiltersChange }) {
                     : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
                 }`}
               >
-                Location
+                Mensuelle
               </button>
               <button
                 onClick={() => handleFilterChange('transactionType', 'location-journaliere')}
@@ -298,7 +321,34 @@ export default function SidebarFilters({ onFiltersChange }) {
                   onChange={(e) => handleFilterChange('endDate', e.target.value)}
                   className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
                 />
-                {stayDays && <p className="mt-2 text-xs text-slate-500">Duree estimee: {stayDays} jour(s)</p>}
+                {stayDaysFromDates && <p className="mt-2 text-xs text-slate-500">Duree estimee: {stayDaysFromDates} jour(s)</p>}
+              </div>
+
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Nombre de jours
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Ex: 3"
+                  value={filters.stayDays}
+                  onChange={(e) => handleFilterChange('stayDays', e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                />
+              </div>
+
+              <div className="rounded-lg border border-rose-100 bg-rose-50 p-3">
+                <p className="text-xs font-semibold uppercase tracking-wide text-rose-700 mb-1">Estimation rapide</p>
+                <p className="text-sm text-slate-700">
+                  Total sejour ({effectiveStayDays || 0} jour(s)):
+                  {" "}
+                  {estimatedMinTotal ? `${estimatedMinTotal.toLocaleString()} FCFA` : "-"}
+                  {" "}
+                  a
+                  {" "}
+                  {estimatedMaxTotal ? `${estimatedMaxTotal.toLocaleString()} FCFA` : "-"}
+                </p>
               </div>
             </>
           ) : (
