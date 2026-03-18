@@ -239,9 +239,9 @@ export default function AgentApply() {
             >
               {step === 1 && (
                 <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
-                  <Field icon={FiUser} label="Prénom" name="firstName" value={form.firstName} onChange={onChange} required placeholder="Jean" />
-                  <Field icon={FiUser} label="Nom" name="lastName" value={form.lastName} onChange={onChange} required placeholder="Dupont" />
-                  <Field icon={FiMail} label="Email" name="email" type="email" value={form.email} onChange={onChange} required placeholder="jean@email.com" />
+                  <Field icon={FiUser} label="Prénom" name="firstName" value={form.firstName} onChange={onChange} required placeholder="Ismael" />
+                  <Field icon={FiUser} label="Nom" name="lastName" value={form.lastName} onChange={onChange} required placeholder="Diop" />
+                  <Field icon={FiMail} label="Email" name="email" type="email" value={form.email} onChange={onChange} required placeholder="ismaeldiop@email.com" />
                   <Field icon={FiPhone} label="Téléphone" name="phone" value={form.phone} onChange={onChange} required placeholder="+221 77 000 0000" />
                   <Field icon={FiMapPin} label="Ville" name="city" value={form.city} onChange={onChange} required placeholder="Dakar" />
                   <Field icon={FiMapPin} label="Adresse" name="address" value={form.address} onChange={onChange} required placeholder="Rue, Quartier" />

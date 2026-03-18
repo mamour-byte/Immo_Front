@@ -16,6 +16,15 @@ export function useUsers() {
   });
 }
 
+export function useUserDetails(userId) {
+  return useQuery({
+    queryKey: ["admin-user-details", userId],
+    queryFn: () => api.fetchUserById(userId),
+    enabled: Boolean(userId),
+    staleTime: 10_000,
+  });
+}
+
 export function useUpdateUser() {
   const qc = useQueryClient();
   return useMutation({

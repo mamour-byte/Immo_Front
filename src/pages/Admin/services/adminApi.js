@@ -37,6 +37,11 @@ export async function fetchUsers() {
   return res.data;
 }
 
+export async function fetchUserById(id) {
+  const res = await api.get(`/users/${id}`);
+  return res.data;
+}
+
 export async function updateUser(id, payload) {
   const res = await api.patch(`/users/${id}`, payload);
   return res.data;
