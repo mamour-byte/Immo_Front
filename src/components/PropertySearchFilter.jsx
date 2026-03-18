@@ -16,12 +16,16 @@ export default function PropertySearchFilter() {
     maxSurface: '',
     bedrooms: '',
     bathrooms: '',
-    rooms: ''
+    rooms: '',
+    guests: '',
+    startDate: '',
+    endDate: '',
   });
   // Ajouts dynamiques cities/districts
   const [cities, setCities] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
+  const isDailyRental = transactionType === 'location-journaliere';
 
   useEffect(() => {
     fetch('https://immo-backend-b2x5.onrender.com/cities')
@@ -41,11 +45,17 @@ export default function PropertySearchFilter() {
     if (selectedDistrictId) params.append('districtId', selectedDistrictId);
     if (filters.minPrice) params.append('minPrice', filters.minPrice);
     if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
-    if (filters.minSurface) params.append('minSurface', filters.minSurface);
-    if (filters.maxSurface) params.append('maxSurface', filters.maxSurface);
-    if (filters.bedrooms) params.append('bedrooms', filters.bedrooms);
-    if (filters.bathrooms) params.append('bathrooms', filters.bathrooms);
-    if (filters.rooms) params.append('rooms', filters.rooms);
+    if (isDailyRental) {
+      if (filters.guests) params.append('guests', filters.guests);
+      if (filters.startDate) params.append('startDate', filters.startDate);
+      if (filters.endDate) params.append('endDate', filters.endDate);
+    } else {
+      if (filters.minSurface) params.append('minSurface', filters.minSurface);
+      if (filters.maxSurface) params.append('maxSurface', filters.maxSurface);
+      if (filters.bedrooms) params.append('bedrooms', filters.bedrooms);
+      if (filters.bathrooms) params.append('bathrooms', filters.bathrooms);
+      if (filters.rooms) params.append('rooms', filters.rooms);
+    }
     
     // Naviguer vers la page de recherche avec les paramètres
     navigate(`/search?${params.toString()}`);
@@ -66,11 +76,24 @@ export default function PropertySearchFilter() {
       maxSurface: '',
       bedrooms: '',
       bathrooms: '',
-      rooms: ''
+      rooms: '',
+      guests: '',
+      startDate: '',
+      endDate: '',
     });
     setSelectedCityId('');
     setSelectedDistrictId('');
   };
+
+  const stayDays = (() => {
+    if (!filters.startDate || !filters.endDate) return null;
+    const start = new Date(filters.startDate);
+    const end = new Date(filters.endDate);
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return null;
+    const ms = end.getTime() - start.getTime();
+    const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
+    return days > 0 ? days : null;
+  })();
 
   return (
     <div className="w-full max-w-7xl mx-auto px-3 sm:p-4">
@@ -99,15 +122,15 @@ export default function PropertySearchFilter() {
             Location
           </button>
           <button
-            onClick={() => setTransactionType('location-saisonniere')}
+            onClick={() => setTransactionType('location-journaliere')}
             className={`flex-1 min-w-0 py-3 sm:py-4 text-xs sm:text-sm font-semibold uppercase tracking-wide transition-colors ${
-              transactionType === 'location-saisonniere'
+              transactionType === 'location-journaliere'
                 ? 'bg-white text-rose-500 border-b-2 border-rose-500'
                 : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
             }`}
           >
-            <span className="hidden sm:inline">Location Saisonnière</span>
-            <span className="sm:hidden">Saisonnière</span>
+            <span className="hidden sm:inline">Location Journaliere</span>
+            <span className="sm:hidden">Journaliere</span>
           </button>
         </div>
 
@@ -235,90 +258,136 @@ export default function PropertySearchFilter() {
                   </div>
                 </div>
 
-                {/* Surface */}
-                <div className="min-w-0">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                    Surface (m²)
-                  </label>
-                  <div className="flex items-center space-x-2">
-                    <input
-                      type="number"
-                      placeholder="Min"
-                      value={filters.minSurface}
-                      onChange={(e) => handleFilterChange('minSurface', e.target.value)}
-                      className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                    />
-                    <span className="text-slate-400 flex-shrink-0">-</span>
-                    <input
-                      type="number"
-                      placeholder="Max"
-                      value={filters.maxSurface}
-                      onChange={(e) => handleFilterChange('maxSurface', e.target.value)}
-                      className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
-                    />
-                  </div>
-                </div>
+                {isDailyRental ? (
+                  <>
+                    <div className="min-w-0">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Nombre de personnes
+                      </label>
+                      <input
+                        type="number"
+                        min="1"
+                        placeholder="Ex: 2"
+                        value={filters.guests}
+                        onChange={(e) => handleFilterChange('guests', e.target.value)}
+                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      />
+                    </div>
 
-                {/* Chambres */}
-                <div className="relative">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                    Chambres
-                  </label>
-                  <select
-                    value={filters.bedrooms}
-                    onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
-                  >
-                    <option value="">Indifférent</option>
-                    <option value="1">1+</option>
-                    <option value="2">2+</option>
-                    <option value="3">3+</option>
-                    <option value="4">4+</option>
-                    <option value="5">5+</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
-                </div>
+                    <div className="min-w-0">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Date de debut
+                      </label>
+                      <input
+                        type="date"
+                        value={filters.startDate}
+                        onChange={(e) => handleFilterChange('startDate', e.target.value)}
+                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      />
+                    </div>
 
-                {/* Salles de bains */}
-                <div className="relative">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                    Salles de bains
-                  </label>
-                  <select
-                    value={filters.bathrooms}
-                    onChange={(e) => handleFilterChange('bathrooms', e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
-                  >
-                    <option value="">Indifférent</option>
-                    <option value="1">1+</option>
-                    <option value="2">2+</option>
-                    <option value="3">3+</option>
-                    <option value="4">4+</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
-                </div>
+                    <div className="min-w-0">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Date de fin
+                      </label>
+                      <input
+                        type="date"
+                        min={filters.startDate || undefined}
+                        value={filters.endDate}
+                        onChange={(e) => handleFilterChange('endDate', e.target.value)}
+                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      />
+                      {stayDays && <p className="text-xs text-slate-500 mt-2">Duree estimee: {stayDays} jour(s)</p>}
+                    </div>
+                  </>
+                ) : (
+                  <>
+                    {/* Surface */}
+                    <div className="min-w-0">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Surface (m2)
+                      </label>
+                      <div className="flex items-center space-x-2">
+                        <input
+                          type="number"
+                          placeholder="Min"
+                          value={filters.minSurface}
+                          onChange={(e) => handleFilterChange('minSurface', e.target.value)}
+                          className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        />
+                        <span className="text-slate-400 flex-shrink-0">-</span>
+                        <input
+                          type="number"
+                          placeholder="Max"
+                          value={filters.maxSurface}
+                          onChange={(e) => handleFilterChange('maxSurface', e.target.value)}
+                          className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        />
+                      </div>
+                    </div>
 
-                {/* Pièces */}
-                <div className="relative">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-                    Pièces
-                  </label>
-                  <select
-                    value={filters.rooms}
-                    onChange={(e) => handleFilterChange('rooms', e.target.value)}
-                    className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
-                  >
-                    <option value="">Indifférent</option>
-                    <option value="2">2+</option>
-                    <option value="3">3+</option>
-                    <option value="4">4+</option>
-                    <option value="5">5+</option>
-                    <option value="6">6+</option>
-                  </select>
-                  <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
-                </div>
+                    {/* Chambres */}
+                    <div className="relative">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Chambres
+                      </label>
+                      <select
+                        value={filters.bedrooms}
+                        onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                      >
+                        <option value="">Indifferent</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                      </select>
+                      <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+                    </div>
 
-                {/* Réinitialiser */}
+                    {/* Salles de bains */}
+                    <div className="relative">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Salles de bains
+                      </label>
+                      <select
+                        value={filters.bathrooms}
+                        onChange={(e) => handleFilterChange('bathrooms', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                      >
+                        <option value="">Indifferent</option>
+                        <option value="1">1+</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                      </select>
+                      <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+                    </div>
+
+                    {/* Pieces */}
+                    <div className="relative">
+                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                        Pieces
+                      </label>
+                      <select
+                        value={filters.rooms}
+                        onChange={(e) => handleFilterChange('rooms', e.target.value)}
+                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                      >
+                        <option value="">Indifferent</option>
+                        <option value="2">2+</option>
+                        <option value="3">3+</option>
+                        <option value="4">4+</option>
+                        <option value="5">5+</option>
+                        <option value="6">6+</option>
+                      </select>
+                      <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+                    </div>
+                  </>
+                )}
+
+                {/* Reinitialiser */}
                 <div className="flex items-end">
                   <button
                     onClick={resetFilters}
@@ -346,3 +415,7 @@ export default function PropertySearchFilter() {
     </div>
   );
 }
+
+
+
+

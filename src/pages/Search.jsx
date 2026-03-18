@@ -25,7 +25,10 @@ export default function Search() {
     bedrooms: searchParams.get('bedrooms') || "",
     bathrooms: searchParams.get('bathrooms') || "",
     cityId: searchParams.get('cityId') || "",
-    districtId: searchParams.get('districtId') || ""
+    districtId: searchParams.get('districtId') || "",
+    guests: searchParams.get('guests') || "",
+    startDate: searchParams.get('startDate') || "",
+    endDate: searchParams.get('endDate') || "",
   });
 
   // Mettre à jour les filtres si les query parameters changent
@@ -40,7 +43,10 @@ export default function Search() {
       bedrooms: searchParams.get('bedrooms') || "",
       bathrooms: searchParams.get('bathrooms') || "",
       cityId: searchParams.get('cityId') || "",
-      districtId: searchParams.get('districtId') || ""
+      districtId: searchParams.get('districtId') || "",
+      guests: searchParams.get('guests') || "",
+      startDate: searchParams.get('startDate') || "",
+      endDate: searchParams.get('endDate') || "",
     });
   }, [searchParams]);
 

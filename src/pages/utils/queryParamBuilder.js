@@ -4,6 +4,9 @@ export function mapTransactionType(type) {
   const mapping = {
     achat: "VENTE",
     location: "LOCATION",
+    "location-journaliere": "LOCATION",
+    "location_journaliere": "LOCATION",
+    journaliere: "LOCATION",
   };
 
   if (["VENTE", "LOCATION"].includes(type.toUpperCase())) {
@@ -35,14 +38,14 @@ export function mapPropertyType(type) {
 
 export function buildPropertyQuery(filters = {}, sortBy) {
   const params = {};
+  const isDailyRental = String(filters.transactionType || "").toLowerCase() === "location-journaliere";
 
   if (filters.transactionType) params.purpose = mapTransactionType(filters.transactionType);
   if (filters.propertyType) params.type = mapPropertyType(filters.propertyType);
 
-  const numeric = [
-    "minPrice", "maxPrice", "minSurface", "maxSurface",
-    "bedrooms", "bathrooms", "cityId", "districtId"
-  ];
+  const numeric = isDailyRental
+    ? ["minPrice", "maxPrice", "cityId", "districtId"]
+    : ["minPrice", "maxPrice", "minSurface", "maxSurface", "bedrooms", "bathrooms", "cityId", "districtId"];
 
   for (const key of numeric) {
     const raw = filters[key];

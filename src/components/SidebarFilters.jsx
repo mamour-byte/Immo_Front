@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useEffect, useMemo, useState } from 'react';
 import { ChevronDown, X, SlidersHorizontal } from 'lucide-react';
 
 export default function SidebarFilters({ onFiltersChange }) {
@@ -7,7 +7,7 @@ export default function SidebarFilters({ onFiltersChange }) {
   const [selectedCityId, setSelectedCityId] = useState('');
   const [selectedDistrictId, setSelectedDistrictId] = useState('');
   const [filters, setFilters] = useState({
-    transactionType: '', // Vide par défaut pour afficher toutes les propriétés
+    transactionType: '',
     propertyType: '',
     minPrice: '',
     maxPrice: '',
@@ -15,24 +15,39 @@ export default function SidebarFilters({ onFiltersChange }) {
     maxSurface: '',
     bedrooms: '',
     bathrooms: '',
+    guests: '',
+    startDate: '',
+    endDate: '',
     region: '',
-    city: ''
+    city: '',
   });
-  
+
   useEffect(() => {
     fetch('https://immo-backend-b2x5.onrender.com/cities')
-      .then(res => res.json())
+      .then((res) => res.json())
       .then(setCities)
       .catch(console.error);
   }, []);
 
+  const isDailyRental = filters.transactionType === 'location-journaliere';
+
+  const stayDays = useMemo(() => {
+    if (!filters.startDate || !filters.endDate) return null;
+    const start = new Date(filters.startDate);
+    const end = new Date(filters.endDate);
+    if (Number.isNaN(start.getTime()) || Number.isNaN(end.getTime())) return null;
+    const ms = end.getTime() - start.getTime();
+    const days = Math.ceil(ms / (1000 * 60 * 60 * 24));
+    return days > 0 ? days : null;
+  }, [filters.startDate, filters.endDate]);
+
   const handleFilterChange = (field, value) => {
-    setFilters(prev => ({ ...prev, [field]: value }));
+    setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
   const resetFilters = () => {
     const resetFiltersState = {
-      transactionType: '', // Réinitialiser à vide pour afficher toutes les propriétés
+      transactionType: '',
       propertyType: '',
       minPrice: '',
       maxPrice: '',
@@ -40,19 +55,22 @@ export default function SidebarFilters({ onFiltersChange }) {
       maxSurface: '',
       bedrooms: '',
       bathrooms: '',
+      guests: '',
+      startDate: '',
+      endDate: '',
       region: '',
-      city: ''
+      city: '',
     };
+
     setFilters(resetFiltersState);
     setSelectedCityId('');
     setSelectedDistrictId('');
-    
-    // Appliquer les filtres réinitialisés
+
     if (onFiltersChange) {
       onFiltersChange({
         ...resetFiltersState,
         cityId: '',
-        districtId: ''
+        districtId: '',
       });
     }
   };
@@ -62,15 +80,14 @@ export default function SidebarFilters({ onFiltersChange }) {
       onFiltersChange({
         ...filters,
         cityId: selectedCityId,
-        districtId: selectedDistrictId
+        districtId: selectedDistrictId,
       });
     }
-    setIsOpen(false); // close drawer on mobile after applying
+    setIsOpen(false);
   };
 
   return (
     <>
-      {/* Bouton mobile pour ouvrir/fermer */}
       <button
         onClick={() => setIsOpen(!isOpen)}
         className="lg:hidden fixed bottom-[max(1rem,env(safe-area-inset-bottom))] right-4 sm:right-6 z-50 bg-slate-900 text-white p-3.5 sm:p-4 rounded-full shadow-lg hover:bg-slate-800 transition-colors touch-manipulation"
@@ -79,27 +96,23 @@ export default function SidebarFilters({ onFiltersChange }) {
         <SlidersHorizontal size={22} className="sm:w-6 sm:h-6" />
       </button>
 
-      {/* Overlay mobile */}
       {isOpen && (
-        <div 
+        <div
           className="lg:hidden fixed inset-0 bg-black/50 z-40 transition-opacity"
           onClick={() => setIsOpen(false)}
         />
       )}
 
-      {/* Sidebar */}
       <aside
         className={`
-          fixed lg:sticky top-0 lg:top-20 left-0 h-full lg:h-[calc(100vh-5rem)] 
-          w-[min(320px,100vw-2rem)] max-w-full lg:w-80 bg-white border-r border-slate-200 
+          fixed lg:sticky top-0 lg:top-20 left-0 h-full lg:h-[calc(100vh-5rem)]
+          w-[min(320px,100vw-2rem)] max-w-full lg:w-80 bg-white border-r border-slate-200
           overflow-y-auto z-50 transition-transform duration-300 ease-out
           shadow-xl lg:shadow-none
           ${isOpen ? 'translate-x-0' : '-translate-x-full lg:translate-x-0'}
         `}
       >
         <div className="p-4 sm:p-6 space-y-5 sm:space-y-6">
-          
-          {/* Header */}
           <div className="flex items-center justify-between pb-4 border-b border-slate-200">
             <div className="flex items-center gap-2">
               <SlidersHorizontal size={20} className="text-slate-700" />
@@ -113,25 +126,22 @@ export default function SidebarFilters({ onFiltersChange }) {
             </button>
           </div>
 
-          {/* Type de transaction */}
           <div>
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Transaction
             </label>
-            <div className="grid grid-cols-3 gap-1.5 sm:gap-2">
+            <div className="grid grid-cols-4 gap-1.5 sm:gap-2">
               <button
                 onClick={() => handleFilterChange('transactionType', '')}
-                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
-                  !filters.transactionType || filters.transactionType === ''
-                    ? 'bg-slate-900 text-white'
-                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+                  !filters.transactionType ? 'bg-slate-900 text-white' : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
                 }`}
               >
                 Tous
               </button>
               <button
                 onClick={() => handleFilterChange('transactionType', 'achat')}
-                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                   filters.transactionType === 'achat'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
@@ -141,7 +151,7 @@ export default function SidebarFilters({ onFiltersChange }) {
               </button>
               <button
                 onClick={() => handleFilterChange('transactionType', 'location')}
-                className={`py-2.5 px-4 rounded-lg text-sm font-medium transition-all ${
+                className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
                   filters.transactionType === 'location'
                     ? 'bg-slate-900 text-white'
                     : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
@@ -149,10 +159,19 @@ export default function SidebarFilters({ onFiltersChange }) {
               >
                 Location
               </button>
+              <button
+                onClick={() => handleFilterChange('transactionType', 'location-journaliere')}
+                className={`py-2.5 px-2 rounded-lg text-xs sm:text-sm font-medium transition-all ${
+                  filters.transactionType === 'location-journaliere'
+                    ? 'bg-slate-900 text-white'
+                    : 'bg-slate-50 text-slate-600 hover:bg-slate-100'
+                }`}
+              >
+                Journaliere
+              </button>
             </div>
           </div>
 
-          {/* Type de bien */}
           <div className="relative">
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Type de bien
@@ -172,15 +191,13 @@ export default function SidebarFilters({ onFiltersChange }) {
             <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
           </div>
 
-
-          {/* Ville */}
           <div className="relative">
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Ville
             </label>
             <select
               value={selectedCityId}
-              onChange={e => {
+              onChange={(e) => {
                 setSelectedCityId(e.target.value);
                 setSelectedDistrictId('');
                 handleFilterChange('city', e.target.value);
@@ -188,34 +205,37 @@ export default function SidebarFilters({ onFiltersChange }) {
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
             >
               <option value="">Toutes les villes</option>
-              {cities.map(city => (
-                <option key={city.id} value={city.id}>{city.name}</option>
+              {cities.map((city) => (
+                <option key={city.id} value={city.id}>
+                  {city.name}
+                </option>
               ))}
             </select>
             <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
           </div>
-          {/* Nouveau SELECT quartiers */}
+
           <div className="relative">
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Quartier
             </label>
             <select
               value={selectedDistrictId}
-              onChange={e => {
+              onChange={(e) => {
                 setSelectedDistrictId(e.target.value);
                 handleFilterChange('district', e.target.value);
               }}
               className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
             >
               <option value="">Tous les quartiers</option>
-              {cities.find(c => String(c.id) === String(selectedCityId))?.districts.map(d => (
-                <option key={d.id} value={d.id}>{d.name}</option>
+              {cities.find((c) => String(c.id) === String(selectedCityId))?.districts.map((d) => (
+                <option key={d.id} value={d.id}>
+                  {d.name}
+                </option>
               ))}
             </select>
             <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
           </div>
 
-          {/* Prix */}
           <div>
             <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
               Budget (FCFA)
@@ -239,70 +259,112 @@ export default function SidebarFilters({ onFiltersChange }) {
             </div>
           </div>
 
-          {/* Surface */}
-          <div>
-            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-              Surface (m²)
-            </label>
-            <div className="flex items-center gap-2">
-              <input
-                type="number"
-                placeholder="Min"
-                value={filters.minSurface}
-                onChange={(e) => handleFilterChange('minSurface', e.target.value)}
-                className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-              />
-              <span className="text-slate-400">-</span>
-              <input
-                type="number"
-                placeholder="Max"
-                value={filters.maxSurface}
-                onChange={(e) => handleFilterChange('maxSurface', e.target.value)}
-                className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
-              />
-            </div>
-          </div>
+          {isDailyRental ? (
+            <>
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Nombre de personnes
+                </label>
+                <input
+                  type="number"
+                  min="1"
+                  placeholder="Ex: 2"
+                  value={filters.guests}
+                  onChange={(e) => handleFilterChange('guests', e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                />
+              </div>
 
-          {/* Chambres */}
-          <div className="relative">
-            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-              Chambres
-            </label>
-            <select
-              value={filters.bedrooms}
-              onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
-            >
-              <option value="">Indifférent</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-              <option value="5">5+</option>
-            </select>
-            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
-          </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Date de debut
+                </label>
+                <input
+                  type="date"
+                  value={filters.startDate}
+                  onChange={(e) => handleFilterChange('startDate', e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                />
+              </div>
 
-          {/* Salles de bains */}
-          <div className="relative">
-            <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
-              Salles de bains
-            </label>
-            <select
-              value={filters.bathrooms}
-              onChange={(e) => handleFilterChange('bathrooms', e.target.value)}
-              className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
-            >
-              <option value="">Indifférent</option>
-              <option value="1">1+</option>
-              <option value="2">2+</option>
-              <option value="3">3+</option>
-              <option value="4">4+</option>
-            </select>
-            <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
-          </div>
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Date de fin
+                </label>
+                <input
+                  type="date"
+                  min={filters.startDate || undefined}
+                  value={filters.endDate}
+                  onChange={(e) => handleFilterChange('endDate', e.target.value)}
+                  className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                />
+                {stayDays && <p className="mt-2 text-xs text-slate-500">Duree estimee: {stayDays} jour(s)</p>}
+              </div>
+            </>
+          ) : (
+            <>
+              <div>
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Surface (m2)
+                </label>
+                <div className="flex items-center gap-2">
+                  <input
+                    type="number"
+                    placeholder="Min"
+                    value={filters.minSurface}
+                    onChange={(e) => handleFilterChange('minSurface', e.target.value)}
+                    className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                  />
+                  <span className="text-slate-400">-</span>
+                  <input
+                    type="number"
+                    placeholder="Max"
+                    value={filters.maxSurface}
+                    onChange={(e) => handleFilterChange('maxSurface', e.target.value)}
+                    className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                  />
+                </div>
+              </div>
 
-          {/* Boutons d'action */}
+              <div className="relative">
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Chambres
+                </label>
+                <select
+                  value={filters.bedrooms}
+                  onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+                >
+                  <option value="">Indifferent</option>
+                  <option value="1">1+</option>
+                  <option value="2">2+</option>
+                  <option value="3">3+</option>
+                  <option value="4">4+</option>
+                  <option value="5">5+</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+              </div>
+
+              <div className="relative">
+                <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  Salles de bains
+                </label>
+                <select
+                  value={filters.bathrooms}
+                  onChange={(e) => handleFilterChange('bathrooms', e.target.value)}
+                  className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer transition-all"
+                >
+                  <option value="">Indifferent</option>
+                  <option value="1">1+</option>
+                  <option value="2">2+</option>
+                  <option value="3">3+</option>
+                  <option value="4">4+</option>
+                </select>
+                <ChevronDown className="absolute right-3 top-11 text-slate-400 pointer-events-none" size={18} />
+              </div>
+            </>
+          )}
+
           <div className="pt-4 space-y-3 border-t border-slate-200">
             <button
               onClick={applyFilters}
@@ -314,7 +376,7 @@ export default function SidebarFilters({ onFiltersChange }) {
               onClick={resetFilters}
               className="w-full border-2 border-slate-300 text-slate-600 py-3 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
             >
-              Réinitialiser
+              Reinitialiser
             </button>
           </div>
         </div>
