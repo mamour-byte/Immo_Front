@@ -1,5 +1,6 @@
 import React, { useEffect, useMemo, useState } from 'react';
 import { ChevronDown, X, SlidersHorizontal } from 'lucide-react';
+import { trackEvent } from '../lib/analytics';
 
 export default function SidebarFilters({ onFiltersChange }) {
   const [isOpen, setIsOpen] = useState(false);
@@ -61,6 +62,16 @@ export default function SidebarFilters({ onFiltersChange }) {
     setFilters((prev) => ({ ...prev, [field]: value }));
   };
 
+  const toggleDrawer = () => {
+    const nextOpen = !isOpen;
+    setIsOpen(nextOpen);
+    if (nextOpen) {
+      trackEvent('search_filters_opened', {
+        source: 'sidebar_mobile',
+      });
+    }
+  };
+
   const resetFilters = () => {
     const resetFiltersState = {
       transactionType: '',
@@ -90,29 +101,66 @@ export default function SidebarFilters({ onFiltersChange }) {
         districtId: '',
       });
     }
+
+    trackEvent('search_filters_reset', {
+      source: 'sidebar',
+    });
   };
 
   const applyFilters = () => {
+    const rentalMode =
+      filters.transactionType === 'location-journaliere'
+        ? 'DAILY'
+        : filters.transactionType === 'location'
+          ? 'MONTHLY'
+          : '';
+
     if (onFiltersChange) {
       onFiltersChange({
         ...filters,
-        rentalMode:
-          filters.transactionType === 'location-journaliere'
-            ? 'DAILY'
-            : filters.transactionType === 'location'
-              ? 'MONTHLY'
-              : '',
+        rentalMode,
         cityId: selectedCityId,
         districtId: selectedDistrictId,
       });
     }
+
+    const activeFiltersCount = Object.values({
+      transactionType: filters.transactionType,
+      propertyType: filters.propertyType,
+      minPrice: filters.minPrice,
+      maxPrice: filters.maxPrice,
+      minSurface: filters.minSurface,
+      maxSurface: filters.maxSurface,
+      bedrooms: filters.bedrooms,
+      bathrooms: filters.bathrooms,
+      guests: filters.guests,
+      startDate: filters.startDate,
+      endDate: filters.endDate,
+      stayDays: filters.stayDays,
+      cityId: selectedCityId,
+      districtId: selectedDistrictId,
+    }).filter(Boolean).length;
+
+    trackEvent('search_filters_applied', {
+      transaction_type: filters.transactionType || 'all',
+      property_type: filters.propertyType || 'all',
+      rental_mode: rentalMode || 'all',
+      city_id: selectedCityId || '',
+      district_id: selectedDistrictId || '',
+      has_budget: Boolean(filters.minPrice || filters.maxPrice),
+      has_surface: Boolean(filters.minSurface || filters.maxSurface),
+      guests: Number(filters.guests) || null,
+      stay_days: Number(filters.stayDays) || effectiveStayDays || null,
+      active_filters_count: activeFiltersCount,
+    });
+
     setIsOpen(false);
   };
 
   return (
     <>
       <button
-        onClick={() => setIsOpen(!isOpen)}
+        onClick={toggleDrawer}
         className="lg:hidden fixed top-[max(4.5rem,env(safe-area-inset-top))] left-4 z-50 bg-slate-900 text-white p-3.5 rounded-full shadow-lg hover:bg-slate-800 transition-colors touch-manipulation"
         aria-label={isOpen ? 'Fermer les filtres' : 'Ouvrir les filtres'}
       >

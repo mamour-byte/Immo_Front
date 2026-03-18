@@ -11,11 +11,15 @@ import Login from "./pages/login";
 import PrivateRoute from "./components/PrivateRoute";
 import AgentApply from "./pages/AgentApply";
 import Account from "./pages/Account";
+import AnalyticsRouteTracker from "./components/AnalyticsRouteTracker";
+import AnalyticsUserBootstrap from "./components/AnalyticsUserBootstrap";
 
 function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        <AnalyticsUserBootstrap />
+        <AnalyticsRouteTracker />
         <Routes>
         {/* Layout global */}
         <Route path="/" element={<Layout />}>

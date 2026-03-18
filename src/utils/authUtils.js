@@ -1,3 +1,5 @@
+import { resetAnalytics } from "../lib/analytics";
+
 // Durée de session en millisecondes (7 jours par défaut)
 const SESSION_TIMEOUT = 7 * 24 * 60 * 60 * 1000;
 
@@ -38,6 +40,7 @@ export function clearSession() {
   sessionStorage.removeItem("jwt");
   sessionStorage.removeItem("jwtTimestamp");
   sessionStorage.removeItem("user");
+  resetAnalytics();
 }
 
 /**

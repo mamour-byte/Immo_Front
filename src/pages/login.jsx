@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Link, useNavigate, useLocation } from 'react-router-dom';
 import { Mail, Lock, Eye, EyeOff, LogIn, AlertCircle } from 'lucide-react';
 import { API_URL } from './services/http';
+import { identifyUser, trackEvent } from '../lib/analytics';
 
 export default function AdminLoginPage() {
   const [formData, setFormData] = useState({ email: '', password: '' });
@@ -63,7 +64,12 @@ export default function AdminLoginPage() {
 
       if (!resp.ok) {
         const msg = data.message || "Echec de connexion";
-        setError(Array.isArray(msg) ? msg[0] : msg);
+        const errorMessage = Array.isArray(msg) ? msg[0] : msg;
+        trackEvent('auth_login_failed', {
+          reason: String(errorMessage),
+          status_code: resp.status,
+        });
+        setError(errorMessage);
         setIsLoading(false);
         return;
       }
@@ -72,7 +78,17 @@ export default function AdminLoginPage() {
       const user = data.user;
   
       if (token) {
-        const role = user?.role || decodeJwtPayload(token)?.role;
+        const decodedPayload = decodeJwtPayload(token);
+        const role = user?.role || decodedPayload?.role;
+        const distinctId = user?.id || decodedPayload?.sub;
+        identifyUser(distinctId, {
+          email: user?.email,
+          role: role || 'UNKNOWN',
+        });
+        trackEvent('auth_login_success', {
+          role: role || 'UNKNOWN',
+          remember_me: rememberMe,
+        });
         // Stocker le timestamp de connexion (en millisecondes)
         const loginTimestamp = Date.now();
         if (rememberMe) {
@@ -93,9 +109,15 @@ export default function AdminLoginPage() {
         if (role === 'ADMIN' || role === 'AGENT') navigate("/dashboard");
         else navigate("/account");
       } else {
+        trackEvent('auth_login_failed', {
+          reason: 'missing_token',
+        });
         setError("Token manquant dans la réponse serveur");
       }
     } catch (err) {
+      trackEvent('auth_login_failed', {
+        reason: 'network_or_server_error',
+      });
       setError("Erreur réseau ou serveur : " + err.message);
     }
     setIsLoading(false);

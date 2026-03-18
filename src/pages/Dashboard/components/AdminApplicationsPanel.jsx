@@ -1,5 +1,6 @@
 import React, { useMemo, useState } from "react";
 import { useAgentApplications, useApproveApplication, useRejectApplication } from "../../Admin/hooks/useAdmin";
+import { trackEvent } from "../../../lib/analytics";
 
 export default function AdminApplicationsPanel() {
   const [status, setStatus] = useState("PENDING");
@@ -14,13 +15,27 @@ export default function AdminApplicationsPanel() {
   );
 
   function handleApprove(id) {
-    const decisionNote = window.prompt("Message (optionnel) à envoyer à l'agent :", "");
-    approveMutation.mutate({ id, decisionNote: decisionNote || undefined });
+    const confirmed = window.confirm(
+      "Confirmer l'approbation de cette demande ? Un message automatique sera envoyé par email et/ou WhatsApp.",
+    );
+    if (!confirmed) return;
+    trackEvent("agent_application_review_action_clicked", {
+      action: "approve",
+      application_id: id,
+    });
+    approveMutation.mutate({ id });
   }
 
   function handleReject(id) {
-    const decisionNote = window.prompt("Raison / message (optionnel) :", "");
-    rejectMutation.mutate({ id, decisionNote: decisionNote || undefined });
+    const confirmed = window.confirm(
+      "Confirmer le refus de cette demande ? Un message automatique sera envoyé par email et/ou WhatsApp.",
+    );
+    if (!confirmed) return;
+    trackEvent("agent_application_review_action_clicked", {
+      action: "reject",
+      application_id: id,
+    });
+    rejectMutation.mutate({ id });
   }
 
   return (
@@ -193,4 +208,3 @@ export default function AdminApplicationsPanel() {
     </section>
   );
 }
-
