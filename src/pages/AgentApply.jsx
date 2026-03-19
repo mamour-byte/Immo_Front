@@ -1,8 +1,7 @@
-import React, { useEffect, useMemo, useState } from "react";
+import React, { useMemo, useState } from "react";
 import { Link, useNavigate } from "react-router-dom";
 import toast from "react-hot-toast";
 import { API_URL } from "./services/http";
-import { trackEvent } from "../lib/analytics";
 import {
   FiArrowLeft,
   FiArrowRight,
@@ -82,14 +81,6 @@ export default function AgentApply() {
   const isDeveloper = form.profileType === "DEVELOPER";
   const progressPct = useMemo(() => (step / STEPS.length) * 100, [step]);
 
-  useEffect(() => {
-    trackEvent("agent_apply_step_viewed", {
-      step,
-      step_label: STEPS.find((s) => s.id === step)?.label || "",
-      profile_type: form.profileType || "INDEPENDANT",
-    });
-  }, [step, form.profileType]);
-
   function onChange(e) {
     const { name, value, type, checked } = e.target;
     if (type === "checkbox") setForm(f => ({ ...f, [name]: checked }));
@@ -112,11 +103,6 @@ export default function AgentApply() {
   async function onSubmit(e) {
     e.preventDefault();
     setIsLoading(true);
-    trackEvent("agent_apply_submit_clicked", {
-      profile_type: form.profileType || "INDEPENDANT",
-      has_whatsapp: Boolean(form.whatsapp),
-      has_agency_name: Boolean(form.agencyName),
-    });
     try {
       const safeProfileType = form.profileType || "INDEPENDANT";
       const fd = new FormData();
@@ -129,29 +115,10 @@ export default function AgentApply() {
       Object.entries(files).forEach(([k, f]) => f && fd.append(k, f));
       const resp = await fetch(`${API_URL}/agent-applications/apply-full`, { method: "POST", body: fd });
       const data = await resp.json().catch(() => ({}));
-      if (!resp.ok) {
-        const message = Array.isArray(data?.message) ? data.message[0] : data?.message || "Erreur";
-        trackEvent("agent_apply_submit_failed", {
-          profile_type: safeProfileType,
-          reason: String(message),
-          status_code: resp.status,
-        });
-        toast.error(message);
-        setIsLoading(false);
-        return;
-      }
-      trackEvent("agent_apply_submitted", {
-        profile_type: safeProfileType,
-        has_whatsapp: Boolean(form.whatsapp),
-        has_website: Boolean(form.websiteUrl),
-      });
+      if (!resp.ok) { toast.error(Array.isArray(data?.message) ? data.message[0] : data?.message || "Erreur"); setIsLoading(false); return; }
       toast.success(data?.message || "Demande envoyée !");
       navigate("/login", { replace: true });
-    } catch (err) {
-      trackEvent("agent_apply_submit_failed", {
-        profile_type: form.profileType || "INDEPENDANT",
-        reason: "network_error",
-      });
+    } catch {
       toast.error("Erreur réseau");
     }
     setIsLoading(false);
@@ -475,7 +442,7 @@ function FileField({ label, name, onChange, required, accept, value }) {
           "transition cursor-pointer",
         ].join(" ")}
       >
-        <input type="file" name={name} onChange={onChange} required={required && !value} accept={accept} className="hidden" />
+        <input type="file" name={name} onChange={onChange} required={required} accept={accept} className="hidden" />
         <span className="flex items-center gap-3 min-w-0">
           <span className={["w-10 h-10 rounded-lg flex items-center justify-center", value ? "bg-rose-500 text-white" : "bg-white text-slate-700 border border-slate-200"].join(" ")}>
             <FiUploadCloud />
@@ -519,4 +486,4 @@ function Spinner() {
       aria-label="Chargement"
     />
   );
-}
+ }

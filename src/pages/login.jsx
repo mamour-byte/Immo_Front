@@ -16,6 +16,7 @@ export default function AdminLoginPage() {
   // Afficher un message si la session a expiré
   useEffect(() => {
     if (location.state?.sessionExpired) {
+      // eslint-disable-next-line react-hooks/set-state-in-effect
       setError('Votre session a expiré. Veuillez vous reconnecter.');
     }
   }, [location.state]);
@@ -58,7 +59,7 @@ export default function AdminLoginPage() {
       let data;
       try {
         data = await resp.json();
-      } catch (e) {
+      } catch {
         data = {};
       }
 

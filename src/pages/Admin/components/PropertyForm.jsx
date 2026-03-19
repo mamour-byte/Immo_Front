@@ -50,7 +50,13 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   useEffect(() => {
     return () => {
       previewsRef.current.forEach((p) => {
-        try { URL.revokeObjectURL(p.url); } catch {}
+        if (p?.url) {
+          try {
+            URL.revokeObjectURL(p.url);
+          } catch {
+            // ignore revoke errors on cleanup
+          }
+        }
       });
     };
   }, []);
@@ -89,7 +95,13 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
 
     // Eviter les leaks memoire (object URLs)
     filePreviewUrls.forEach((p) => {
-      try { URL.revokeObjectURL(p.url); } catch {}
+      if (p?.url) {
+        try {
+          URL.revokeObjectURL(p.url);
+        } catch {
+          // ignore revoke errors on change
+        }
+      }
     });
 
     setFileError("");
@@ -112,7 +124,11 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   function removeNewImage(idx) {
     const removed = filePreviewUrls[idx];
     if (removed?.url) {
-      try { URL.revokeObjectURL(removed.url); } catch {}
+      try {
+        URL.revokeObjectURL(removed.url);
+      } catch {
+        // ignore revoke errors on remove
+      }
     }
     const newPreviews = filePreviewUrls.filter((_, i) => i !== idx);
     const newFiles = files.filter((_, i) => i !== idx);

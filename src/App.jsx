@@ -46,3 +46,6 @@ function App() {
     </HelmetProvider>
   );
 }
+
+export default App;
+export { App };

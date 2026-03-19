@@ -5,7 +5,6 @@ import { Menu, X, Phone, MapPin, Mail, ChevronDown, User, LayoutDashboard } from
 export default function Layout() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
-    const [servicesDropdownOpen, setServicesDropdownOpen] = useState(false)
     const location = useLocation()
 
     useEffect(() => {
@@ -17,8 +16,8 @@ export default function Layout() {
     }, [])
 
     useEffect(() => {
+        // eslint-disable-next-line react-hooks/set-state-in-effect
         setMenuOpen(false)
-        setServicesDropdownOpen(false)
     }, [location])
 
     // Liens simples: la logique d'autorisation/redirect est gérée par PrivateRoute

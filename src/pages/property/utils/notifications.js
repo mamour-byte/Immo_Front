@@ -1,28 +1,26 @@
 // Utilitaires de notification
+import toast from 'react-hot-toast';
+
 export function showSuccess(message) {
-  // Intégration avec react-hot-toast si disponible
-  try {
-    const toast = require('react-hot-toast').default;
+  if (toast) {
     toast.success(message);
-  } catch {
+  } else {
     console.log('Success:', message);
   }
 }
 
 export function showError(message) {
-  try {
-    const toast = require('react-hot-toast').default;
+  if (toast) {
     toast.error(message);
-  } catch {
+  } else {
     console.error('Error:', message);
   }
 }
 
 export function showWarning(message) {
-  try {
-    const toast = require('react-hot-toast').default;
+  if (toast) {
     toast(message, { icon: '⚠️' });
-  } catch {
+  } else {
     console.warn('Warning:', message);
   }
 }

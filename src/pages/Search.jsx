@@ -37,6 +37,7 @@ export default function Search() {
 
   // Mettre à jour les filtres si les query parameters changent
   useEffect(() => {
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilters({
       transactionType: searchParams.get('transactionType') || "",
       propertyType: searchParams.get('propertyType') || "",

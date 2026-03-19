@@ -45,6 +45,7 @@ export default function SidebarFilters({ onFiltersChange }) {
 
   useEffect(() => {
     if (!stayDaysFromDates) return;
+    // eslint-disable-next-line react-hooks/set-state-in-effect
     setFilters((prev) =>
       String(prev.stayDays || "") === String(stayDaysFromDates)
         ? prev

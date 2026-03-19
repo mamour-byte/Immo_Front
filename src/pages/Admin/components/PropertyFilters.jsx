@@ -10,7 +10,9 @@ export default function PropertyFilters({ filters, setFilters }) {
   // local state mirroring filters to avoid too many updates
   const [local, setLocal] = useState(filters);
 
-  useEffect(() => setLocal(filters), [filters]);
+  useEffect(() => {
+    setLocal(filters);
+  }, [filters]);
 
   function apply() {
     setFilters(local);
