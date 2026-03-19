@@ -13,35 +13,36 @@ import AgentApply from "./pages/AgentApply";
 import Account from "./pages/Account";
 import AnalyticsRouteTracker from "./components/AnalyticsRouteTracker";
 import AnalyticsUserBootstrap from "./components/AnalyticsUserBootstrap";
+import { Analytics } from "@vercel/analytics/next";
 
 function App() {
   return (
     <HelmetProvider>
       <BrowserRouter>
+        {/* Initialisation Vercel Analytics */}
+        <Analytics />
+        
+        {/* Ton bootstrap / route tracker custom */}
         <AnalyticsUserBootstrap />
         <AnalyticsRouteTracker />
+        
         <Routes>
-        {/* Layout global */}
-        <Route path="/" element={<Layout />}>
-          {/* Pages enfants */}
-          <Route index element={<Home />} />          {/* page / */}
-          <Route path="search" element={<Search />} /> {/* page /search */}
-          <Route path="property/:id" element={<Property />} />       {/* page 404 */}
-          <Route path="contact" element={<Contact />} />       {/* page 404 */}
-          <Route path="build" element={<Build />} />       {/* page 404 */}
+          {/* Layout global */}
+          <Route path="/" element={<Layout />}>
+            <Route index element={<Home />} />
+            <Route path="search" element={<Search />} />
+            <Route path="property/:id" element={<Property />} />
+            <Route path="contact" element={<Contact />} />
+            <Route path="build" element={<Build />} />
             <Route path="dashboard" element={<PrivateRoute roles={['ADMIN','AGENT']}><Dashboard /></PrivateRoute>} />
-            {/* Aliases (compatibilitÃ©) */}
             <Route path="admin" element={<PrivateRoute roles={['ADMIN']}><Dashboard /></PrivateRoute>} />
             <Route path="admin/properties" element={<PrivateRoute roles={['ADMIN']}><Dashboard /></PrivateRoute>} />
             <Route path="account" element={<PrivateRoute roles={['USER','AGENT','ADMIN']}><Account /></PrivateRoute>} />
             <Route path="agent/apply" element={<AgentApply />} />
-          <Route path="login" element={<Login />} />       {/* page 404 */}
-      
-        </Route>
-      </Routes>
-    </BrowserRouter>
+            <Route path="login" element={<Login />} />
+          </Route>
+        </Routes>
+      </BrowserRouter>
     </HelmetProvider>
   );
 }
-
-export default App;
