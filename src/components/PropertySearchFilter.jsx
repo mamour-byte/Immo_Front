@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Search, Plus, X, ChevronDown } from 'lucide-react';
 import { useNavigate } from 'react-router-dom';
+import DistrictMultiSelect from './DistrictMultiSelect';
 
 export default function PropertySearchFilter() {
   const navigate = useNavigate();
@@ -23,6 +24,7 @@ export default function PropertySearchFilter() {
     stayDays: '',
   });
   // Ajouts dynamiques cities/districts
+  const [cities, setCities] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
   const [selectedDistrictIds, setSelectedDistrictIds] = useState([]);
   const isDailyRental = transactionType === 'location-journaliere';
@@ -205,7 +207,15 @@ export default function PropertySearchFilter() {
               <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
             </div>
             {/* Quartier dynamique */}
-            <div className="relative">
+            <DistrictMultiSelect
+              districts={cities.find(c => String(c.id) === String(selectedCityId))?.districts || []}
+              selectedIds={selectedDistrictIds.map(Number)}
+              onChange={(ids) => {
+                setSelectedDistrictIds(ids);
+                handleFilterChange('district', ids.join(','));
+              }}
+            />
+            {/* <div className="relative">
               <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
                 Quartier
               </label>
@@ -224,7 +234,7 @@ export default function PropertySearchFilter() {
                 )) || []}
               </select>
               <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
-            </div>
+            </div> */}
 
             {/* Bouton Avancée */}
             <div className="flex items-end">

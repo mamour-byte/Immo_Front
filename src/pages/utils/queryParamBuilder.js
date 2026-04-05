@@ -62,13 +62,18 @@ export function buildPropertyQuery(filters = {}, sortBy) {
   if (filters.propertyType) params.type = mapPropertyType(filters.propertyType);
 
   const numeric = isDailyRental
-    ? ["minPrice", "maxPrice", "cityId", "districtId"]
-    : ["minPrice", "maxPrice", "minSurface", "maxSurface", "bedrooms", "bathrooms", "cityId", "districtId"];
+    ? ["minPrice", "maxPrice", "cityId"]
+    : ["minPrice", "maxPrice", "minSurface", "maxSurface", "bedrooms", "bathrooms", "cityId"];
 
   for (const key of numeric) {
     const raw = filters[key];
     const num = Number(raw);
     if (!isNaN(num) && num > 0) params[key] = num;
+  }
+
+  // Gérer les districtIds comme un tableau
+  if (filters.districtIds && Array.isArray(filters.districtIds) && filters.districtIds.length > 0) {
+    params.districtIds = filters.districtIds.map(id => Number(id)).filter(id => !isNaN(id) && id > 0);
   }
 
   if (sortBy) {
