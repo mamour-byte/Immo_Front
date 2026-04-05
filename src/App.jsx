@@ -8,12 +8,14 @@ import Contact from "./pages/Contact";
 import Build from "./pages/Build";
 import Dashboard from "./pages/Dashboard";
 import Login from "./pages/login";
+import ForgotPassword from "./pages/ForgotPassword";
+import ResetPassword from "./pages/ResetPassword";
 import PrivateRoute from "./components/PrivateRoute";
 import AgentApply from "./pages/AgentApply";
 import Account from "./pages/Account";
 import AnalyticsRouteTracker from "./components/AnalyticsRouteTracker";
 import AnalyticsUserBootstrap from "./components/AnalyticsUserBootstrap";
-import { Analytics } from "@vercel/analytics/next";
+import { Analytics } from "@vercel/analytics/react";
 
 function App() {
   return (
@@ -40,6 +42,8 @@ function App() {
             <Route path="account" element={<PrivateRoute roles={['USER','AGENT','ADMIN']}><Account /></PrivateRoute>} />
             <Route path="agent/apply" element={<AgentApply />} />
             <Route path="login" element={<Login />} />
+            <Route path="admin/forgot-password" element={<ForgotPassword />} />
+            <Route path="reset-password" element={<ResetPassword />} />
           </Route>
         </Routes>
       </BrowserRouter>

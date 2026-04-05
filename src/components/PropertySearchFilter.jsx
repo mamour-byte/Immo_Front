@@ -23,9 +23,8 @@ export default function PropertySearchFilter() {
     stayDays: '',
   });
   // Ajouts dynamiques cities/districts
-  const [cities, setCities] = useState([]);
   const [selectedCityId, setSelectedCityId] = useState('');
-  const [selectedDistrictId, setSelectedDistrictId] = useState('');
+  const [selectedDistrictIds, setSelectedDistrictIds] = useState([]);
   const isDailyRental = transactionType === 'location-journaliere';
 
   useEffect(() => {
@@ -45,7 +44,9 @@ export default function PropertySearchFilter() {
     if (transactionType === 'location-journaliere') params.append('rentalMode', 'DAILY');
     if (filters.propertyType) params.append('propertyType', filters.propertyType);
     if (selectedCityId) params.append('cityId', selectedCityId);
-    if (selectedDistrictId) params.append('districtId', selectedDistrictId);
+    if (selectedDistrictIds.length > 0) {
+      selectedDistrictIds.forEach(id => params.append('districtId', id));
+    }
     if (filters.minPrice) params.append('minPrice', filters.minPrice);
     if (filters.maxPrice) params.append('maxPrice', filters.maxPrice);
     if (isDailyRental) {
@@ -87,7 +88,7 @@ export default function PropertySearchFilter() {
       stayDays: '',
     });
     setSelectedCityId('');
-    setSelectedDistrictId('');
+    setSelectedDistrictIds([]);
   };
 
   const stayDaysFromDates = (() => {
@@ -191,7 +192,7 @@ export default function PropertySearchFilter() {
                 value={selectedCityId}
                 onChange={e => {
                   setSelectedCityId(e.target.value);
-                  setSelectedDistrictId('');
+                  setSelectedDistrictIds([]);
                   handleFilterChange('city', e.target.value);
                 }}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
@@ -209,10 +210,12 @@ export default function PropertySearchFilter() {
                 Quartier
               </label>
               <select
-                value={selectedDistrictId}
+                multiple
+                value={selectedDistrictIds}
                 onChange={e => {
-                  setSelectedDistrictId(e.target.value);
-                  handleFilterChange('district', e.target.value);
+                  const values = Array.from(e.target.selectedOptions, option => option.value);
+                  setSelectedDistrictIds(values);
+                  handleFilterChange('district', values.join(','));
                 }}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
               >
