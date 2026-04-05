@@ -219,10 +219,9 @@ export default function PropertySearchFilter() {
                 }}
                 className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
               >
-                <option value="">Tous les quartiers</option>
-                {cities.find(c => String(c.id) === String(selectedCityId))?.districts.map(q => (
+                {cities.find(c => String(c.id) === String(selectedCityId))?.districts?.map(q => (
                   <option key={q.id} value={q.id}>{q.name}</option>
-                ))}
+                )) || []}
               </select>
               <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
             </div>
