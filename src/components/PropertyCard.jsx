@@ -1,6 +1,7 @@
 import { Link } from "react-router-dom";
 import { API_URL } from "../pages/services/http";
 import { AreaIcon, BathIcon, BedIcon } from "./PropertyIcons";
+import { Eye } from "lucide-react";
 
 const STATUS_LABEL = {
   AVAILABLE: "Disponible",
@@ -97,6 +98,12 @@ export default function PropertyCard({ property, view = "grid" }) {
                 {property.title}
               </h3>
               <div className="shrink-0 flex flex-wrap items-center justify-end gap-2">
+                {property.visits3D?.length > 0 && (
+                  <div className="bg-rose-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                    <Eye size={12} />
+                    3D
+                  </div>
+                )}
                 {purposeLabel && (
                   <span className="text-xs font-medium px-2 py-1 rounded-full bg-rose-50 text-rose-600">
                     {purposeLabel}
@@ -169,6 +176,14 @@ export default function PropertyCard({ property, view = "grid" }) {
             <span className="text-xs font-medium px-2 py-1 rounded-full bg-white/90 text-slate-900 backdrop-blur border border-white/50">
               {purposeLabel}
             </span>
+          </div>
+        )}
+        {property.visits3D?.length > 0 && (
+          <div className="absolute top-3 right-3">
+            <div className="bg-rose-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+              <Eye size={12} />
+              3D
+            </div>
           </div>
         )}
       </div>

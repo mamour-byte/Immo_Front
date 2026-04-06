@@ -1,5 +1,6 @@
 import { useState } from 'react';
-import { Check, MapPin, Navigation, ExternalLink } from 'lucide-react';
+import { Check, MapPin, Navigation, ExternalLink, Eye } from 'lucide-react';
+import Property3DViewer from '../../../components/Property3DViewer';
 
 export default function PropertyTabs({ property }) {
   const [activeTab, setActiveTab] = useState('description');
@@ -15,7 +16,7 @@ export default function PropertyTabs({ property }) {
     <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
       {/* Tabs Header */}
       <div className="flex border-b border-slate-200 bg-slate-50/50">
-        {['description', 'features', 'location'].map((tab) => (
+        {['description', 'features', 'location', ...(property.visits3D?.length > 0 ? ['3d-tour'] : [])].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
@@ -28,6 +29,7 @@ export default function PropertyTabs({ property }) {
             {tab === 'description' && 'Description'}
             {tab === 'features' && 'Équipements'}
             {tab === 'location' && 'Localisation'}
+            {tab === '3d-tour' && 'Visite 3D'}
             
             {activeTab === tab && (
               <div className="absolute bottom-0 left-0 right-0 h-0.5 bg-rose-600" />
@@ -122,6 +124,23 @@ export default function PropertyTabs({ property }) {
               <div className="bg-slate-100 rounded-xl h-60 flex flex-col items-center justify-center border-2 border-dashed border-slate-200">
                 <MapPin size={40} className="text-slate-300 mb-2" />
                 <p className="text-slate-500 font-medium">Localisation non disponible</p>
+              </div>
+            )}
+          </div>
+        )}
+
+        {/* 3D Tour Tab */}
+        {activeTab === '3d-tour' && (
+          <div className="space-y-6">
+            {property.visits3D?.length > 0 ? (
+              property.visits3D.map((asset, index) => (
+                <Property3DViewer key={asset.id || index} asset={asset} />
+              ))
+            ) : (
+              <div className="bg-slate-100 rounded-xl h-60 flex flex-col items-center justify-center border-2 border-dashed border-slate-200">
+                <Eye size={40} className="text-slate-300 mb-2" />
+                <p className="text-slate-500 font-medium">Aucune visite 3D disponible</p>
+                <p className="text-sm text-slate-400 mt-1">Contactez l'agent pour plus d'informations</p>
               </div>
             )}
           </div>
