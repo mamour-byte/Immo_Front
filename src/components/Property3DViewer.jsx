@@ -18,7 +18,14 @@ export default function Property3DViewer({ asset }) {
   }, [asset.provider]);
 
   // If it's a GLB file, use the GLBViewer
-  if (asset.provider === 'glb' && asset.fileUrl) {
+  if (asset.provider === 'glb') {
+    if (!asset.fileUrl) {
+      return (
+        <div className="p-4 bg-yellow-50 border border-yellow-200 rounded-lg text-yellow-800">
+          Fichier 3D manquant. Merci d'ajouter un fichier .glb/.gltf valide pour cette visite.
+        </div>
+      );
+    }
     return <GLBViewer asset={asset} />;
   }
 

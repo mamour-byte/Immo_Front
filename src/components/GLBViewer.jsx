@@ -1,11 +1,28 @@
-import { useState, useEffect, Suspense } from 'react';
+import { useState, useEffect, Suspense, useMemo } from 'react';
+import * as THREE from 'three';
 import { Canvas } from '@react-three/fiber';
 import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
 import { Maximize2, Minimize2, RotateCcw } from 'lucide-react';
 
 // GLB Model Loader Component
-function Model({ url, onLoad, onError }) {
-  const { scene } = useGLTF(url);
+function Model({ url, onLoad }) {
+  const gltf = useGLTF(url);
+
+  const scene = useMemo(() => {
+    if (!gltf?.scene) return null;
+    const clonedScene = gltf.scene.clone(true);
+
+    const box = new THREE.Box3().setFromObject(clonedScene);
+    const center = box.getCenter(new THREE.Vector3());
+    const size = box.getSize(new THREE.Vector3());
+
+    clonedScene.position.sub(center);
+    const maxDim = Math.max(size.x, size.y, size.z);
+    const scale = maxDim > 0 ? 2 / maxDim : 1;
+    clonedScene.scale.setScalar(scale);
+
+    return clonedScene;
+  }, [gltf]);
 
   useEffect(() => {
     if (scene) {
@@ -13,25 +30,7 @@ function Model({ url, onLoad, onError }) {
     }
   }, [scene, onLoad]);
 
-  // Center and scale the model
-  useEffect(() => {
-    if (scene) {
-      // Calculate bounding box
-      const box = new THREE.Box3().setFromObject(scene);
-      const center = box.getCenter(new THREE.Vector3());
-      const size = box.getSize(new THREE.Vector3());
-
-      // Center the model
-      scene.position.sub(center);
-
-      // Scale to fit in view
-      const maxDim = Math.max(size.x, size.y, size.z);
-      const scale = maxDim > 0 ? 2 / maxDim : 1;
-      scene.scale.setScalar(scale);
-    }
-  }, [scene]);
-
-  return <primitive object={scene} />;
+  return scene ? <primitive object={scene} /> : null;
 }
 
 // Loading fallback component
