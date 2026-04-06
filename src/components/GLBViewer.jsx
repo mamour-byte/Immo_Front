@@ -1,0 +1,177 @@
+import { useState, useEffect, Suspense } from 'react';
+import { Canvas } from '@react-three/fiber';
+import { OrbitControls, useGLTF, Environment, Html } from '@react-three/drei';
+import { Maximize2, Minimize2, RotateCcw } from 'lucide-react';
+
+// GLB Model Loader Component
+function Model({ url, onLoad, onError }) {
+  const { scene } = useGLTF(url);
+
+  useEffect(() => {
+    if (scene) {
+      onLoad?.();
+    }
+  }, [scene, onLoad]);
+
+  // Center and scale the model
+  useEffect(() => {
+    if (scene) {
+      // Calculate bounding box
+      const box = new THREE.Box3().setFromObject(scene);
+      const center = box.getCenter(new THREE.Vector3());
+      const size = box.getSize(new THREE.Vector3());
+
+      // Center the model
+      scene.position.sub(center);
+
+      // Scale to fit in view
+      const maxDim = Math.max(size.x, size.y, size.z);
+      const scale = maxDim > 0 ? 2 / maxDim : 1;
+      scene.scale.setScalar(scale);
+    }
+  }, [scene]);
+
+  return <primitive object={scene} />;
+}
+
+// Loading fallback component
+function Loader() {
+  return (
+    <Html center>
+      <div className="flex items-center justify-center">
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+      </div>
+    </Html>
+  );
+}
+
+// Error fallback component
+function ErrorFallback({ onRetry }) {
+  return (
+    <Html center>
+      <div className="text-center text-red-500">
+        <p className="mb-4">Erreur de chargement du modèle 3D</p>
+        <button
+          onClick={onRetry}
+          className="px-4 py-2 bg-rose-600 text-white rounded hover:bg-rose-700"
+        >
+          Réessayer
+        </button>
+      </div>
+    </Html>
+  );
+}
+
+export default function GLBViewer({ asset }) {
+  const [isFullscreen, setIsFullscreen] = useState(false);
+  const [isLoading, setIsLoading] = useState(true);
+  const [hasError, setHasError] = useState(false);
+  const [key, setKey] = useState(0); // For forcing re-render on retry
+
+  const handleLoad = () => {
+    setIsLoading(false);
+    setHasError(false);
+  };
+
+  const handleError = () => {
+    setIsLoading(false);
+    setHasError(true);
+  };
+
+  const handleRetry = () => {
+    setIsLoading(true);
+    setHasError(false);
+    setKey(prev => prev + 1); // Force re-render
+  };
+
+  const resetCamera = () => {
+    // This will be handled by OrbitControls reset
+    window.dispatchEvent(new CustomEvent('resetCamera'));
+  };
+
+  return (
+    <div className={`relative bg-slate-100 rounded-xl overflow-hidden border border-slate-200 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
+      {/* Header */}
+      <div className="flex items-center justify-between p-4 bg-white border-b border-slate-200">
+        <div>
+          <h3 className="font-semibold text-slate-900">{asset.title || 'Modèle 3D'}</h3>
+          <p className="text-sm text-slate-500">Fichier GLB/GLTF</p>
+        </div>
+
+        <div className="flex items-center gap-2">
+          <button
+            onClick={resetCamera}
+            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors"
+            title="Réinitialiser la caméra"
+          >
+            <RotateCcw size={16} />
+          </button>
+
+          <button
+            onClick={() => setIsFullscreen(!isFullscreen)}
+            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors"
+          >
+            {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
+          </button>
+        </div>
+      </div>
+
+      {/* 3D Viewer */}
+      <div className={`relative ${isFullscreen ? 'h-[calc(100vh-80px)]' : 'h-96'}`}>
+        {isLoading && !hasError && (
+          <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
+            <div className="text-center">
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
+              <p className="text-slate-600">Chargement du modèle 3D...</p>
+            </div>
+          </div>
+        )}
+
+        <Canvas
+          key={key}
+          camera={{ position: [0, 0, 5], fov: 50 }}
+          style={{ background: '#f8fafc' }}
+        >
+          <Suspense fallback={<Loader />}>
+            {/* Lighting */}
+            <ambientLight intensity={0.6} />
+            <directionalLight position={[10, 10, 5]} intensity={1} />
+            <pointLight position={[-10, -10, -5]} intensity={0.5} />
+
+            {/* Environment for reflections */}
+            <Environment preset="studio" />
+
+            {/* Controls */}
+            <OrbitControls
+              enablePan={true}
+              enableZoom={true}
+              enableRotate={true}
+              maxDistance={10}
+              minDistance={1}
+            />
+
+            {/* Model */}
+            {!hasError && (
+              <Model
+                url={asset.fileUrl}
+                onLoad={handleLoad}
+                onError={handleError}
+              />
+            )}
+
+            {/* Error display */}
+            {hasError && <ErrorFallback onRetry={handleRetry} />}
+          </Suspense>
+        </Canvas>
+
+        {!isLoading && !hasError && (
+          <div className="absolute bottom-4 left-4 right-4">
+            <div className="bg-black/70 backdrop-blur-sm text-white px-4 py-2 rounded-lg text-sm">
+              💡 Utilisez la souris pour naviguer • Molette pour zoomer • Clic droit pour pivoter
+            </div>
+          </div>
+        )}
+      </div>
+    </div>
+  );
+}

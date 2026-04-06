@@ -7,6 +7,7 @@ const PROVIDER_OPTIONS = [
   { value: 'matterport', label: 'Matterport' },
   { value: 'sketchfab', label: 'Sketchfab' },
   { value: 'kuula', label: 'Kuula' },
+  { value: 'glb', label: 'Fichier GLB/GLTF' },
   { value: 'iframe', label: 'Iframe personnalisé' },
 ];
 
@@ -23,6 +24,8 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
       title: v.title || '',
       provider: v.provider || 'matterport',
       assetUrl: v.assetUrl || '',
+      fileUrl: v.fileUrl || '',
+      file: null, // Temporary file for upload
     }));
 
     return ({
@@ -49,7 +52,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
         : [],
       // En création, on force au moins un champ visible (sinon tableau vide).
       images: initialImageUrls.length ? initialImageUrls : [""],
-      visits3D: initialVisits3D.length > 0 ? initialVisits3D : [{ title: '', provider: 'matterport', assetUrl: '' }],
+      visits3D: initialVisits3D.length > 0 ? initialVisits3D : [{ title: '', provider: 'matterport', assetUrl: '', fileUrl: '', file: null }],
     });
   });
 
@@ -171,7 +174,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
   function addVisit3D() {
     setForm(f => ({
       ...f,
-      visits3D: [...f.visits3D, { title: '', provider: 'matterport', assetUrl: '' }]
+      visits3D: [...f.visits3D, { title: '', provider: 'matterport', assetUrl: '', fileUrl: '', file: null }]
     }));
   }
 
@@ -197,11 +200,13 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
 
     // Filtrer les visites 3D vides et valides
     const cleanVisits3D = (form.visits3D || [])
-      .filter(v => v.assetUrl?.trim())
+      .filter(v => (v.provider === 'glb' && v.file) || (v.provider !== 'glb' && v.assetUrl?.trim()))
       .map(v => ({
         title: v.title?.trim() || undefined,
         provider: v.provider,
-        assetUrl: v.assetUrl.trim(),
+        assetUrl: v.assetUrl?.trim(),
+        fileUrl: v.fileUrl?.trim(),
+        file: v.file, // Include file for upload
       }));
 
     const payload = {
@@ -472,18 +477,46 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                     </button>
                   </div>
 
-                  <input
-                    type="url"
-                    placeholder={`URL ${visit.provider} (ex: https://my.matterport.com/show/?m=xxx)`}
-                    value={visit.assetUrl || ''}
-                    onChange={(e) => updateVisit3D(idx, 'assetUrl', e.target.value)}
-                    className="p-2 border rounded text-sm w-full"
-                    disabled={isLoading}
-                  />
+                  {visit.provider === 'glb' ? (
+                    <div>
+                      <input
+                        type="file"
+                        accept=".glb,.gltf"
+                        onChange={(e) => {
+                          const file = e.target.files?.[0];
+                          if (file) {
+                            // Store the file temporarily for upload
+                            updateVisit3D(idx, 'file', file);
+                          }
+                        }}
+                        className="p-2 border rounded text-sm w-full"
+                        disabled={isLoading}
+                      />
+                      {visit.file && (
+                        <p className="text-xs text-green-600 mt-1">
+                          Fichier sélectionné: {visit.file.name}
+                        </p>
+                      )}
+                      <p className="text-xs text-gray-500 mt-1">
+                        Formats supportés: .glb, .gltf (max 50MB)
+                      </p>
+                    </div>
+                  ) : (
+                    <input
+                      type="url"
+                      placeholder={`URL ${visit.provider} (ex: https://my.matterport.com/show/?m=xxx)`}
+                      value={visit.assetUrl || ''}
+                      onChange={(e) => updateVisit3D(idx, 'assetUrl', e.target.value)}
+                      className="p-2 border rounded text-sm w-full"
+                      disabled={isLoading}
+                    />
+                  )}
+
                   <p className="text-xs text-gray-500">
                     {visit.provider === 'matterport' && 'Exemple: https://my.matterport.com/show/?m=ABC123DEF456'}
                     {visit.provider === 'sketchfab' && 'Exemple: https://sketchfab.com/3d-models/model-name-abc123'}
                     {visit.provider === 'kuula' && 'Exemple: https://kuula.co/view/abc123'}
+                    {visit.provider === 'glb' && 'Téléchargez un fichier .glb ou .gltf depuis votre ordinateur'}
                     {visit.provider === 'iframe' && 'Collez l\'URL d\'embed de votre provider 3D'}
                   </p>
                 </div>

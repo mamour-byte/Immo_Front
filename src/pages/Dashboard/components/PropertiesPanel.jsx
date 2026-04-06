@@ -63,13 +63,27 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
   }
 
   async function handleSubmit(payload) {
-    const { files, ...body } = payload;
+    const { files, assets3D, ...body } = payload;
+
+    // Separate 3D files from other assets
+    const glbFiles = assets3D?.filter(asset => asset.provider === 'glb' && asset.file) || [];
+    const urlAssets = assets3D?.filter(asset => asset.provider !== 'glb' || !asset.file) || [];
+
+    // Create/update property with URL-based 3D assets
+    const propertyPayload = {
+      ...body,
+      assets3D: urlAssets.length > 0 ? urlAssets : undefined,
+    };
 
     if (!body.id && files && files.length > 0) {
       createWithImagesMutation.mutate(
-        { payload: body, files },
+        { payload: propertyPayload, files },
         {
-          onSuccess: () => {
+          onSuccess: async (createdProperty) => {
+            // Upload GLB files after property creation
+            if (glbFiles.length > 0) {
+              await upload3DAssets(createdProperty.id, glbFiles);
+            }
             setShowForm(false);
             setSelected(null);
           },
@@ -79,8 +93,12 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
     }
 
     if (!body.id) {
-      createMutation.mutate(body, {
-        onSuccess: () => {
+      createMutation.mutate(propertyPayload, {
+        onSuccess: async (createdProperty) => {
+          // Upload GLB files after property creation
+          if (glbFiles.length > 0) {
+            await upload3DAssets(createdProperty.id, glbFiles);
+          }
           setShowForm(false);
           setSelected(null);
         },
@@ -89,9 +107,14 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
     }
 
     updateMutation.mutate(
-      { id: body.id, payload: body },
+      { id: body.id, payload: propertyPayload },
       {
-        onSuccess: (saved) => {
+        onSuccess: async (saved) => {
+          // Upload GLB files for existing property
+          if (glbFiles.length > 0) {
+            await upload3DAssets(saved.id || body.id, glbFiles);
+          }
+          
           if (files && files.length) {
             uploadMutation.mutate(
               { propertyId: saved.id || body.id, files },
@@ -109,6 +132,24 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
         },
       },
     );
+  }
+
+  async function upload3DAssets(propertyId, glbFiles) {
+    for (const asset of glbFiles) {
+      try {
+        const formData = new FormData();
+        formData.append('file', asset.file);
+        formData.append('propertyId', propertyId.toString());
+        formData.append('title', asset.title || '');
+        formData.append('provider', 'glb');
+
+        await api.post('/assets3d/upload', formData, {
+          headers: { 'Content-Type': 'multipart/form-data' },
+        });
+      } catch (error) {
+        console.error('Erreur upload fichier 3D:', error);
+      }
+    }
   }
 
   function onPageChange(nextPage) {

@@ -1,15 +1,26 @@
 import { useState, useEffect } from 'react';
 import { ExternalLink, Maximize2, Minimize2 } from 'lucide-react';
+import GLBViewer from './GLBViewer';
 
 export default function Property3DViewer({ asset }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
   const [isLoading, setIsLoading] = useState(true);
 
   useEffect(() => {
-    // Simuler le chargement
-    const timer = setTimeout(() => setIsLoading(false), 2000);
-    return () => clearTimeout(timer);
-  }, []);
+    // Simuler le chargement pour les iframes
+    if (asset.provider !== 'glb') {
+      const timer = setTimeout(() => setIsLoading(false), 2000);
+      return () => clearTimeout(timer);
+    } else {
+      // Pour GLB, le chargement est géré par GLBViewer
+      setIsLoading(false);
+    }
+  }, [asset.provider]);
+
+  // If it's a GLB file, use the GLBViewer
+  if (asset.provider === 'glb' && asset.fileUrl) {
+    return <GLBViewer asset={asset} />;
+  }
 
   const getEmbedUrl = (asset) => {
     const { provider, assetUrl } = asset;
