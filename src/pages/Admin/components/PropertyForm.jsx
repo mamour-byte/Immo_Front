@@ -1,6 +1,14 @@
 // components/PropertyForm.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS, FEATURES_OPTIONS } from "../constants/propertyOptions";
+import { Eye, Plus, Trash2 } from "lucide-react";
+
+const PROVIDER_OPTIONS = [
+  { value: 'matterport', label: 'Matterport' },
+  { value: 'sketchfab', label: 'Sketchfab' },
+  { value: 'kuula', label: 'Kuula' },
+  { value: 'iframe', label: 'Iframe personnalisé' },
+];
 
 export default function PropertyForm({ initial = null, cities = [], districts = [], onCancel, onSubmit, isLoading = false }) {
   const MAX_FILES = 15;
@@ -9,6 +17,13 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
     const initialImageUrls = (initial?.images ?? [])
       .map((i) => i?.url || i)
       .filter(Boolean);
+
+    const initialVisits3D = (initial?.visits3D ?? []).map(v => ({
+      id: v.id,
+      title: v.title || '',
+      provider: v.provider || 'matterport',
+      assetUrl: v.assetUrl || '',
+    }));
 
     return ({
       id: initial?.id ?? null,
@@ -34,6 +49,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
         : [],
       // En création, on force au moins un champ visible (sinon tableau vide).
       images: initialImageUrls.length ? initialImageUrls : [""],
+      visits3D: initialVisits3D.length > 0 ? initialVisits3D : [{ title: '', provider: 'matterport', assetUrl: '' }],
     });
   });
 
@@ -141,6 +157,24 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
     setForm(f => ({ ...f, images: newImages }));
   }
 
+  function updateVisit3D(idx, field, val) {
+    const newVisits = [...form.visits3D];
+    newVisits[idx] = { ...newVisits[idx], [field]: val };
+    setForm(f => ({ ...f, visits3D: newVisits }));
+  }
+
+  function removeVisit3D(idx) {
+    const newVisits = form.visits3D.filter((_, i) => i !== idx);
+    setForm(f => ({ ...f, visits3D: newVisits }));
+  }
+
+  function addVisit3D() {
+    setForm(f => ({
+      ...f,
+      visits3D: [...f.visits3D, { title: '', provider: 'matterport', assetUrl: '' }]
+    }));
+  }
+
   function validate() {
     const newErrors = {};
     if (!form.title?.trim()) newErrors.title = "Le titre est obligatoire";
@@ -161,6 +195,15 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
       return;
     }
 
+    // Filtrer les visites 3D vides et valides
+    const cleanVisits3D = (form.visits3D || [])
+      .filter(v => v.assetUrl?.trim())
+      .map(v => ({
+        title: v.title?.trim() || undefined,
+        provider: v.provider,
+        assetUrl: v.assetUrl.trim(),
+      }));
+
     const payload = {
       ...form,
       rentalMode: form.purpose === "LOCATION" ? (form.rentalMode || "MONTHLY") : null,
@@ -176,6 +219,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
       latitude: form.latitude !== "" ? Number(form.latitude) : undefined,
       longitude: form.longitude !== "" ? Number(form.longitude) : undefined,
       features: (form.features || []).map((f) => Number(f)).filter((v) => !Number.isNaN(v)),
+      assets3D: cleanVisits3D.length > 0 ? cleanVisits3D : undefined,
     };
     onSubmit({ ...payload, files });
   }
@@ -373,6 +417,76 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                   />
                   {feat.label}
                 </label>
+              ))}
+            </div>
+          </div>
+
+          {/* Visites 3D */}
+          <div className="border-t pt-4">
+            <div className="flex items-center justify-between mb-3">
+              <label className="text-sm font-medium flex items-center gap-2">
+                <Eye size={16} />
+                Visites 3D (optionnel)
+              </label>
+              <button
+                type="button"
+                onClick={addVisit3D}
+                disabled={isLoading}
+                className="flex items-center gap-1 px-2 py-1 text-xs bg-blue-100 text-blue-700 rounded hover:bg-blue-200 disabled:opacity-50"
+              >
+                <Plus size={14} /> Ajouter une visite 3D
+              </button>
+            </div>
+
+            <div className="space-y-3">
+              {form.visits3D?.map((visit, idx) => (
+                <div key={idx} className="p-3 border rounded bg-gray-50 space-y-2">
+                  <div className="grid grid-cols-1 md:grid-cols-3 gap-2">
+                    <input
+                      type="text"
+                      placeholder="Titre (ex: Visite complète)"
+                      value={visit.title || ''}
+                      onChange={(e) => updateVisit3D(idx, 'title', e.target.value)}
+                      className="p-2 border rounded text-sm"
+                      disabled={isLoading}
+                    />
+                    
+                    <select
+                      value={visit.provider || 'matterport'}
+                      onChange={(e) => updateVisit3D(idx, 'provider', e.target.value)}
+                      className="p-2 border rounded text-sm"
+                      disabled={isLoading}
+                    >
+                      {PROVIDER_OPTIONS.map(p => (
+                        <option key={p.value} value={p.value}>{p.label}</option>
+                      ))}
+                    </select>
+
+                    <button
+                      type="button"
+                      onClick={() => removeVisit3D(idx)}
+                      disabled={isLoading}
+                      className="flex items-center justify-center gap-1 px-2 py-2 text-xs bg-red-100 text-red-700 rounded hover:bg-red-200 disabled:opacity-50"
+                    >
+                      <Trash2 size={14} /> Supprimer
+                    </button>
+                  </div>
+
+                  <input
+                    type="url"
+                    placeholder={`URL ${visit.provider} (ex: https://my.matterport.com/show/?m=xxx)`}
+                    value={visit.assetUrl || ''}
+                    onChange={(e) => updateVisit3D(idx, 'assetUrl', e.target.value)}
+                    className="p-2 border rounded text-sm w-full"
+                    disabled={isLoading}
+                  />
+                  <p className="text-xs text-gray-500">
+                    {visit.provider === 'matterport' && 'Exemple: https://my.matterport.com/show/?m=ABC123DEF456'}
+                    {visit.provider === 'sketchfab' && 'Exemple: https://sketchfab.com/3d-models/model-name-abc123'}
+                    {visit.provider === 'kuula' && 'Exemple: https://kuula.co/view/abc123'}
+                    {visit.provider === 'iframe' && 'Collez l\'URL d\'embed de votre provider 3D'}
+                  </p>
+                </div>
               ))}
             </div>
           </div>
