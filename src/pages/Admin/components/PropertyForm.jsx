@@ -2,14 +2,51 @@
 import { useEffect, useMemo, useRef, useState } from "react";
 import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS, FEATURES_OPTIONS } from "../constants/propertyOptions";
 import { Eye, Plus, Trash2 } from "lucide-react";
+import { normalizeAsset3DSourceUrl } from "../../../utils/asset3d";
 
 const PROVIDER_OPTIONS = [
   { value: 'matterport', label: 'Matterport' },
-  { value: 'sketchfab', label: 'Sketchfab' },
   { value: 'kuula', label: 'Kuula' },
   { value: 'glb', label: 'Fichier GLB/GLTF' },
   { value: 'iframe', label: 'Iframe personnalisé' },
 ];
+
+const PROVIDER_PLACEHOLDERS = {
+  matterport: 'https://my.matterport.com/show?m=...',
+  kuula: 'https://kuula.co/view/abc123',
+  iframe: 'https://votre-provider.com/embed/visite-3d',
+};
+
+function getVisitUrlPlaceholder(provider) {
+  return PROVIDER_PLACEHOLDERS[provider] || 'https://...';
+}
+
+function getVisitUrlHelp(provider) {
+  switch (provider) {
+    case 'matterport':
+      return 'Exemple: https://my.matterport.com/show?m=ABC123DEF456 ou https://my.matterport.com/models/ABC123DEF456';
+    case 'kuula':
+      return 'Exemple: https://kuula.co/view/abc123';
+    case 'glb':
+      return "Telechargez un fichier .glb ou .gltf depuis votre ordinateur";
+    case 'iframe':
+      return "Collez l'URL d'embed de votre provider 3D";
+    default:
+      return '';
+  }
+}
+
+function normalizeVisitProvider(provider) {
+  if (provider === 'sketchfab') {
+    return 'matterport';
+  }
+
+  return provider || 'matterport';
+}
+
+function isLegacySketchfabUrl(rawUrl) {
+  return rawUrl?.toLowerCase?.().includes('sketchfab.com');
+}
 
 export default function PropertyForm({ initial = null, cities = [], districts = [], onCancel, onSubmit, isLoading = false }) {
   const MAX_FILES = 15;
@@ -22,7 +59,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
     const initialVisits3D = (initial?.visits3D ?? []).map(v => ({
       id: v.id,
       title: v.title || '',
-      provider: v.provider || 'matterport',
+      provider: normalizeVisitProvider(v.provider),
       assetUrl: v.assetUrl || '',
       fileUrl: v.fileUrl || '',
       file: null, // Temporary file for upload
@@ -204,7 +241,9 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
       .map(v => ({
         title: v.title?.trim() || undefined,
         provider: v.provider,
-        assetUrl: v.assetUrl?.trim(),
+        assetUrl: v.assetUrl?.trim()
+          ? normalizeAsset3DSourceUrl(v.provider, v.assetUrl)
+          : undefined,
         fileUrl: v.fileUrl?.trim(),
         file: v.file, // Include file for upload
       }));
@@ -504,7 +543,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                   ) : (
                     <input
                       type="url"
-                      placeholder={`URL ${visit.provider} (ex: https://my.matterport.com/show/?m=xxx)`}
+                      placeholder={`URL ${visit.provider} (ex: ${getVisitUrlPlaceholder(visit.provider)})`}
                       value={visit.assetUrl || ''}
                       onChange={(e) => updateVisit3D(idx, 'assetUrl', e.target.value)}
                       className="p-2 border rounded text-sm w-full"
@@ -512,13 +551,12 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                     />
                   )}
 
-                  <p className="text-xs text-gray-500">
-                    {visit.provider === 'matterport' && 'Exemple: https://my.matterport.com/show/?m=ABC123DEF456'}
-                    {visit.provider === 'sketchfab' && 'Exemple: https://sketchfab.com/3d-models/model-name-abc123'}
-                    {visit.provider === 'kuula' && 'Exemple: https://kuula.co/view/abc123'}
-                    {visit.provider === 'glb' && 'Téléchargez un fichier .glb ou .gltf depuis votre ordinateur'}
-                    {visit.provider === 'iframe' && 'Collez l\'URL d\'embed de votre provider 3D'}
-                  </p>
+                  <p className="text-xs text-gray-500">{getVisitUrlHelp(visit.provider)}</p>
+                  {isLegacySketchfabUrl(visit.assetUrl) && (
+                    <p className="text-xs text-red-600">
+                      Les anciennes URLs Sketchfab ne sont plus prises en charge. Remplacez-les par une URL Matterport.
+                    </p>
+                  )}
                 </div>
               ))}
             </div>
@@ -548,7 +586,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                       className="px-2 py-1 bg-gray-200 rounded text-sm hover:bg-gray-300"
                       disabled={isLoading}
                     >
-                      ✕
+                      �S"
                     </button>
                   )}
                   {idx === form.images.length - 1 && (
@@ -605,7 +643,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                         disabled={isLoading}
                         title="Supprimer"
                       >
-                        ✖
+                        �S
                       </button>
                     </div>
                   );
@@ -635,7 +673,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                       className="absolute top-1 right-1 bg-red-500 text-white rounded-full w-6 h-6 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity text-xs"
                       disabled={isLoading}
                     >
-                      ✕
+                      �S"
                     </button>
                   </div>
                 ))}
