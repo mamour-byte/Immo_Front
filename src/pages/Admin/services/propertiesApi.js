@@ -177,13 +177,8 @@ export async function createPropertyWithImages(payload, files = []) {
     if (value === null || value === undefined || value === "") return;
     
     if (Array.isArray(value)) {
-      // Pour les arrays (features, assets3D, etc.)
       if (value.length === 0) return;
-      if (typeof value[0] === "object") {
-        form.append(key, JSON.stringify(value));
-      } else {
-        value.forEach((v) => form.append(`${key}[]`, v));
-      }
+      form.append(key, JSON.stringify(value));
     } else if (typeof value === "object") {
       form.append(key, JSON.stringify(value));
     } else {
@@ -208,6 +203,20 @@ export async function uploadPropertyImages(propertyId, files = []) {
   const res = await api.post(`/properties/upload-images`, form, {
     headers: { "Content-Type": "multipart/form-data" },
   });
+  return res.data;
+}
+
+export async function uploadProperty3DAsset(propertyId, asset) {
+  const form = new FormData();
+  form.append("file", asset.file);
+  form.append("propertyId", String(propertyId));
+  form.append("title", asset.title || "");
+  form.append("provider", "glb");
+
+  const res = await api.post(`/assets3d/upload`, form, {
+    headers: { "Content-Type": "multipart/form-data" },
+  });
+
   return res.data;
 }
 

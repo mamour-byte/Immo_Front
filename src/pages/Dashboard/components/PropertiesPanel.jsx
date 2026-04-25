@@ -10,6 +10,7 @@ import {
   useCities,
   useDistricts,
 } from "../../Admin/hooks/useProperties";
+import { uploadProperty3DAsset } from "../../Admin/services/propertiesApi";
 import PropertyFilters from "../../Admin/components/PropertyFilters";
 import PropertyTable from "../../Admin/components/PropertyTable";
 import PropertyForm from "../../Admin/components/PropertyForm";
@@ -80,9 +81,10 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
         { payload: propertyPayload, files },
         {
           onSuccess: async (createdProperty) => {
+            const propertyId = createdProperty?.data?.id ?? createdProperty?.id;
             // Upload GLB files after property creation
-            if (glbFiles.length > 0) {
-              await upload3DAssets(createdProperty.id, glbFiles);
+            if (glbFiles.length > 0 && propertyId) {
+              await upload3DAssets(propertyId, glbFiles);
             }
             setShowForm(false);
             setSelected(null);
@@ -137,15 +139,7 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
   async function upload3DAssets(propertyId, glbFiles) {
     for (const asset of glbFiles) {
       try {
-        const formData = new FormData();
-        formData.append('file', asset.file);
-        formData.append('propertyId', propertyId.toString());
-        formData.append('title', asset.title || '');
-        formData.append('provider', 'glb');
-
-        await api.post('/assets3d/upload', formData, {
-          headers: { 'Content-Type': 'multipart/form-data' },
-        });
+        await uploadProperty3DAsset(propertyId, asset);
       } catch (error) {
         console.error('Erreur upload fichier 3D:', error);
       }
