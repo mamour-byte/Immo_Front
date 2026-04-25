@@ -20,12 +20,21 @@ function detectProviderFromUrl(rawUrl) {
   return null;
 }
 
-function buildMatterportUrl(modelId, { autoplay = false } = {}) {
-  const url = new URL('https://my.matterport.com/show');
+function buildMatterportUrl(modelId, { autoplay = false, sourceUrl } = {}) {
+  const source = parseAbsoluteUrl(sourceUrl);
+  const url = source && source.hostname?.toLowerCase?.().includes('matterport.com')
+    ? new URL(source.toString())
+    : new URL('https://my.matterport.com/show/');
+
+  // Matterport share links often carry extra query params that must be preserved.
+  // We only normalize the path and the model id.
+  url.pathname = '/show/';
   url.searchParams.set('m', modelId);
 
   if (autoplay) {
     url.searchParams.set('play', '1');
+  } else {
+    url.searchParams.delete('play');
   }
 
   return url.toString();
@@ -42,9 +51,14 @@ function extractMatterportModelId(rawUrl) {
 
   const pathSegments = url.pathname.split('/').filter(Boolean);
   const modelsIndex = pathSegments.findIndex((segment) => segment.toLowerCase() === 'models');
+  const spaceIndex = pathSegments.findIndex((segment) => segment.toLowerCase() === 'space');
 
   if (modelsIndex >= 0 && pathSegments[modelsIndex + 1]) {
     return pathSegments[modelsIndex + 1];
+  }
+
+  if (spaceIndex >= 0 && pathSegments[spaceIndex + 1]) {
+    return pathSegments[spaceIndex + 1];
   }
 
   return null;
@@ -69,8 +83,8 @@ function getMatterportConfig(rawUrl) {
   }
 
   return {
-    embedUrl: buildMatterportUrl(modelId, { autoplay: true }),
-    publicUrl: buildMatterportUrl(modelId),
+    embedUrl: buildMatterportUrl(modelId, { autoplay: true, sourceUrl: rawUrl }),
+    publicUrl: buildMatterportUrl(modelId, { sourceUrl: rawUrl }),
     error: null,
   };
 }

@@ -24,7 +24,7 @@ function getVisitUrlPlaceholder(provider) {
 function getVisitUrlHelp(provider) {
   switch (provider) {
     case 'matterport':
-      return 'Exemple: https://my.matterport.com/show?m=ABC123DEF456 ou https://my.matterport.com/models/ABC123DEF456';
+      return 'Collez de preference le lien complet Matterport. Exemples: https://my.matterport.com/show?m=ABC123DEF456 ou https://matterport.com/discover/space/ABC123DEF456';
     case 'kuula':
       return 'Exemple: https://kuula.co/view/abc123';
     case 'glb':
