@@ -134,17 +134,17 @@ export default function AdminUsersPanel() {
 
   return (
     <section className="bg-white rounded shadow p-4">
-      <div className="flex items-center justify-between gap-4 mb-4">
+      <div className="mb-4 flex flex-col gap-4">
         <div>
           <h2 className="text-lg font-medium">Gestion des agents</h2>
           <p className="text-sm text-gray-600">Modifier, suspendre, supprimer ou consulter les comptes</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex flex-col gap-2 sm:flex-row sm:items-center">
           <input
             value={query}
             onChange={(e) => setQuery(e.target.value)}
             placeholder="Recherche (email, nom, telephone)"
-            className="border rounded px-3 py-2 text-sm w-64"
+            className="w-full rounded border px-3 py-2 text-sm sm:w-64"
           />
           <select
             value={roleFilter}
@@ -168,8 +168,8 @@ export default function AdminUsersPanel() {
       {isLoading ? (
         <p className="text-sm text-gray-600">Chargement...</p>
       ) : (
-        <div className="overflow-auto">
-          <table className="min-w-full text-sm">
+        <div className="overflow-x-auto">
+          <table className="min-w-[860px] w-full text-sm">
             <thead>
               <tr className="text-left border-b">
                 <th className="py-2 pr-4">Email</th>
@@ -284,7 +284,7 @@ export default function AdminUsersPanel() {
                 value={editForm.password}
                 onChange={onEditChange}
               />
-              <div className="flex items-center justify-end gap-3 pt-2">
+              <div className="flex flex-col gap-3 pt-2 sm:flex-row sm:items-center sm:justify-end">
                 <button
                   type="button"
                   onClick={closeEdit}

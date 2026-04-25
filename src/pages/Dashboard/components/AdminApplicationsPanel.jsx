@@ -40,12 +40,12 @@ export default function AdminApplicationsPanel() {
 
   return (
     <section className="bg-white rounded shadow p-4">
-      <div className="flex items-center justify-between gap-4 mb-4">
+      <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
         <div>
           <h2 className="text-lg font-medium">Demandes agents</h2>
           <p className="text-sm text-gray-600">En attente: {pendingCount}</p>
         </div>
-        <div className="flex items-center gap-2">
+        <div className="flex w-full flex-col gap-2 sm:w-auto sm:flex-row sm:items-center">
           <span className="text-sm text-gray-600">Statut</span>
           <select
             value={status}
@@ -68,8 +68,8 @@ export default function AdminApplicationsPanel() {
       {isLoading ? (
         <p className="text-sm text-gray-600">Chargement...</p>
       ) : (
-        <div className="overflow-auto">
-          <table className="min-w-full text-sm">
+        <div className="overflow-x-auto">
+          <table className="min-w-[720px] w-full text-sm">
             <thead>
               <tr className="text-left border-b">
                 <th className="py-2 pr-4">Agent</th>
@@ -137,8 +137,8 @@ export default function AdminApplicationsPanel() {
       )}
 
       {selectedApp && (
-        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40">
-          <div className="bg-white rounded-2xl shadow-xl max-w-xl w-full mx-4 max-h-[90vh] overflow-auto">
+        <div className="fixed inset-0 z-40 flex items-center justify-center bg-black/40 p-4">
+          <div className="mx-4 max-h-[90vh] w-full max-w-xl overflow-auto rounded-2xl bg-white shadow-xl">
             <div className="px-5 py-4 border-b flex items-center justify-between">
               <div>
                 <h3 className="text-lg font-semibold">Détails de la demande</h3>

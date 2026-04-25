@@ -99,10 +99,10 @@ export default function Search() {
   );
 
   return (
-    <div className="grid grid-cols-1 lg:grid-cols-4 gap-4 sm:gap-6 p-4 sm:p-6 pb-24 lg:pb-6">
+    <div className="mx-auto grid w-full max-w-7xl grid-cols-1 gap-4 px-4 py-4 pb-24 sm:gap-6 sm:px-6 sm:py-6 lg:grid-cols-4 lg:pb-6">
 
       {/* Sidebar */}
-      <div className="lg:col-span-1">
+      <div className="min-w-0 lg:col-span-1">
         <SidebarFilters onFiltersChange={handleFiltersChange} />
       </div>
 

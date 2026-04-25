@@ -56,9 +56,9 @@ export default function Dashboard() {
   }
 
   return (
-    <div className="p-6 bg-gray-50 min-h-screen">
+    <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6">
       <div className="max-w-7xl mx-auto space-y-6">
-        <header className="flex items-center justify-between gap-4">
+        <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
             <h1 className="text-2xl font-semibold truncate">
               Dashboard {isAdmin ? "— Admin" : "— Agent"}
@@ -69,16 +69,16 @@ export default function Dashboard() {
                 : "Gestion de vos biens publiés"}
             </p>
           </div>
-          <div className="flex items-center gap-3 shrink-0">
+          <div className="flex w-full flex-col gap-3 shrink-0 sm:w-auto sm:flex-row sm:items-center">
             <Link
               to="/account"
-              className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800"
+              className="rounded bg-slate-900 px-4 py-2 text-center text-white hover:bg-slate-800"
             >
               Mon compte
             </Link>
             <button
               onClick={logout}
-              className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700"
+              className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700"
             >
               Déconnexion
             </button>
@@ -86,7 +86,7 @@ export default function Dashboard() {
         </header>
 
         {isAdmin && (
-          <div className="flex items-center gap-2">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
             <button
               onClick={() => setTab("properties")}
               className={`px-4 py-2 rounded ${tab === "properties" ? "bg-slate-900 text-white" : "bg-white border hover:bg-gray-50"}`}
@@ -117,4 +117,3 @@ export default function Dashboard() {
     </div>
   );
 }
-

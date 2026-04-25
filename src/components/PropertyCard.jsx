@@ -1,14 +1,14 @@
 import { Link } from "react-router-dom";
+import { Eye } from "lucide-react";
 import { API_URL } from "../pages/services/http";
 import { AreaIcon, BathIcon, BedIcon } from "./PropertyIcons";
-import { Eye } from "lucide-react";
 
 const STATUS_LABEL = {
   AVAILABLE: "Disponible",
   UNDER_OFFER: "En attente",
   SOLD: "Vendu",
-  RENTED: "Loué",
-  ARCHIVED: "Archivé",
+  RENTED: "LouÃ©",
+  ARCHIVED: "ArchivÃ©",
 };
 
 const PURPOSE_LABEL = {
@@ -39,7 +39,6 @@ function buildImageUrl(property) {
     property?.images?.[0] ||
     "";
 
-  // Some APIs return objects { url: "..."} or non-string values
   const raw =
     typeof rawCandidate === "string"
       ? rawCandidate
@@ -47,8 +46,7 @@ function buildImageUrl(property) {
         ? rawCandidate.url || ""
         : "";
 
-  if (!raw) return "/placeholder-house.webp";
-  if (typeof raw !== "string") return "/placeholder-house.webp";
+  if (!raw || typeof raw !== "string") return "/placeholder-house.webp";
   if (raw.startsWith("http")) return raw;
   if (raw.startsWith("/")) return `${baseUrl}${raw}`;
   return `${baseUrl}/${raw}`;
@@ -72,59 +70,57 @@ export default function PropertyCard({ property, view = "grid" }) {
         ? " / jour"
         : " / mois"
       : "";
-  const priceText = formatNumber(property?.price) ? `${formatNumber(property?.price)} FCFA${priceSuffix}` : "-";
+  const priceText = formatNumber(property?.price)
+    ? `${formatNumber(property?.price)} FCFA${priceSuffix}`
+    : "-";
 
   if (view === "list") {
     return (
-      <div className="rounded-xl shadow-sm bg-white overflow-hidden hover:shadow-md transition-all duration-200">
+      <div className="overflow-hidden rounded-xl bg-white shadow-sm transition-all duration-200 hover:shadow-md">
         <div className="flex flex-col md:flex-row">
           <Link
             to={`/property/${property.id}`}
-            className="block md:w-72 md:shrink-0 bg-slate-200 overflow-hidden"
+            className="block overflow-hidden bg-slate-200 md:w-72 md:shrink-0"
           >
-            <div className="w-full aspect-[4/3] md:aspect-auto md:h-full">
+            <div className="aspect-[4/3] w-full md:h-full md:aspect-auto">
               <img
                 src={imageUrl}
                 alt={property.title}
-                className="w-full h-full object-cover"
+                className="h-full w-full object-cover"
                 loading="lazy"
               />
             </div>
           </Link>
 
-          <div className="p-4 md:p-5 flex-1 min-w-0 flex flex-col">
+          <div className="flex min-w-0 flex-1 flex-col p-4 md:p-5">
             <div className="flex items-start justify-between gap-3">
-              <h3 className="text-base sm:text-lg font-semibold text-slate-900 leading-snug line-clamp-2">
+              <h3 className="line-clamp-2 text-base font-semibold leading-snug text-slate-900 sm:text-lg">
                 {property.title}
               </h3>
-              <div className="shrink-0 flex flex-wrap items-center justify-end gap-2">
+              <div className="flex shrink-0 flex-wrap items-center justify-end gap-2">
                 {property.visits3D?.length > 0 && (
-                  <div className="bg-rose-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+                  <div className="flex items-center gap-1 rounded-full bg-rose-600 px-2 py-1 text-xs font-medium text-white">
                     <Eye size={12} />
                     3D
                   </div>
                 )}
                 {purposeLabel && (
-                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-rose-50 text-rose-600">
+                  <span className="rounded-full bg-rose-50 px-2 py-1 text-xs font-medium text-rose-600">
                     {purposeLabel}
                   </span>
                 )}
                 {statusLabel && (
-                  <span className="text-xs font-medium px-2 py-1 rounded-full bg-slate-100 text-slate-700">
+                  <span className="rounded-full bg-slate-100 px-2 py-1 text-xs font-medium text-slate-700">
                     {statusLabel}
                   </span>
                 )}
               </div>
             </div>
 
-            {location && (
-              <p className="mt-1 text-sm text-slate-500 truncate">
-                {location}
-              </p>
-            )}
+            {location && <p className="mt-1 truncate text-sm text-slate-500">{location}</p>}
 
             {property?.description && (
-              <p className="mt-3 text-sm text-slate-700 leading-relaxed line-clamp-3">
+              <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-700">
                 {property.description}
               </p>
             )}
@@ -144,15 +140,15 @@ export default function PropertyCard({ property, view = "grid" }) {
               )}
             </div>
 
-            <div className="mt-5 pt-4 border-t border-slate-100 flex items-center justify-between gap-3">
-              <p className="text-lg sm:text-xl font-bold text-rose-500 truncate min-w-0">
+            <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
+              <p className="min-w-0 break-words text-lg font-bold text-rose-500 sm:text-xl">
                 {priceText}
               </p>
               <Link
                 to={`/property/${property.id}`}
-                className="text-sm px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-700 transition flex-shrink-0"
+                className="w-full rounded-lg bg-rose-500 px-4 py-2 text-center text-sm text-white transition hover:bg-rose-700 sm:w-auto"
               >
-                Voir détails
+                Voir dÃ©tails
               </Link>
             </div>
           </div>
@@ -162,25 +158,24 @@ export default function PropertyCard({ property, view = "grid" }) {
   }
 
   return (
-    <div className="rounded-xl shadow-md bg-white overflow-hidden hover:shadow-lg transition-all duration-200 flex flex-col h-full">
-      {/* Image */}
-      <div className="w-full aspect-[4/3] sm:h-52 lg:h-56 bg-slate-200 overflow-hidden flex-shrink-0 relative">
+    <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all duration-200 hover:shadow-lg">
+      <div className="relative aspect-[4/3] w-full flex-shrink-0 overflow-hidden bg-slate-200 sm:h-52 lg:h-56">
         <img
           src={imageUrl}
           alt={property.title}
-          className="w-full h-full object-cover"
+          className="h-full w-full object-cover"
           loading="lazy"
         />
         {purposeLabel && (
-          <div className="absolute top-3 left-3">
-            <span className="text-xs font-medium px-2 py-1 rounded-full bg-white/90 text-slate-900 backdrop-blur border border-white/50">
+          <div className="absolute left-3 top-3">
+            <span className="rounded-full border border-white/50 bg-white/90 px-2 py-1 text-xs font-medium text-slate-900 backdrop-blur">
               {purposeLabel}
             </span>
           </div>
         )}
         {property.visits3D?.length > 0 && (
-          <div className="absolute top-3 right-3">
-            <div className="bg-rose-600 text-white px-2 py-1 rounded-full text-xs font-medium flex items-center gap-1">
+          <div className="absolute right-3 top-3">
+            <div className="flex items-center gap-1 rounded-full bg-rose-600 px-2 py-1 text-xs font-medium text-white">
               <Eye size={12} />
               3D
             </div>
@@ -188,17 +183,16 @@ export default function PropertyCard({ property, view = "grid" }) {
         )}
       </div>
 
-      {/* Content */}
-      <div className="p-3 sm:p-4 space-y-2 flex flex-col flex-1 min-w-0">
-        <h3 className="text-base sm:text-lg font-semibold text-slate-900 line-clamp-2">
+      <div className="flex min-w-0 flex-1 flex-col space-y-2 p-3 sm:p-4">
+        <h3 className="line-clamp-2 text-base font-semibold text-slate-900 sm:text-lg">
           {property.title}
         </h3>
 
-        <p className="text-xs sm:text-sm text-slate-500 line-clamp-2">
+        <p className="line-clamp-2 text-xs text-slate-500 sm:text-sm">
           {property.district?.name}, {property.city?.name}
         </p>
 
-        <div className="flex flex-wrap gap-x-4 gap-y-1 text-xs text-slate-600 pt-1">
+        <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-xs text-slate-600">
           {Number.isFinite(Number(property?.bedrooms)) && (
             <MetaItem icon={<BedIcon />} text={`${Number(property.bedrooms)} ch`} />
           )}
@@ -213,16 +207,16 @@ export default function PropertyCard({ property, view = "grid" }) {
           )}
         </div>
 
-        <div className="flex flex-wrap items-center justify-between gap-2 mt-auto pt-2">
-          <p className="text-base sm:text-xl font-bold text-rose-500 truncate min-w-0">
+        <div className="mt-auto flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
+          <p className="min-w-0 break-words text-base font-bold text-rose-500 sm:text-xl">
             {(property?.price ?? 0).toLocaleString()} FCFA{priceSuffix}
           </p>
 
           <Link
             to={`/property/${property.id}`}
-            className="text-xs sm:text-sm px-3 sm:px-4 py-2 bg-rose-500 text-white rounded-lg hover:bg-rose-700 transition flex-shrink-0 touch-manipulation"
+            className="w-full rounded-lg bg-rose-500 px-3 py-2 text-center text-xs text-white transition hover:bg-rose-700 touch-manipulation sm:w-auto sm:px-4 sm:text-sm"
           >
-            Voir détails
+            Voir dÃ©tails
           </Link>
         </div>
       </div>

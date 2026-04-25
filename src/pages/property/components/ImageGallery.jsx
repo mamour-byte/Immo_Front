@@ -22,10 +22,10 @@ export default function ImageGallery({ images = [], title }) {
   return (
     <>
       <div className="mb-6 sm:mb-8">
-        <div className="grid grid-cols-1 lg:grid-cols-4 gap-3 sm:gap-4 h-[240px] sm:h-[320px] lg:h-[500px]">
+        <div className="grid grid-cols-1 gap-3 sm:gap-4 lg:grid-cols-4 lg:h-[500px]">
           {/* Image principale */}
           <div 
-            className="lg:col-span-3 relative rounded-lg sm:rounded-xl overflow-hidden cursor-pointer group"
+            className="group relative aspect-[4/3] cursor-pointer overflow-hidden rounded-lg sm:rounded-xl lg:col-span-3 lg:h-full lg:aspect-auto"
             onClick={() => setShowImageModal(true)}
             role="button"
             tabIndex={0}
@@ -63,7 +63,7 @@ export default function ImageGallery({ images = [], title }) {
               <div
                 key={idx}
                 onClick={() => setCurrentImageIndex(idx)}
-                className="relative h-full rounded-xl overflow-hidden cursor-pointer group"
+                className="group relative min-h-28 flex-1 cursor-pointer overflow-hidden rounded-xl"
                 role="button"
                 tabIndex={0}
                 onKeyDown={(e) => e.key === 'Enter' && setCurrentImageIndex(idx)}

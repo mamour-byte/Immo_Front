@@ -387,8 +387,8 @@ export default function ContactPage() {
         </div>
 
         {/* Carte */}
-        <div id="map" className="bg-white rounded-2xl overflow-hidden shadow-sm">
-          <div className="bg-slate-200 h-96 flex items-center justify-center">
+        <div id="map" className="overflow-hidden rounded-2xl bg-white shadow-sm">
+          <div className="flex h-72 items-center justify-center bg-slate-200 sm:h-96">
             <div className="text-center">
               <MapPin size={48} className="text-slate-400 mx-auto mb-4" />
               <p className="text-slate-500 font-medium">Carte interactive (Google Maps API)</p>

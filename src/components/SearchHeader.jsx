@@ -2,7 +2,7 @@ import { Grid3x3, List, ChevronDown } from "lucide-react";
 
 export default function SearchHeader({ viewMode, setViewMode, sortBy, setSortBy }) {
   return (
-    <div className="flex flex-wrap justify-between items-center gap-3 p-3 sm:p-4 bg-white shadow-sm rounded-lg mb-4">
+    <div className="mb-4 flex flex-col gap-3 rounded-lg bg-white p-3 shadow-sm sm:flex-row sm:items-center sm:justify-between sm:p-4">
       <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={() => setViewMode("grid")}
@@ -21,11 +21,11 @@ export default function SearchHeader({ viewMode, setViewMode, sortBy, setSortBy 
         </button>
       </div>
 
-      <div className="min-w-0 flex-1 sm:flex-initial">
+      <div className="min-w-0 w-full sm:w-auto sm:flex-initial">
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="w-full sm:w-auto min-w-0 max-w-full border border-slate-200 rounded-lg px-3 py-2.5 text-sm bg-slate-50 focus:outline-none focus:ring-2 focus:ring-rose-500"
+          className="w-full min-w-0 max-w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 sm:w-auto"
         >
           <option value="recent">Plus récents</option>
           <option value="priceLow">Prix croissant</option>

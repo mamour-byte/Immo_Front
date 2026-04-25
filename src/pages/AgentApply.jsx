@@ -129,7 +129,7 @@ export default function AgentApply() {
       <section className="relative overflow-hidden bg-slate-900">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(244,63,94,0.25),transparent_55%),radial-gradient(circle_at_80%_40%,rgba(244,63,94,0.18),transparent_55%)]" />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
-          <div className="flex items-start justify-between gap-6">
+          <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
               <div className="inline-flex items-center gap-2 bg-rose-500/20 text-rose-300 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-rose-400" />
@@ -162,7 +162,7 @@ export default function AgentApply() {
               />
             </div>
 
-            <div className="mt-6 grid grid-cols-2 sm:grid-cols-4 gap-3">
+            <div className="mt-6 grid grid-cols-1 gap-3 sm:grid-cols-2 xl:grid-cols-4">
               {STEPS.map((s) => {
                 const Icon = s.icon;
                 const isActive = step === s.id;
@@ -193,7 +193,7 @@ export default function AgentApply() {
                     >
                       {isDone ? <FiCheck /> : <Icon />}
                     </span>
-                    <span className="text-left">
+                    <span className="min-w-0 text-left">
                       <span className={["block text-sm font-semibold", isActive ? "text-slate-900" : ""].join(" ")}>
                         {s.label}
                       </span>
@@ -211,7 +211,7 @@ export default function AgentApply() {
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
         <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="px-6 sm:px-10 py-6 border-b border-slate-100 flex items-center justify-between gap-4">
+          <div className="flex flex-col gap-4 border-b border-slate-100 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
             <div>
               <h2 className="text-lg sm:text-xl font-bold text-slate-900">
                 {step === 1 && "Informations personnelles"}
@@ -345,7 +345,7 @@ export default function AgentApply() {
               )}
             </div>
 
-            <div className="mt-10 flex items-center justify-between gap-3">
+            <div className="mt-10 flex flex-col-reverse gap-3 sm:flex-row sm:items-center sm:justify-between">
               {step > 1 ? (
                 <button
                   type="button"
@@ -356,7 +356,7 @@ export default function AgentApply() {
                   Retour
                 </button>
               ) : (
-                <span />
+                <span className="hidden sm:block" />
               )}
 
               {step < STEPS.length ? (

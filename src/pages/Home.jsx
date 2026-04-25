@@ -42,7 +42,7 @@ export default function HomePage() {
                 <div className="max-w-7xl mx-auto">
                     
                     {/* Qui sommes-nous */}
-                    <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
+                    <div className="mb-16 grid items-center gap-8 sm:gap-12 lg:mb-24 lg:grid-cols-2">
                         <div className="order-2 lg:order-1">
                             <div className="bg-slate-100 rounded-2xl h-56 sm:h-72 lg:h-96 flex items-center justify-center overflow-hidden">
                                 <img 
@@ -69,7 +69,7 @@ export default function HomePage() {
                     </div>
 
                     {/* Notre fonctionnement */}
-                    <div className="grid lg:grid-cols-2 gap-12 items-center mb-24">
+                    <div className="mb-16 grid items-center gap-8 sm:gap-12 lg:mb-24 lg:grid-cols-2">
                         <div>
                             <div className="inline-block bg-slate-100 text-slate-700 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
                                 Notre fonctionnement
@@ -197,7 +197,7 @@ export default function HomePage() {
                         <p className="text-slate-600 text-base sm:text-lg">Explorez notre catalogue par catégorie</p>
                     </div>
 
-                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
+                    <div className="grid grid-cols-1 gap-4 sm:grid-cols-2 md:grid-cols-4 sm:gap-6">
                         <CategoryCard
                             icon={<Home size={28} />}
                             label="Villas"
@@ -259,7 +259,7 @@ export default function HomePage() {
 /* --- Process Step Component --- */
 function ProcessStep({ number, title, description }) {
     return (
-        <div className="flex gap-4">
+        <div className="flex items-start gap-4">
             <div className="flex-shrink-0 w-12 h-12 bg-rose-500 text-white rounded-full flex items-center justify-center font-bold text-lg">
                 {number}
             </div>
@@ -279,7 +279,7 @@ function ValueCard({ icon, title, description }) {
                 {icon}
             </div>
             <h3 className="font-bold text-xl text-slate-900 mb-3">{title}</h3>
-            <p className="text-slate-600 leading-relaxed">{description}</p>
+            <p className="break-words text-slate-600 leading-relaxed">{description}</p>
         </div>
     )
 }
@@ -312,7 +312,7 @@ function CategoryCard({ icon, label, count, link }) {
             className="bg-white p-4 sm:p-6 lg:p-8 rounded-xl hover:shadow-lg transition-shadow group"
         >
             <div className="text-rose-500 mb-4 group-hover:scale-110 transition-transform">{icon}</div>
-            <p className="font-semibold text-lg text-slate-900 mb-1">{label}</p>
+            <p className="mb-1 break-words text-base font-semibold text-slate-900 sm:text-lg">{label}</p>
             <p className="text-sm text-slate-500">{count}</p>
         </Link>
     )

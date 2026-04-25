@@ -1,6 +1,6 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
-import { Menu, X, Phone, MapPin, Mail, ChevronDown, User, LayoutDashboard } from 'lucide-react'
+import { Menu, X, Phone, MapPin, Mail, User } from 'lucide-react'
 
 export default function Layout() {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -34,7 +34,7 @@ export default function Layout() {
                         : 'bg-white'
                 }`}
             >
-                <nav className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <nav className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     <div className="flex items-center justify-between h-16 sm:h-20">
 
                         {/* LOGO */}
@@ -125,7 +125,7 @@ export default function Layout() {
 
             {/* FOOTER */}
             <footer className="bg-slate-900 text-slate-300 mt-12 sm:mt-24">
-                <div className="container mx-auto px-4 sm:px-6 lg:px-8">
+                <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     
                     {/* Contenu principal */}
                     <div className="py-10 sm:py-16 grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-8 sm:gap-12">
@@ -217,17 +217,6 @@ function MobileNavLink({ to, label, indent = false }) {
             className={`block py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium ${
                 indent ? 'pl-6' : 'px-3'
             }`}
-        >
-            {label}
-        </Link>
-    )
-}
-
-function DropdownItem({ to, label }) {
-    return (
-        <Link
-            to={to}
-            className="block px-4 py-2.5 hover:bg-slate-50 text-slate-700 text-sm transition-colors"
         >
             {label}
         </Link>

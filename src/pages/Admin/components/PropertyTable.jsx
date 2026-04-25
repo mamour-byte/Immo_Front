@@ -60,7 +60,7 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
 
   return (
     <div className="overflow-x-auto">
-      <table className="w-full text-left text-sm">
+      <table className="min-w-[980px] w-full text-left text-sm">
         <thead className="bg-slate-900 text-white">
           <tr>
             <th className="p-3">ID</th>
@@ -103,13 +103,15 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
                   {p.status || "-"}
                 </span>
               </td>
-              <td className="p-3 flex items-center gap-3">
-                <button onClick={() => onEdit(p)} title="Editer" className="p-1">
-                  <Edit size={16} className="text-blue-500" />
-                </button>
-                <button onClick={() => onDelete(p.id)} title="Supprimer" className="p-1">
-                  <Trash size={16} className="text-red-500" />
-                </button>
+              <td className="p-3">
+                <div className="flex items-center gap-3">
+                  <button onClick={() => onEdit(p)} title="Editer" className="p-1">
+                    <Edit size={16} className="text-blue-500" />
+                  </button>
+                  <button onClick={() => onDelete(p.id)} title="Supprimer" className="p-1">
+                    <Trash size={16} className="text-red-500" />
+                  </button>
+                </div>
               </td>
             </tr>
           ))}

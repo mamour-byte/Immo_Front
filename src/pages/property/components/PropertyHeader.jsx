@@ -48,7 +48,7 @@ export default function PropertyHeader({ property, isFavorite, onFavoriteToggle,
             <span className="truncate">{property.address || property.city?.name || 'Localisation non spécifiée'}</span>
           </p>
         </div>
-        <div className="flex items-center gap-2 sm:gap-3 flex-shrink-0">
+        <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
           <button
             onClick={onFavoriteToggle}
             className="p-2.5 sm:p-3 bg-white border border-slate-200 rounded-lg hover:bg-slate-50 transition-colors touch-manipulation"
@@ -70,7 +70,7 @@ export default function PropertyHeader({ property, isFavorite, onFavoriteToggle,
           </button>
         </div>
       </div>
-      <div className="text-2xl sm:text-3xl font-bold text-rose-500 break-all">
+      <div className="break-words text-2xl font-bold text-rose-500 sm:text-3xl">
         {formatPrice(property.price)} FCFA{priceSuffix}
       </div>
     </div>

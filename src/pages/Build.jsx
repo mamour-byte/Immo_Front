@@ -149,7 +149,7 @@ export default function ConstructionPage() {
       {/* Statistiques */}
       <section className="bg-white py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
-          <div className="grid grid-cols-2 md:grid-cols-4 gap-6 sm:gap-8">
+          <div className="grid grid-cols-2 gap-6 sm:gap-8 md:grid-cols-4">
             <StatCard number="5" label="Années d'expérience" />
             <StatCard number="20+" label="Projets réalisés" />
             <StatCard number="5+" label="Collaborateurs" />
@@ -175,7 +175,7 @@ export default function ConstructionPage() {
               <p className="text-slate-600 text-lg leading-relaxed mb-8">
                 Fondée par Thiendella Fall, ingénieur en génie civil, Ethic s’appuie sur une équipe jeune, dynamique et talentueuse pour concrétiser vos idées avec rigueur et innovation.
               </p>
-              <div className="flex gap-4">
+              <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-3">
                   <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center">
                     <Award size={24} />
@@ -270,10 +270,10 @@ export default function ConstructionPage() {
           </div>
 
           {/* Filtres */}
-          <div className="flex justify-center gap-2 sm:gap-3 mb-8 sm:mb-12 flex-wrap">
+          <div className="mb-8 flex flex-wrap justify-center gap-2 sm:mb-12 sm:gap-3">
             <button
               onClick={() => setActiveCategory('all')}
-              className={`px-6 py-2 rounded-full font-medium transition-all ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all sm:px-6 sm:text-base ${
                 activeCategory === 'all'
                   ? 'bg-slate-900 text-white'
                   : 'bg-white text-slate-600 hover:bg-slate-100'
@@ -283,7 +283,7 @@ export default function ConstructionPage() {
             </button>
             <button
               onClick={() => setActiveCategory('residential')}
-              className={`px-6 py-2 rounded-full font-medium transition-all ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all sm:px-6 sm:text-base ${
                 activeCategory === 'residential'
                   ? 'bg-slate-900 text-white'
                   : 'bg-white text-slate-600 hover:bg-slate-100'
@@ -293,7 +293,7 @@ export default function ConstructionPage() {
             </button>
             <button
               onClick={() => setActiveCategory('commercial')}
-              className={`px-6 py-2 rounded-full font-medium transition-all ${
+              className={`rounded-full px-4 py-2 text-sm font-medium transition-all sm:px-6 sm:text-base ${
                 activeCategory === 'commercial'
                   ? 'bg-slate-900 text-white'
                   : 'bg-white text-slate-600 hover:bg-slate-100'
@@ -323,7 +323,7 @@ export default function ConstructionPage() {
             <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Notre équipe
             </div>
-            <h2 className="text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="mb-4 text-2xl font-bold text-slate-900 sm:text-4xl">
               Des experts à votre service
             </h2>
             <p className="text-slate-600 text-lg max-w-2xl mx-auto">
@@ -350,7 +350,7 @@ export default function ConstructionPage() {
               <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">
                 Discutons de votre projet
               </h2>
-              <p className="text-slate-300 text-lg mb-8">
+              <p className="mb-8 text-base text-slate-300 sm:text-lg">
                 Notre équipe est à votre disposition pour étudier votre projet et vous proposer des solutions adaptées à vos besoins et votre budget.
               </p>
 
@@ -399,7 +399,7 @@ export default function ConstructionPage() {
             </div>
 
             <div className="bg-white/5 backdrop-blur-sm rounded-2xl p-4 sm:p-6 lg:p-8">
-              <h3 className="text-2xl font-bold mb-6">Demander un devis gratuit</h3>
+              <h3 className="mb-6 text-xl font-bold sm:text-2xl">Demander un devis gratuit</h3>
               <div className="space-y-4">
                 <input
                   type="text"
@@ -455,7 +455,7 @@ export default function ConstructionPage() {
             <div className="text-white">
               <h3 className="text-xl sm:text-3xl font-bold mb-2">{selectedImage.title}</h3>
               <p className="text-slate-300 text-lg mb-4">{selectedImage.description}</p>
-              <div className="flex gap-4 text-sm">
+              <div className="flex flex-wrap gap-3 text-sm">
                 <span className="bg-white/10 px-3 py-1 rounded-full">{selectedImage.location}</span>
                 <span className="bg-white/10 px-3 py-1 rounded-full">{selectedImage.year}</span>
               </div>

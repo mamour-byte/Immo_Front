@@ -213,25 +213,25 @@ export default function Account() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50 p-6">
+    <div className="min-h-screen bg-slate-50 px-4 py-6 sm:px-6">
       <div className="max-w-3xl mx-auto">
-        <header className="flex items-center justify-between mb-6">
+        <header className="mb-6 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div>
             <h1 className="text-2xl font-semibold">Mon compte</h1>
             <p className="text-sm text-slate-600">{me?.email} · {me?.role}</p>
           </div>
-          <div className="flex items-center gap-3">
+          <div className="flex w-full flex-col gap-3 sm:w-auto sm:flex-row sm:items-center">
             {me?.role === "AGENT" && (
-              <Link to="/dashboard" className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800">
+              <Link to="/dashboard" className="rounded bg-slate-900 px-4 py-2 text-center text-white hover:bg-slate-800">
                 Tableau de bord
               </Link>
             )}
             {me?.role === "ADMIN" && (
-              <Link to="/dashboard" className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800">
+              <Link to="/dashboard" className="rounded bg-slate-900 px-4 py-2 text-center text-white hover:bg-slate-800">
                 Admin
               </Link>
             )}
-            <button onClick={logout} className="px-4 py-2 bg-gray-500 text-white rounded hover:bg-gray-700">
+            <button onClick={logout} className="rounded bg-gray-500 px-4 py-2 text-white hover:bg-gray-700">
               Déconnexion
             </button>
           </div>

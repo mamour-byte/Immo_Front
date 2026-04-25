@@ -177,7 +177,7 @@ export default function SidebarFilters({ onFiltersChange }) {
 
       <aside
         className={`
-          fixed lg:sticky top-0 lg:top-20 left-0 h-full lg:h-[calc(100vh-5rem)]
+          fixed lg:sticky top-0 lg:top-20 left-0 h-[100dvh] lg:h-[calc(100vh-5rem)]
           w-[min(320px,100vw-2rem)] max-w-full lg:w-80 bg-white border-r border-slate-200
           overflow-y-auto z-50 transition-transform duration-300 ease-out
           shadow-xl lg:shadow-none

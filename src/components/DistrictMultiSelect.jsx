@@ -22,8 +22,8 @@ function DistrictMultiSelect({ districts, selectedIds, onChange }) {
 
     setDropdownStyle({
       position: 'fixed',
-      left: rect.left,
-      width: rect.width,
+      left: Math.max(8, rect.left),
+      width: Math.min(rect.width, window.innerWidth - 16),
       zIndex: 9999,
       ...(showAbove
         ? { bottom: viewportHeight - rect.top + 6 }
@@ -86,7 +86,7 @@ useEffect(() => {
       {/* Search */}
       <div className="p-2.5 border-b border-slate-100">
         <input
-          searchRef
+          ref={searchRef}
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}

@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Check, MapPin, Navigation, ExternalLink, Eye } from 'lucide-react';
+import { Check, MapPin, Navigation, Eye } from 'lucide-react';
 import Property3DViewer from '../../../components/Property3DViewer';
 
 export default function PropertyTabs({ property }) {
@@ -15,12 +15,12 @@ export default function PropertyTabs({ property }) {
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
       {/* Tabs Header */}
-      <div className="flex border-b border-slate-200 bg-slate-50/50">
+      <div className="flex overflow-x-auto border-b border-slate-200 bg-slate-50/50 scrollbar-hide">
         {['description', 'features', 'location', ...(property.visits3D?.length > 0 ? ['3d-tour'] : [])].map((tab) => (
           <button
             key={tab}
             onClick={() => setActiveTab(tab)}
-            className={`flex-1 py-4 px-6 font-semibold text-sm transition-all relative ${
+            className={`relative shrink-0 px-4 py-4 text-sm font-semibold transition-all sm:flex-1 sm:px-6 ${
               activeTab === tab
                 ? 'text-rose-600'
                 : 'text-slate-500 hover:text-slate-700'
@@ -38,7 +38,7 @@ export default function PropertyTabs({ property }) {
         ))}
       </div>
 
-      <div className="p-6">
+      <div className="p-4 sm:p-6">
         {/* Description Tab */}
         {activeTab === 'description' && (
           <div className="prose prose-slate max-w-none">
@@ -71,10 +71,10 @@ export default function PropertyTabs({ property }) {
           <div className="space-y-4">
             {property.latitude && property.longitude ? (
               <>
-                <div className="relative rounded-xl overflow-hidden border border-slate-200 shadow-inner group">
+                <div className="group relative overflow-hidden rounded-xl border border-slate-200 shadow-inner">
                   <iframe
                     width="100%"
-                    height="350"
+                    height="320"
                     style={{ border: 0 }}
                     loading="lazy"
                     allowFullScreen
