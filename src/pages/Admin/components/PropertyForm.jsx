@@ -263,7 +263,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
       latitude: form.latitude !== "" ? Number(form.latitude) : undefined,
       longitude: form.longitude !== "" ? Number(form.longitude) : undefined,
       features: (form.features || []).map((f) => Number(f)).filter((v) => !Number.isNaN(v)),
-      assets3D: cleanVisits3D.length > 0 ? cleanVisits3D : undefined,
+      assets3D: cleanVisits3D,
     };
     onSubmit({ ...payload, files });
   }
