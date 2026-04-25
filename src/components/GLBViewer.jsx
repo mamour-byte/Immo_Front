@@ -66,15 +66,16 @@ export default function GLBViewer({ asset }) {
   const [isLoading, setIsLoading] = useState(true);
   const [hasError, setHasError] = useState(false);
   const [key, setKey] = useState(0); // For forcing re-render on retry
+  const isWebGLSupported = useMemo(() => {
+    if (typeof window === 'undefined' || typeof document === 'undefined') return true;
+    const canvas = document.createElement('canvas');
+    const gl = canvas.getContext('webgl2') || canvas.getContext('webgl') || canvas.getContext('experimental-webgl');
+    return Boolean(gl);
+  }, []);
 
   const handleLoad = () => {
     setIsLoading(false);
     setHasError(false);
-  };
-
-  const handleError = () => {
-    setIsLoading(false);
-    setHasError(true);
   };
 
   const handleRetry = () => {
@@ -117,6 +118,27 @@ export default function GLBViewer({ asset }) {
 
       {/* 3D Viewer */}
       <div className={`relative ${isFullscreen ? 'h-[calc(100vh-80px)]' : 'h-96'}`}>
+        {!isWebGLSupported && (
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-100 p-6">
+            <div className="max-w-md rounded-xl border border-amber-200 bg-amber-50 p-4 text-center text-amber-900">
+              <p className="font-semibold">WebGL non supporte sur ce navigateur.</p>
+              <p className="mt-2 text-sm">
+                La visite 3D locale n&apos;est pas disponible ici. Ouvrez-la sur un navigateur compatible ou dans un nouvel onglet.
+              </p>
+              {asset.fileUrl && (
+                <a
+                  href={asset.fileUrl}
+                  target="_blank"
+                  rel="noopener noreferrer"
+                  className="mt-3 inline-block rounded-lg bg-amber-600 px-4 py-2 text-sm font-semibold text-white hover:bg-amber-700"
+                >
+                  Ouvrir le fichier 3D
+                </a>
+              )}
+            </div>
+          </div>
+        )}
+
         {isLoading && !hasError && (
           <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
             <div className="text-center">
@@ -126,42 +148,45 @@ export default function GLBViewer({ asset }) {
           </div>
         )}
 
-        <Canvas
-          key={key}
-          camera={{ position: [0, 0, 5], fov: 50 }}
-          style={{ background: '#f8fafc' }}
-        >
-          <Suspense fallback={<Loader />}>
-            {/* Lighting */}
-            <ambientLight intensity={0.6} />
-            <directionalLight position={[10, 10, 5]} intensity={1} />
-            <pointLight position={[-10, -10, -5]} intensity={0.5} />
+        {isWebGLSupported && (
+          <Canvas
+            key={key}
+            camera={{ position: [0, 0, 5], fov: 50 }}
+            style={{ background: '#f8fafc' }}
+            dpr={[1, 1.5]}
+            gl={{ antialias: true, alpha: true, powerPreference: 'high-performance' }}
+          >
+            <Suspense fallback={<Loader />}>
+              {/* Lighting */}
+              <ambientLight intensity={0.6} />
+              <directionalLight position={[10, 10, 5]} intensity={1} />
+              <pointLight position={[-10, -10, -5]} intensity={0.5} />
 
-            {/* Environment for reflections */}
-            <Environment preset="studio" />
+              {/* Environment for reflections */}
+              <Environment preset="studio" />
 
-            {/* Controls */}
-            <OrbitControls
-              enablePan={true}
-              enableZoom={true}
-              enableRotate={true}
-              maxDistance={10}
-              minDistance={1}
-            />
-
-            {/* Model */}
-            {!hasError && (
-              <Model
-                url={asset.fileUrl}
-                onLoad={handleLoad}
-                onError={handleError}
+              {/* Controls */}
+              <OrbitControls
+                enablePan={true}
+                enableZoom={true}
+                enableRotate={true}
+                maxDistance={10}
+                minDistance={1}
               />
-            )}
 
-            {/* Error display */}
-            {hasError && <ErrorFallback onRetry={handleRetry} />}
-          </Suspense>
-        </Canvas>
+              {/* Model */}
+              {!hasError && (
+                <Model
+                  url={asset.fileUrl}
+                  onLoad={handleLoad}
+                />
+              )}
+
+              {/* Error display */}
+              {hasError && <ErrorFallback onRetry={handleRetry} />}
+            </Suspense>
+          </Canvas>
+        )}
 
         {!isLoading && !hasError && (
           <div className="absolute bottom-4 left-4 right-4">

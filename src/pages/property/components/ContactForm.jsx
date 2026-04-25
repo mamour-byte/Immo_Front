@@ -85,7 +85,7 @@ export default function ContactForm({ property, onWhatsAppClick }) {
           </div>
         )}
         <div className="min-w-0">
-          <p className="font-semibold text-slate-900 truncate">{agent ? agentName : "Agent non renseignÃ©"}</p>
+          <p className="font-semibold text-slate-900 truncate">{agent ? agentName : "Agent non renseigné"}</p>
           <p className="text-sm text-slate-600 truncate">{agentCompany || (agent?.email ? agent.email : "")}</p>
         </div>
       </div>

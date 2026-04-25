@@ -7,8 +7,8 @@ const STATUS_LABEL = {
   AVAILABLE: "Disponible",
   UNDER_OFFER: "En attente",
   SOLD: "Vendu",
-  RENTED: "LouÃ©",
-  ARCHIVED: "ArchivÃ©",
+  RENTED: "Loué",
+  ARCHIVED: "Archivé",
 };
 
 const PURPOSE_LABEL = {
@@ -82,7 +82,7 @@ export default function PropertyCard({ property, view = "grid" }) {
             to={`/property/${property.id}`}
             className="block overflow-hidden bg-slate-200 md:w-72 md:shrink-0"
           >
-            <div className="aspect-[4/3] w-full md:h-full md:aspect-auto">
+            <div className="aspect-4/3 w-full md:h-full md:aspect-auto">
               <img
                 src={imageUrl}
                 alt={property.title}
@@ -141,14 +141,14 @@ export default function PropertyCard({ property, view = "grid" }) {
             </div>
 
             <div className="mt-5 flex flex-col gap-3 border-t border-slate-100 pt-4 sm:flex-row sm:items-center sm:justify-between">
-              <p className="min-w-0 break-words text-lg font-bold text-rose-500 sm:text-xl">
+              <p className="min-w-0 wrap-break-word text-lg font-bold text-rose-500 sm:text-xl">
                 {priceText}
               </p>
               <Link
                 to={`/property/${property.id}`}
                 className="w-full rounded-lg bg-rose-500 px-4 py-2 text-center text-sm text-white transition hover:bg-rose-700 sm:w-auto"
               >
-                Voir dÃ©tails
+                Voir détails
               </Link>
             </div>
           </div>
@@ -159,7 +159,7 @@ export default function PropertyCard({ property, view = "grid" }) {
 
   return (
     <div className="flex h-full flex-col overflow-hidden rounded-xl bg-white shadow-md transition-all duration-200 hover:shadow-lg">
-      <div className="relative aspect-[4/3] w-full flex-shrink-0 overflow-hidden bg-slate-200 sm:h-52 lg:h-56">
+      <div className="relative aspect-4/3 w-full shrink-0 overflow-hidden bg-slate-200 sm:h-52 lg:h-56">
         <img
           src={imageUrl}
           alt={property.title}
@@ -208,7 +208,7 @@ export default function PropertyCard({ property, view = "grid" }) {
         </div>
 
         <div className="mt-auto flex flex-col gap-2 pt-2 sm:flex-row sm:items-center sm:justify-between">
-          <p className="min-w-0 break-words text-base font-bold text-rose-500 sm:text-xl">
+          <p className="min-w-0 wrap-break-word text-base font-bold text-rose-500 sm:text-xl">
             {(property?.price ?? 0).toLocaleString()} FCFA{priceSuffix}
           </p>
 
@@ -216,7 +216,7 @@ export default function PropertyCard({ property, view = "grid" }) {
             to={`/property/${property.id}`}
             className="w-full rounded-lg bg-rose-500 px-3 py-2 text-center text-xs text-white transition hover:bg-rose-700 touch-manipulation sm:w-auto sm:px-4 sm:text-sm"
           >
-            Voir dÃ©tails
+            Voir détails
           </Link>
         </div>
       </div>

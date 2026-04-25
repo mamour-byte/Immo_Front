@@ -5,19 +5,16 @@ import { getAsset3DViewerConfig } from '../utils/asset3d';
 
 export default function Property3DViewer({ asset }) {
   const [isFullscreen, setIsFullscreen] = useState(false);
-  const [isLoading, setIsLoading] = useState(true);
+  const [loadedSrc, setLoadedSrc] = useState(null);
   const { embedUrl, publicUrl, error } = getAsset3DViewerConfig(asset);
+  const shouldRenderIframe = asset.provider !== 'glb' && Boolean(embedUrl);
+  const isLoading = shouldRenderIframe && loadedSrc !== embedUrl;
 
   useEffect(() => {
-    if (asset.provider === 'glb' || !embedUrl) {
-      setIsLoading(false);
-      return undefined;
-    }
-
-    setIsLoading(true);
-    const timer = setTimeout(() => setIsLoading(false), 2000);
+    if (!embedUrl) return undefined;
+    const timer = setTimeout(() => setLoadedSrc(embedUrl), 3500);
     return () => clearTimeout(timer);
-  }, [asset.provider, embedUrl]);
+  }, [embedUrl]);
 
   if (asset.provider === 'glb') {
     if (!asset.fileUrl) {
@@ -32,14 +29,14 @@ export default function Property3DViewer({ asset }) {
   }
 
   return (
-    <div className={`relative bg-slate-100 rounded-xl overflow-hidden border border-slate-200 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
-      <div className="flex items-center justify-between p-4 bg-white border-b border-slate-200">
-        <div>
-          <h3 className="font-semibold text-slate-900">{asset.title || 'Visite 3D'}</h3>
+    <div className={`relative min-w-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
+      <div className="flex flex-col gap-3 p-4 bg-white border-b border-slate-200 sm:flex-row sm:items-center sm:justify-between">
+        <div className="min-w-0">
+          <h3 className="font-semibold text-slate-900 wrap-break-word">{asset.title || 'Visite 3D'}</h3>
           <p className="text-sm text-slate-500 capitalize">{asset.provider}</p>
         </div>
 
-        <div className="flex items-center gap-2">
+        <div className="flex items-center gap-2 flex-wrap">
           <a
             href={publicUrl || asset.assetUrl}
             target="_blank"
@@ -59,7 +56,7 @@ export default function Property3DViewer({ asset }) {
         </div>
       </div>
 
-      <div className={`relative ${isFullscreen ? 'h-[calc(100vh-80px)]' : 'h-96'}`}>
+      <div className={`relative ${isFullscreen ? 'h-[calc(100vh-80px)]' : 'h-[260px] sm:h-96'}`}>
         {!embedUrl ? (
           <div className="h-full flex items-center justify-center p-6 bg-amber-50 text-amber-900">
             <div className="max-w-lg text-center space-y-2">
@@ -82,11 +79,12 @@ export default function Property3DViewer({ asset }) {
             )}
 
             <iframe
+              key={embedUrl}
               src={embedUrl}
               className={`w-full h-full ${isLoading ? 'opacity-0' : 'opacity-100'} transition-opacity duration-300`}
               allowFullScreen
               allow="xr-spatial-tracking; gyroscope; accelerometer"
-              onLoad={() => setIsLoading(false)}
+              onLoad={() => setLoadedSrc(embedUrl)}
               title={`Visite 3D - ${asset.title || 'Propriete'}`}
             />
 

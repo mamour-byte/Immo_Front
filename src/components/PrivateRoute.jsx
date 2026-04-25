@@ -71,7 +71,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
       }
 
       if (!roles.includes(role)) {
-        // Ne pas dÃ©connecter : authentifiÃ© mais pas autorisÃ© pour cette route
+        // Ne pas déconnecter : authentifié mais pas autorisé pour cette route
         const target = role === 'ADMIN' || role === 'AGENT' ? '/dashboard' : '/account';
         setRedirectTo(target);
         setIsAuthenticated(false);
@@ -104,7 +104,7 @@ export default function PrivateRoute({ children, roles = ['ADMIN'] }) {
       clearInterval(interval);
       window.removeEventListener("storage", handleStorageChange);
     };
-  }, [navigate]);
+  }, [navigate, roles]);
 
   // En attente de vérification
   if (isAuthenticated === null) {

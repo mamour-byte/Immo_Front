@@ -5,12 +5,23 @@ import Property3DViewer from '../../../components/Property3DViewer';
 export default function PropertyTabs({ property }) {
   const [activeTab, setActiveTab] = useState('description');
   const features = property.features?.map(f => f.feature?.name) || [];
+  const mapTilerKey = import.meta.env.VITE_MAPTILER_API_KEY;
 
   // Fonction pour générer le lien d'itinéraire
   const getDirectionsUrl = () => {
     const destination = `${property.latitude},${property.longitude}`;
     return `https://www.google.com/maps/dir/?api=1&destination=${destination}`;
   };
+
+  const getMaptilerStaticUrl = () => {
+    if (!property.latitude || !property.longitude || !mapTilerKey) return null;
+    return `https://api.maptiler.com/maps/streets-v2/static/${property.longitude},${property.latitude},15/1200x640.png?key=${mapTilerKey}&markers=${property.longitude},${property.latitude},red`;
+  };
+
+  const maptilerStaticUrl = getMaptilerStaticUrl();
+  const osmEmbedUrl = property.latitude && property.longitude
+    ? `https://www.openstreetmap.org/export/embed.html?bbox=${property.longitude - 0.01}%2C${property.latitude - 0.01}%2C${property.longitude + 0.01}%2C${property.latitude + 0.01}&layer=mapnik&marker=${property.latitude}%2C${property.longitude}`
+    : null;
 
   return (
     <div className="bg-white rounded-xl shadow-sm border border-slate-100 overflow-hidden">
@@ -71,21 +82,26 @@ export default function PropertyTabs({ property }) {
           <div className="space-y-4">
             {property.latitude && property.longitude ? (
               <>
-                <div className="group relative overflow-hidden rounded-xl border border-slate-200 shadow-inner">
-                  <iframe
-                    width="100%"
-                    height="320"
-                    style={{ border: 0 }}
-                    loading="lazy"
-                    allowFullScreen
-                    referrerPolicy="no-referrer-when-downgrade"
-                    /* Note: On centre sur la latitude/longitude */
-                    src={`https://api.maptiler.com/maps/base-v4/?key=${
-                    import.meta.env.VITE_MAPTILER_API_KEY || "get_your_own_OpIi9ZULNHzrESv6T2vL"
-                  }#15/${property.latitude}/${property.longitude}`}
-
-                  title="Localisation du bien"
-                  />
+                <div className="group relative overflow-hidden rounded-xl border border-slate-200 shadow-inner min-h-[320px]">
+                  {maptilerStaticUrl ? (
+                    <img
+                      src={maptilerStaticUrl}
+                      alt="Carte de localisation du bien"
+                      className="h-[320px] w-full object-cover"
+                      loading="lazy"
+                    />
+                  ) : (
+                    <iframe
+                      width="100%"
+                      height="320"
+                      style={{ border: 0 }}
+                      loading="lazy"
+                      allowFullScreen
+                      referrerPolicy="no-referrer-when-downgrade"
+                      src={osmEmbedUrl}
+                      title="Localisation du bien"
+                    />
+                  )}
                   {/* Custom Marker Overlay - Centré exactement */}
                   <div className="absolute inset-0 pointer-events-none flex items-center justify-center">
                     <div className="relative flex flex-col items-center">
@@ -131,10 +147,12 @@ export default function PropertyTabs({ property }) {
 
         {/* 3D Tour Tab */}
         {activeTab === '3d-tour' && (
-          <div className="space-y-6">
+          <div className="space-y-6 min-w-0 overflow-hidden">
             {property.visits3D?.length > 0 ? (
               property.visits3D.map((asset, index) => (
-                <Property3DViewer key={asset.id || index} asset={asset} />
+                <div key={asset.id || index} className="min-w-0 overflow-hidden">
+                  <Property3DViewer asset={asset} />
+                </div>
               ))
             ) : (
               <div className="bg-slate-100 rounded-xl h-60 flex flex-col items-center justify-center border-2 border-dashed border-slate-200">
