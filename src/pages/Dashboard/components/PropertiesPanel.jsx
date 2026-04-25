@@ -9,6 +9,7 @@ import {
   useUploadImages,
   useCities,
   useDistricts,
+  useFeatures,
 } from "../../Admin/hooks/useProperties";
 import { uploadProperty3DAsset } from "../../Admin/services/propertiesApi";
 import PropertyFilters from "../../Admin/components/PropertyFilters";
@@ -33,11 +34,15 @@ const DEFAULT_FILTERS = {
 function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, showAgent }) {
   const { data: cities } = useCities();
   const { data: districts } = useDistricts();
+  const { data: features } = useFeatures();
 
   const { data: propsData, isLoading, isError } = listQuery;
   const items = Array.isArray(propsData) ? propsData : (propsData?.items ?? []);
   const total = propsData?.total ?? (Array.isArray(propsData) ? propsData.length : items.length);
   const totalPages = Math.max(1, Math.ceil(total / (filters.pageSize || 10)));
+  const featureOptions = Array.isArray(features)
+    ? features.map((feature) => ({ value: feature.id, label: feature.name }))
+    : [];
 
   const createMutation = useCreateProperty();
   const createWithImagesMutation = useCreatePropertyWithImages();
@@ -208,6 +213,7 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
           initial={selected}
           cities={cities || []}
           districts={districts || []}
+          featureOptions={featureOptions}
           onCancel={() => {
             setShowForm(false);
             setSelected(null);

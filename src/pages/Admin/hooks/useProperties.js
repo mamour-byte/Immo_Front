@@ -36,6 +36,14 @@ export function useDistricts() {
   });
 }
 
+export function useFeatures() {
+  return useQuery({
+    queryKey: ["features"],
+    queryFn: api.fetchFeatures,
+    staleTime: 60 * 60 * 1000,
+  });
+}
+
 // ----- Properties -----
 export function useProperties(params) {
   return useQuery({

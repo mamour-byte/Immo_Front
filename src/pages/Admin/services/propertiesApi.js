@@ -125,6 +125,11 @@ export async function fetchDistricts() {
   return res.data;
 }
 
+export async function fetchFeatures() {
+  const res = await api.get("/features");
+  return res.data;
+}
+
 export async function createProperty(payload) {
   // Correction mapping surface et ajout toilettes
   const mappedPayload = { ...payload };

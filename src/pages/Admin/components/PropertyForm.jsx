@@ -1,6 +1,6 @@
 // components/PropertyForm.jsx
 import { useEffect, useMemo, useRef, useState } from "react";
-import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS, FEATURES_OPTIONS } from "../constants/propertyOptions";
+import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS } from "../constants/propertyOptions";
 import { Eye, Plus, Trash2 } from "lucide-react";
 import { normalizeAsset3DSourceUrl } from "../../../utils/asset3d";
 
@@ -48,7 +48,15 @@ function isLegacySketchfabUrl(rawUrl) {
   return rawUrl?.toLowerCase?.().includes('sketchfab.com');
 }
 
-export default function PropertyForm({ initial = null, cities = [], districts = [], onCancel, onSubmit, isLoading = false }) {
+export default function PropertyForm({
+  initial = null,
+  cities = [],
+  districts = [],
+  featureOptions = [],
+  onCancel,
+  onSubmit,
+  isLoading = false,
+}) {
   const MAX_FILES = 15;
 
   const [form, setForm] = useState(() => {
@@ -451,7 +459,7 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
           <div>
             <label className="block text-sm font-medium mb-2">Caractéristiques</label>
             <div className="grid grid-cols-2 md:grid-cols-3 gap-2">
-              {FEATURES_OPTIONS.map((feat) => (
+              {featureOptions.map((feat) => (
                 <label key={feat.value} className="flex items-center gap-2 text-sm">
                   <input
                     type="checkbox"
@@ -463,6 +471,11 @@ export default function PropertyForm({ initial = null, cities = [], districts = 
                 </label>
               ))}
             </div>
+            {featureOptions.length === 0 && (
+              <p className="text-sm text-gray-500">
+                Aucune caractéristique n&apos;est configurée pour le moment.
+              </p>
+            )}
           </div>
 
           {/* Visites 3D */}
