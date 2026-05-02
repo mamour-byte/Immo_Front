@@ -6,6 +6,7 @@ export default function Layout() {
     const [menuOpen, setMenuOpen] = useState(false)
     const [scrolled, setScrolled] = useState(false)
     const location = useLocation()
+    const isWorkspaceRoute = location.pathname.startsWith('/dashboard') || location.pathname.startsWith('/admin')
 
     useEffect(() => {
         const handleScroll = () => {
@@ -23,6 +24,10 @@ export default function Layout() {
     // Liens simples: la logique d'autorisation/redirect est gérée par PrivateRoute
     const dashboardPath = '/dashboard'
     const profilePath = '/account'
+
+    if (isWorkspaceRoute) {
+        return <Outlet />
+    }
 
     return (
         <>

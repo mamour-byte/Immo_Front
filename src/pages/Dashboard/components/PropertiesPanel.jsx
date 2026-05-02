@@ -146,7 +146,7 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
       try {
         await uploadProperty3DAsset(propertyId, asset);
       } catch (error) {
-        console.error('Erreur upload fichier 3D:', error);
+        console.error("Erreur upload fichier 3D:", error);
       }
     }
   }
@@ -162,8 +162,8 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
     uploadMutation.isPending;
 
   return (
-    <div className="grid grid-cols-1 gap-6 lg:grid-cols-4">
-      <div className="min-w-0 lg:col-span-1">
+    <div className="grid grid-cols-1 gap-5 xl:grid-cols-4">
+      <div className="min-w-0 xl:col-span-1">
         <PropertyFilters
           filters={filters}
           setFilters={(f) => {
@@ -172,26 +172,26 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
         />
       </div>
 
-      <div className="min-w-0 lg:col-span-3">
-        <section className="bg-white rounded shadow p-4">
+      <div className="min-w-0 xl:col-span-3">
+        <section>
           <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
-              <h2 className="text-lg font-medium">{title} ({total})</h2>
-              {subtitle && <p className="text-sm text-gray-600">{subtitle}</p>}
+              <h2 className="text-lg font-semibold text-slate-950">{title} ({total})</h2>
+              {subtitle && <p className="text-sm text-slate-600">{subtitle}</p>}
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="text-sm text-gray-600">Page {filters.page} / {totalPages}</div>
+              <div className="text-sm text-slate-600">Page {filters.page} / {totalPages}</div>
               <button
                 onClick={openCreate}
-                className="rounded bg-rose-500 px-4 py-2 text-white hover:bg-rose-700"
+                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
               >
-                + Ajouter
+                Ajouter
               </button>
             </div>
           </div>
 
           {isError && (
-            <div className="p-4 mb-4 bg-red-50 border border-red-200 rounded text-red-700">
+            <div className="p-4 mb-4 bg-red-50 border border-red-200 rounded-lg text-red-700">
               Erreur lors du chargement des biens. Vérifiez la console pour plus de détails.
             </div>
           )}

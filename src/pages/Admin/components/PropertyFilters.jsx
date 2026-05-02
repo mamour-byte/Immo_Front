@@ -1,13 +1,27 @@
 // components/PropertyFilters.jsx
-import { useState, useEffect } from "react";
+import { useEffect, useState } from "react";
 import { useCities, useDistricts } from "../hooks/useProperties";
-import { TYPE_OPTIONS, PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS } from "../constants/propertyOptions";
+import { PURPOSE_OPTIONS, RENTAL_MODE_OPTIONS, STATUS_OPTIONS, TYPE_OPTIONS } from "../constants/propertyOptions";
+
+const DEFAULTS = {
+  query: "",
+  type: "",
+  purpose: "",
+  rentalMode: "",
+  cityId: "",
+  districtId: "",
+  status: "",
+  sortField: "createdAt",
+  sortDir: "desc",
+  page: 1,
+  pageSize: 10,
+};
+
+const inputClass = "w-full rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-900";
 
 export default function PropertyFilters({ filters, setFilters }) {
   const { data: cities = [] } = useCities();
   const { data: districts = [] } = useDistricts();
-
-  // local state mirroring filters to avoid too many updates
   const [local, setLocal] = useState(filters);
 
   useEffect(() => {
@@ -17,34 +31,43 @@ export default function PropertyFilters({ filters, setFilters }) {
   function apply() {
     setFilters(local);
   }
+
   function reset() {
-    const defaults = { query: "", type: "", purpose: "", rentalMode: "", cityId: "", districtId: "", status: "", sortField: "createdAt", sortDir: "desc", page: 1, pageSize: 10 };
-    setLocal(defaults);
-    setFilters(defaults);
+    setLocal(DEFAULTS);
+    setFilters(DEFAULTS);
   }
 
   const filteredDistricts = districts.filter((d) => !local.cityId || String(d.cityId) === String(local.cityId));
 
   return (
-    <div className="bg-white p-4 rounded-lg shadow">
-      <h3 className="font-semibold mb-3">Filtres</h3>
+    <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+      <h3 className="mb-3 text-sm font-semibold text-slate-950">Filtres</h3>
       <div className="space-y-3">
-        <input value={local.query} onChange={(e) => setLocal({ ...local, query: e.target.value })} placeholder="Recherche texte" className="w-full p-2 border rounded" />
+        <input
+          value={local.query}
+          onChange={(e) => setLocal({ ...local, query: e.target.value })}
+          placeholder="Recherche texte"
+          className={inputClass}
+        />
 
-        <select value={local.type} onChange={(e) => setLocal({ ...local, type: e.target.value })} className="w-full p-2 border rounded">
+        <select value={local.type} onChange={(e) => setLocal({ ...local, type: e.target.value })} className={inputClass}>
           <option value="">Tous types</option>
-          {TYPE_OPTIONS.map(t => (<option key={t.value} value={t.value}>{t.label}</option>))}
+          {TYPE_OPTIONS.map((type) => (
+            <option key={type.value} value={type.value}>{type.label}</option>
+          ))}
         </select>
 
-        <select value={local.purpose} onChange={(e) => setLocal({ ...local, purpose: e.target.value })} className="w-full p-2 border rounded">
+        <select value={local.purpose} onChange={(e) => setLocal({ ...local, purpose: e.target.value })} className={inputClass}>
           <option value="">Tous objectifs</option>
-          {PURPOSE_OPTIONS.map(p => (<option key={p.value} value={p.value}>{p.label}</option>))}
+          {PURPOSE_OPTIONS.map((purpose) => (
+            <option key={purpose.value} value={purpose.value}>{purpose.label}</option>
+          ))}
         </select>
 
         <select
           value={local.rentalMode || ""}
           onChange={(e) => setLocal({ ...local, rentalMode: e.target.value })}
-          className="w-full p-2 border rounded"
+          className={`${inputClass} disabled:bg-slate-100`}
           disabled={local.purpose && local.purpose !== "LOCATION"}
         >
           <option value="">Mode de location (tous)</option>
@@ -53,24 +76,42 @@ export default function PropertyFilters({ filters, setFilters }) {
           ))}
         </select>
 
-        <select value={local.cityId} onChange={(e) => { setLocal({ ...local, cityId: e.target.value, districtId: "" }) }} className="w-full p-2 border rounded">
+        <select
+          value={local.cityId}
+          onChange={(e) => setLocal({ ...local, cityId: e.target.value, districtId: "" })}
+          className={inputClass}
+        >
           <option value="">Toutes villes</option>
-          {cities.map(c => (<option key={c.id} value={c.id}>{c.name}</option>))}
+          {cities.map((city) => (
+            <option key={city.id} value={city.id}>{city.name}</option>
+          ))}
         </select>
 
-        <select value={local.districtId} onChange={(e) => setLocal({ ...local, districtId: e.target.value })} className="w-full p-2 border rounded">
+        <select
+          value={local.districtId}
+          onChange={(e) => setLocal({ ...local, districtId: e.target.value })}
+          className={inputClass}
+        >
           <option value="">Tous quartiers</option>
-          {filteredDistricts.map(d => (<option key={d.id} value={d.id}>{d.name}</option>))}
+          {filteredDistricts.map((district) => (
+            <option key={district.id} value={district.id}>{district.name}</option>
+          ))}
         </select>
 
-        <select value={local.status} onChange={(e) => setLocal({ ...local, status: e.target.value })} className="w-full p-2 border rounded">
+        <select value={local.status} onChange={(e) => setLocal({ ...local, status: e.target.value })} className={inputClass}>
           <option value="">Tous statuts</option>
-          {STATUS_OPTIONS.map(s => (<option key={s.value} value={s.value}>{s.label}</option>))}
+          {STATUS_OPTIONS.map((status) => (
+            <option key={status.value} value={status.value}>{status.label}</option>
+          ))}
         </select>
 
         <div className="flex gap-2">
-          <button onClick={apply} className="flex-1 bg-rose-500 text-white py-2 rounded">Appliquer</button>
-          <button onClick={reset} className="flex-1 border py-2 rounded">Réinitialiser</button>
+          <button onClick={apply} className="flex-1 rounded-lg bg-slate-900 py-2 text-sm font-semibold text-white">
+            Appliquer
+          </button>
+          <button onClick={reset} className="flex-1 rounded-lg border border-slate-200 bg-white py-2 text-sm font-medium text-slate-700">
+            Réinitialiser
+          </button>
         </div>
       </div>
     </div>
