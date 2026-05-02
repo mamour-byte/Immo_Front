@@ -6,6 +6,7 @@ import {
   ClipboardCheck,
   Home,
   LogOut,
+  MessageSquareText,
   UserRound,
   UsersRound,
 } from "lucide-react";
@@ -13,6 +14,7 @@ import {
 const adminItems = [
   { key: "overview", label: "Vue CRM", icon: BarChart3 },
   { key: "properties", label: "Biens", icon: Building2 },
+  { key: "messages", label: "Demandes clients", icon: MessageSquareText },
   { key: "applications", label: "Demandes", icon: ClipboardCheck },
   { key: "users", label: "Agents & comptes", icon: UsersRound },
 ];

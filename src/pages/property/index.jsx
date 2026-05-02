@@ -16,7 +16,7 @@ import ErrorBoundary from './components/ErrorBoundary';
 
 // Hooks et utilitaires
 import { usePropertyFetch, useSimilarProperties } from './hooks/useProperty';
-import { generatePropertySEO, openWhatsApp } from './utils/helpers';
+import { generatePropertySEO } from './utils/helpers';
 
 export default function PropertyDetailPage() {
   const { id } = useParams();
@@ -31,7 +31,6 @@ export default function PropertyDetailPage() {
   const images = property.images?.length 
     ? property.images.map(i => i.url) 
     : ['https://picsum.photos/500/300?random'];
-  const agentWhatsApp = property?.agent?.agentProfile?.whatsapp || property?.agent?.phone;
 
   const handleShare = async () => {
     if (navigator.share) {
@@ -143,10 +142,7 @@ export default function PropertyDetailPage() {
 
             {/* Sidebar */}
             <div className="space-y-6 order-1 lg:order-2 mt-0 lg:mt-20">
-              <ContactForm 
-                property={property}
-                onWhatsAppClick={() => openWhatsApp(property, agentWhatsApp)}
-              />
+              <ContactForm property={property} />
             </div>
           </div>
 

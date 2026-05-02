@@ -1,25 +1,45 @@
-import { useState } from 'react';
-import { MessageCircle, Phone, Mail } from 'lucide-react';
+import { useRef, useState } from 'react';
+import { Mail, MessageCircle, Phone } from 'lucide-react';
 import { showError, showSuccess } from '../utils/notifications';
 import { API_URL } from '../../services/http';
+import { getWhatsAppMessage } from '../utils/helpers';
 
-export default function ContactForm({ property, onWhatsAppClick }) {
-  const agent = property?.agent;
-  const agentProfile = agent?.agentProfile;
-  const agentName = agent?.fullName || 'Agent';
-  const agentCompany = agentProfile?.companyName;
-  const agentAvatarUrl = agentProfile?.avatarUrl;
-  const hasWhatsApp = Boolean(agentProfile?.whatsapp || agent?.phone);
+const CENTRAL_PHONE_DISPLAY = '+221 77 856 98 23';
+const CENTRAL_WHATSAPP = '221778569823';
+const DEFAULT_MESSAGE = 'Je suis intéressé par ce bien. Pouvez-vous me contacter ?';
 
+export default function ContactForm({ property }) {
+  const formRef = useRef(null);
   const [contactForm, setContactForm] = useState({
     name: '',
     email: '',
     phone: '',
-    message: 'Je suis intéressé par ce bien. Pouvez-vous me contacter ?'
+    message: DEFAULT_MESSAGE,
   });
   const [isSubmitting, setIsSubmitting] = useState(false);
+  const [whatsAppLoading, setWhatsAppLoading] = useState(false);
   const [submitSuccess, setSubmitSuccess] = useState(false);
   const [submitError, setSubmitError] = useState(null);
+
+  async function sendRequest(channel) {
+    const response = await fetch(`${API_URL}/contact`, {
+      method: 'POST',
+      headers: {
+        'Content-Type': 'application/json',
+      },
+      body: JSON.stringify({
+        ...contactForm,
+        channel,
+        propertyId: property.id,
+      }),
+    });
+
+    const data = await response.json();
+    if (!response.ok || !data.success) {
+      throw new Error(data.error || data.message || 'Une erreur est survenue');
+    }
+    return data;
+  }
 
   const handleSubmit = async (e) => {
     e.preventDefault();
@@ -28,36 +48,11 @@ export default function ContactForm({ property, onWhatsAppClick }) {
     setSubmitSuccess(false);
 
     try {
-      const response = await fetch(`${API_URL}/contact`, {
-        method: 'POST',
-        headers: {
-          'Content-Type': 'application/json',
-        },
-        body: JSON.stringify({
-          ...contactForm,
-          propertyId: property.id
-        }),
-      });
-
-      const data = await response.json();
-
-      if (!response.ok) {
-        throw new Error(data.error || 'Une erreur est survenue');
-      }
-
-      if (data.success || response.ok) {
-        setSubmitSuccess(true);
-        showSuccess('Message envoyé avec succès !');
-        setContactForm({
-          name: '',
-          email: '',
-          phone: '',
-          message: 'Je suis intéressé par ce bien. Pouvez-vous me contacter ?'
-        });
-        setTimeout(() => setSubmitSuccess(false), 5000);
-      } else {
-        throw new Error(data.error || 'Une erreur est survenue');
-      }
+      await sendRequest('EMAIL');
+      setSubmitSuccess(true);
+      showSuccess('Demande envoyée avec succès !');
+      setContactForm({ name: '', email: '', phone: '', message: DEFAULT_MESSAGE });
+      setTimeout(() => setSubmitSuccess(false), 5000);
     } catch (error) {
       const errorMsg = error.message || 'Erreur de connexion. Veuillez réessayer.';
       setSubmitError(errorMsg);
@@ -67,126 +62,115 @@ export default function ContactForm({ property, onWhatsAppClick }) {
     }
   };
 
+  const handleWhatsApp = async () => {
+    if (!formRef.current?.reportValidity()) return;
+
+    setWhatsAppLoading(true);
+    setSubmitError(null);
+
+    try {
+      await sendRequest('WHATSAPP');
+      const message = encodeURIComponent(
+        [
+          getWhatsAppMessage(property),
+          '',
+          `Nom: ${contactForm.name}`,
+          `Email: ${contactForm.email}`,
+          `Téléphone: ${contactForm.phone || 'Non renseigné'}`,
+          '',
+          contactForm.message,
+        ].join('\n'),
+      );
+      window.open(`https://wa.me/${CENTRAL_WHATSAPP}?text=${message}`, '_blank');
+      showSuccess('Demande enregistrée. WhatsApp va s’ouvrir.');
+    } catch (error) {
+      const errorMsg = error.message || 'Impossible de préparer la demande WhatsApp.';
+      setSubmitError(errorMsg);
+      showError(errorMsg);
+    } finally {
+      setWhatsAppLoading(false);
+    }
+  };
+
   return (
     <div className="rounded-xl bg-white p-4 sm:p-6 lg:sticky lg:top-24 lg:mt-10">
-      <h3 className="text-lg sm:text-xl font-bold text-slate-900 mb-4">Contactez l'agent</h3>
+      <h3 className="mb-2 text-lg font-bold text-slate-900 sm:text-xl">Demander ce bien</h3>
+      <p className="mb-5 text-sm leading-relaxed text-slate-600">
+        Votre demande est transmise directement à Ethic Immobilier. Toutes les réponses passent par notre équipe.
+      </p>
 
-      <div className="flex items-center gap-3 rounded-lg bg-slate-50 border border-slate-200 p-3 mb-6">
-        {agentAvatarUrl ? (
-          <img
-            src={agentAvatarUrl}
-            alt={agentName}
-            className="h-12 w-12 rounded-full object-cover border border-slate-200"
-            loading="lazy"
-          />
-        ) : (
-          <div className="h-12 w-12 rounded-full bg-slate-200 flex items-center justify-center text-slate-600 font-semibold">
-            {(agentName || "A").slice(0, 1).toUpperCase()}
-          </div>
-        )}
-        <div className="min-w-0">
-          <p className="font-semibold text-slate-900 truncate">{agent ? agentName : "Agent non renseigné"}</p>
-          <p className="text-sm text-slate-600 truncate">{agentCompany || (agent?.email ? agent.email : "")}</p>
-        </div>
+      <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50 p-3">
+        <p className="text-sm font-semibold text-slate-900">Contact central</p>
+        <a href={`tel:${CENTRAL_WHATSAPP}`} className="mt-2 flex items-center gap-2 text-sm font-medium text-rose-600">
+          <Phone size={16} />
+          {CENTRAL_PHONE_DISPLAY}
+        </a>
       </div>
       
-      <form onSubmit={handleSubmit} className="space-y-4">
-        <input 
-          type="text" 
-          placeholder="Votre nom" 
+      <form ref={formRef} onSubmit={handleSubmit} className="space-y-4">
+        <input
+          type="text"
+          placeholder="Votre nom"
           required
           value={contactForm.name}
           onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all" 
+          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
         />
-        <input 
-          type="email" 
-          placeholder="Votre email" 
+        <input
+          type="email"
+          placeholder="Votre email"
           required
           value={contactForm.email}
           onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all" 
+          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
         />
-        <input 
-          type="tel" 
-          placeholder="Votre téléphone" 
+        <input
+          type="tel"
+          placeholder="Votre téléphone"
           value={contactForm.phone}
           onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all" 
+          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
         />
-        <textarea 
-          rows="4" 
-          placeholder="Votre message" 
+        <textarea
+          rows="4"
+          placeholder="Votre message"
           required
           value={contactForm.message}
           onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-          className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent resize-none transition-all" 
+          className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
         />
 
         {submitSuccess && (
-          <div className="p-3 bg-green-50 border border-green-200 text-green-700 rounded-lg text-sm flex items-center gap-2">
-            <span>✓</span> Message envoyé avec succès !
+          <div className="rounded-lg border border-green-200 bg-green-50 p-3 text-sm text-green-700">
+            Demande envoyée avec succès !
           </div>
         )}
 
         {submitError && (
-          <div className="p-3 bg-red-50 border border-red-200 text-red-700 rounded-lg text-sm">
+          <div className="rounded-lg border border-red-200 bg-red-50 p-3 text-sm text-red-700">
             {submitError}
           </div>
         )}
 
-        <button 
+        <button
           type="submit"
           disabled={isSubmitting}
-          className="w-full bg-slate-900 text-white py-3 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-slate-900 py-3 font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
         >
-          {isSubmitting ? 'Envoi en cours...' : 'Envoyer le message'}
+          <Mail size={18} />
+          {isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande'}
         </button>
-      </form>
 
-      {/* Boutons WhatsApp */}
-      <div className="mt-4 space-y-3">
         <button
-          onClick={onWhatsAppClick}
+          onClick={handleWhatsApp}
           type="button"
-          disabled={!hasWhatsApp}
-          className="w-full bg-green-500 text-white py-3 rounded-lg font-semibold hover:bg-green-600 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+          disabled={whatsAppLoading}
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-emerald-600 py-3 font-semibold text-white transition-colors hover:bg-emerald-700 disabled:cursor-not-allowed disabled:opacity-50"
         >
           <MessageCircle size={20} />
-          Contacter via WhatsApp
+          {whatsAppLoading ? 'Préparation...' : 'Envoyer via WhatsApp'}
         </button>
-        {!hasWhatsApp && (
-          <p className="text-xs text-slate-500 text-center">WhatsApp non disponible pour ce bien.</p>
-        )}
-      </div>
-
-      {/* Agent info */}
-      <div className="mt-6 pt-6 border-t border-slate-200 space-y-3">
-        {agent ? (
-          <>
-            {agent.phone && (
-              <a 
-                href={`tel:${agent.phone}`} 
-                className="flex items-center justify-center gap-2 w-full bg-rose-50 text-rose-500 py-3 rounded-lg font-semibold hover:bg-rose-100 transition-colors"
-              >
-                <Phone size={18} />
-                Appeler
-              </a>
-            )}
-            {agent.email && (
-              <a 
-                href={`mailto:${agent.email}`} 
-                className="flex items-center justify-center gap-2 w-full border-2 border-slate-300 text-slate-700 py-3 rounded-lg font-semibold hover:bg-slate-50 transition-colors"
-              >
-                <Mail size={18} />
-                Email
-              </a>
-            )}
-          </>
-        ) : (
-          <p className="text-sm text-slate-500 text-center">Informations d'agent non disponibles</p>
-        )}
-      </div>
+      </form>
     </div>
   );
 }

@@ -5,6 +5,7 @@ import {
   CheckCircle2,
   Clock3,
   LayoutDashboard,
+  MessageSquareText,
   Plus,
   Search,
   ShieldCheck,
@@ -14,10 +15,11 @@ import {
 import { clearSession } from "../utils/authUtils";
 import PropertiesPanel from "./Dashboard/components/PropertiesPanel";
 import AdminApplicationsPanel from "./Dashboard/components/AdminApplicationsPanel";
+import AdminMessagesPanel from "./Dashboard/components/AdminMessagesPanel";
 import AdminUsersPanel from "./Dashboard/components/AdminUsersPanel";
 import Sidebar from "../components/Sidebar";
 import { useMyProperties, useProperties } from "./Admin/hooks/useProperties";
-import { useAgentApplications, useUsers } from "./Admin/hooks/useAdmin";
+import { useAgentApplications, useMessages, useUsers } from "./Admin/hooks/useAdmin";
 
 const DASHBOARD_FILTERS = {
   query: "",
@@ -31,6 +33,12 @@ const DASHBOARD_FILTERS = {
   sortDir: "desc",
   page: 1,
   pageSize: 5,
+};
+
+const AVAILABLE_FILTERS = {
+  ...DASHBOARD_FILTERS,
+  status: "AVAILABLE",
+  pageSize: 1,
 };
 
 function getStoredUser() {
@@ -85,10 +93,6 @@ function countBy(items, predicate) {
   return items.filter(predicate).length;
 }
 
-function normalizeStatus(value) {
-  return String(value || "").toUpperCase();
-}
-
 export default function Dashboard() {
   const navigate = useNavigate();
   const sessionUser = useMemo(() => getSessionUser(), []);
@@ -138,6 +142,15 @@ export default function Dashboard() {
             </DashboardSurface>
           )}
 
+          {isAdmin && section === "messages" && (
+            <DashboardSurface
+              title="Demandes clients"
+              description="Toutes les demandes issues des pages détails passent ici avant suivi."
+            >
+              <AdminMessagesPanel />
+            </DashboardSurface>
+          )}
+
           {isAdmin && section === "users" && (
             <DashboardSurface
               title="Agents et comptes"
@@ -157,6 +170,7 @@ function DashboardHeader({ isAdmin, user, section, onSectionChange }) {
     ? [
         ["overview", "Vue CRM"],
         ["properties", "Biens"],
+        ["messages", "Demandes clients"],
         ["applications", "Demandes"],
         ["users", "Comptes"],
       ]
@@ -223,13 +237,16 @@ function DashboardHeader({ isAdmin, user, section, onSectionChange }) {
 
 function AdminOverview({ onSectionChange }) {
   const propertiesQuery = useProperties(DASHBOARD_FILTERS);
+  const availablePropertiesQuery = useProperties(AVAILABLE_FILTERS);
   const usersQuery = useUsers();
   const applicationsQuery = useAgentApplications("PENDING");
+  const messagesQuery = useMessages();
 
   const properties = getItems(propertiesQuery.data);
   const users = Array.isArray(usersQuery.data) ? usersQuery.data : [];
   const applications = Array.isArray(applicationsQuery.data) ? applicationsQuery.data : [];
-  const available = countBy(properties, (item) => normalizeStatus(item.status).includes("DISPONIBLE"));
+  const messages = Array.isArray(messagesQuery.data) ? messagesQuery.data : [];
+  const available = getTotal(availablePropertiesQuery.data);
   const activeAgents = countBy(users, (user) => user.role === "AGENT" && !user.isSuspended);
 
   const stats = [
@@ -238,7 +255,14 @@ function AdminOverview({ onSectionChange }) {
       value: getTotal(propertiesQuery.data),
       hint: `${available} disponibles`,
       icon: Building2,
-      loading: propertiesQuery.isLoading,
+      loading: propertiesQuery.isLoading || availablePropertiesQuery.isLoading,
+    },
+    {
+      label: "Demandes clients",
+      value: messages.filter((message) => !message.read).length,
+      hint: `${messages.length} demande(s) au total`,
+      icon: MessageSquareText,
+      loading: messagesQuery.isLoading,
     },
     {
       label: "Agents actifs",
@@ -254,13 +278,6 @@ function AdminOverview({ onSectionChange }) {
       icon: Clock3,
       loading: applicationsQuery.isLoading,
     },
-    {
-      label: "Portefeuille sain",
-      value: properties.length ? `${Math.round((available / properties.length) * 100)}%` : "-",
-      hint: "Part des biens disponibles",
-      icon: CheckCircle2,
-      loading: propertiesQuery.isLoading,
-    },
   ];
 
   return (
@@ -270,6 +287,12 @@ function AdminOverview({ onSectionChange }) {
         <DashboardSurface title="Priorités" description="Actions rapides pour garder le CRM propre.">
           <ActionList
             actions={[
+              {
+                title: "Traiter les demandes clients",
+                description: `${messages.filter((message) => !message.read).length} demande(s) non lue(s) à rappeler ou qualifier.`,
+                action: "Ouvrir",
+                onClick: () => onSectionChange("messages"),
+              },
               {
                 title: "Revoir les demandes agents",
                 description: `${applications.length} candidature(s) en attente de décision.`,
@@ -302,8 +325,9 @@ function AdminOverview({ onSectionChange }) {
 
 function AgentOverview({ onSectionChange }) {
   const propertiesQuery = useMyProperties(DASHBOARD_FILTERS);
+  const availablePropertiesQuery = useMyProperties(AVAILABLE_FILTERS);
   const properties = getItems(propertiesQuery.data);
-  const published = countBy(properties, (item) => normalizeStatus(item.status).includes("DISPONIBLE"));
+  const published = getTotal(availablePropertiesQuery.data);
 
   const stats = [
     {
@@ -318,7 +342,7 @@ function AgentOverview({ onSectionChange }) {
       value: published,
       hint: "Biens visibles à relancer",
       icon: CheckCircle2,
-      loading: propertiesQuery.isLoading,
+      loading: availablePropertiesQuery.isLoading,
     },
     {
       label: "À compléter",

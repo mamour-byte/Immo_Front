@@ -82,3 +82,23 @@ export function useRejectApplication() {
     onError: (error) => toast.error(getErrorMessage(error, "Erreur lors du refus")),
   });
 }
+
+export function useMessages() {
+  return useQuery({
+    queryKey: ["admin-messages"],
+    queryFn: api.fetchMessages,
+    staleTime: 10_000,
+    placeholderData: keepPreviousData,
+  });
+}
+
+export function useMarkMessageRead() {
+  const qc = useQueryClient();
+  return useMutation({
+    mutationFn: ({ id, read = true }) => api.markMessageRead(id, read),
+    onSuccess: () => {
+      qc.invalidateQueries({ queryKey: ["admin-messages"], exact: false });
+    },
+    onError: (error) => toast.error(getErrorMessage(error, "Erreur lors de la mise à jour du message")),
+  });
+}

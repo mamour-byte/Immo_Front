@@ -67,3 +67,13 @@ export async function rejectAgentApplication(id, decisionNote) {
   const res = await api.post(`/agent-applications/${id}/reject`, { decisionNote });
   return res.data;
 }
+
+export async function fetchMessages() {
+  const res = await api.get("/messages");
+  return res.data;
+}
+
+export async function markMessageRead(id, read = true) {
+  const res = await api.patch(`/messages/${id}/read`, { read });
+  return res.data;
+}
