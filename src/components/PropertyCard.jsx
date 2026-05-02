@@ -16,10 +16,22 @@ const PURPOSE_LABEL = {
   LOCATION: "Location",
 };
 
+
 function formatNumber(value) {
   const num = Number(value);
   if (!Number.isFinite(num)) return null;
   return num.toLocaleString();
+}
+
+function getDaysAgo(dateString) {
+  if (!dateString) return null;
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffTime = now - date;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) return "Aujourd'hui";
+  if (diffDays === 1) return "Il y a 1 jour";
+  return `Il y a ${diffDays} jours`;
 }
 
 function MetaItem({ icon, text }) {
@@ -119,6 +131,11 @@ export default function PropertyCard({ property, view = "grid" }) {
 
             {location && <p className="mt-1 truncate text-sm text-slate-500">{location}</p>}
 
+            {/* Date de publication */}
+            {property.createdAt && (
+              <p className="mt-1 text-xs text-slate-400">{getDaysAgo(property.createdAt)}</p>
+            )}
+
             {property?.description && (
               <p className="mt-3 line-clamp-3 text-sm leading-relaxed text-slate-700">
                 {property.description}
@@ -191,6 +208,11 @@ export default function PropertyCard({ property, view = "grid" }) {
         <p className="line-clamp-2 text-xs text-slate-500 sm:text-sm">
           {property.district?.name}, {property.city?.name}
         </p>
+
+        {/* Date de publication */}
+        {property.createdAt && (
+          <p className="text-xs text-slate-400">{getDaysAgo(property.createdAt)}</p>
+        )}
 
         <div className="flex flex-wrap gap-x-4 gap-y-1 pt-1 text-xs text-slate-600">
           {Number.isFinite(Number(property?.bedrooms)) && (

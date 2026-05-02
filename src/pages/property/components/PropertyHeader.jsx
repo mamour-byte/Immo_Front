@@ -1,5 +1,16 @@
 import { MapPin, Share2, Heart } from 'lucide-react';
 
+function getDaysAgo(dateString) {
+  if (!dateString) return null;
+  const now = new Date();
+  const date = new Date(dateString);
+  const diffTime = now - date;
+  const diffDays = Math.floor(diffTime / (1000 * 60 * 60 * 24));
+  if (diffDays === 0) return "Aujourd'hui";
+  if (diffDays === 1) return "Il y a 1 jour";
+  return `Il y a ${diffDays} jours`;
+}
+
 export default function PropertyHeader({ property, isFavorite, onFavoriteToggle, onShare }) {
   const purposeLabel =
     property?.purpose === "VENTE"
@@ -47,6 +58,10 @@ export default function PropertyHeader({ property, isFavorite, onFavoriteToggle,
             <MapPin size={16} className="flex-shrink-0 sm:w-[18px] sm:h-[18px]" />
             <span className="truncate">{property.address || property.city?.name || 'Localisation non spécifiée'}</span>
           </p>
+          {/* Date de publication */}
+          {property.createdAt && (
+            <p className="text-xs text-slate-400 mt-1">{getDaysAgo(property.createdAt)}</p>
+          )}
         </div>
         <div className="flex flex-wrap items-center gap-2 sm:gap-3 flex-shrink-0">
           <button
