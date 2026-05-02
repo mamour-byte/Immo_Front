@@ -47,7 +47,6 @@ export default function Dashboard() {
   const navigate = useNavigate();
   const role = useMemo(() => getRoleFromSession(), []);
   const isAdmin = role === "ADMIN";
-
   const [tab, setTab] = useState("properties");
 
   function logout() {
@@ -55,18 +54,27 @@ export default function Dashboard() {
     navigate("/login", { replace: true });
   }
 
+  // Placeholders pour les KPIs (à remplacer par des vraies données dynamiques)
+  const kpis = [
+    { label: "Biens", value: 123, color: "text-rose-600" },
+    { label: "Utilisateurs", value: 56, color: "text-blue-600" },
+    { label: "Demandes d'agent", value: 8, color: "text-green-600" },
+    { label: "Visites 3D", value: 42, color: "text-purple-600" },
+  ];
+
   return (
     <div className="min-h-screen bg-gray-50 px-4 py-6 sm:px-6">
-      <div className="max-w-7xl mx-auto space-y-6">
+      <div className="max-w-7xl mx-auto space-y-8">
+        {/* Header */}
         <header className="flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
           <div className="min-w-0">
-            <h1 className="text-2xl font-semibold truncate">
-              Dashboard {isAdmin ? "— Admin" : "— Agent"}
+            <h1 className="text-2xl font-bold truncate">
+              Tableau de bord {isAdmin ? "— Admin" : "— Agent"}
             </h1>
             <p className="text-sm text-gray-600">
               {isAdmin
-                ? "Gestion des biens, comptes et demandes d'agents"
-                : "Gestion de vos biens publiés"}
+                ? "Vue globale, analytics, gestion des biens, comptes et demandes d'agents."
+                : "Suivi de vos biens publiés et de vos performances."}
             </p>
           </div>
           <div className="flex w-full flex-col gap-3 shrink-0 sm:w-auto sm:flex-row sm:items-center">
@@ -85,8 +93,25 @@ export default function Dashboard() {
           </div>
         </header>
 
+        {/* KPIs */}
+        <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6 mb-2">
+          {kpis.map((kpi) => (
+            <div key={kpi.label} className="bg-white rounded-lg shadow p-5 flex flex-col items-center">
+              <span className="text-gray-500 text-sm">{kpi.label}</span>
+              <span className={`text-2xl font-bold ${kpi.color}`}>{kpi.value}</span>
+            </div>
+          ))}
+        </div>
+
+        {/* Analytics (placeholder graphique) */}
+        <div className="bg-white rounded-lg shadow p-6 mb-2">
+          <h2 className="text-lg font-semibold mb-4">Statistiques</h2>
+          <div className="h-48 flex items-center justify-center text-gray-400">[Graphique à insérer]</div>
+        </div>
+
+        {/* Tabs navigation (admin) */}
         {isAdmin && (
-          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center">
+          <div className="flex flex-col gap-2 sm:flex-row sm:flex-wrap sm:items-center mb-2">
             <button
               onClick={() => setTab("properties")}
               className={`px-4 py-2 rounded ${tab === "properties" ? "bg-slate-900 text-white" : "bg-white border hover:bg-gray-50"}`}
@@ -108,11 +133,31 @@ export default function Dashboard() {
           </div>
         )}
 
-        {tab === "properties" && (
-          <PropertiesPanel scope={isAdmin ? "all" : "mine"} showAgent={isAdmin} />
+        {/* Panels */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-8">
+          {/* Liste des biens */}
+          {tab === "properties" && (
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-md font-semibold mb-4">{isAdmin ? "Tous les biens" : "Mes biens"}</h3>
+              <PropertiesPanel scope={isAdmin ? "all" : "mine"} showAgent={isAdmin} />
+            </div>
+          )}
+          {/* Liste des utilisateurs */}
+          {isAdmin && tab === "users" && (
+            <div className="bg-white rounded-lg shadow p-6">
+              <h3 className="text-md font-semibold mb-4">Utilisateurs</h3>
+              <AdminUsersPanel />
+            </div>
+          )}
+        </div>
+
+        {/* Demandes d'agent */}
+        {isAdmin && tab === "applications" && (
+          <div className="bg-white rounded-lg shadow p-6 mt-8">
+            <h3 className="text-md font-semibold mb-4">Demandes d'agent</h3>
+            <AdminApplicationsPanel />
+          </div>
         )}
-        {isAdmin && tab === "applications" && <AdminApplicationsPanel />}
-        {isAdmin && tab === "users" && <AdminUsersPanel />}
       </div>
     </div>
   );
