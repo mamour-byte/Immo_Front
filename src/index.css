@@ -1,52 +1,47 @@
 @import "tailwindcss";
 
 @theme {
-  /* Couleurs de la palette (Noms originaux du brief) */
-  --color-rouge-fonce: #3B0A0A;
-  --color-bordeaux: #7B1A1A;
-  --color-rouge-moyen: #A02020;
-  --color-rose-pale: #F5E6E6;
-  --color-rose-logo: #F5C0C0;
-  --color-gris-clair: #F4F4F4;
-  --color-gris-moyen: #9E9E9E;
-  --color-gris-fonce: #4A4A4A;
-  --color-argent: #E8E8E8;
+  /* Couleurs principales du logo */
+  --color-bleu-fonce: #1F2A44;
+  /* texte "im" + maison */
+  --color-bleu-nuit: #162035;
+  /* version plus sombre */
+  --color-bleu-clair: #2E3F63;
+  /* hover / variantes */
+
+  --color-orange: #F47A20;
+  /* "obile" + accent cible */
+  --color-orange-hover: #FF8C3A;
+  /* hover */
+  --color-orange-soft: #FFD6B8;
+  /* fond léger */
+
+  /* Neutres */
   --color-blanc: #FFFFFF;
-  --color-noir: #1A1A1A;
+  --color-gris-clair: #F5F5F5;
+  --color-gris-moyen: #9CA3AF;
+  --color-gris-fonce: #374151;
+  --color-noir: #111827;
 
-  /* Couleurs sémantiques (Primaire, Secondaire, etc.) pour une meilleure maintenance */
-  --color-primary: #7B1A1A;
-  /* bordeaux - couleur principale, boutons */
-  --color-primary-hover: #A02020;
-  /* rouge-moyen - hover, accents */
-  --color-primary-dark: #3B0A0A;
-  /* rouge-fonce - fond navbar, hero, footer */
+  /* ========================= */
+  /* 🎯 Couleurs sémantiques */
+  /* ========================= */
 
-  --color-secondary: #F5C0C0;
-  /* rose-logo - contour logo, accents secondaires */
-  --color-secondary-light: #F5E6E6;
-  /* rose-pale - fonds clairs, tags */
+  --color-primary: #1F2A44;
+  /* bleu foncé (branding principal) */
+  --color-primary-hover: #2E3F63;
+  --color-primary-dark: #162035;
+
+  --color-secondary: #F47A20;
+  /* orange accent */
+  --color-secondary-hover: #FF8C3A;
+  --color-secondary-light: #FFD6B8;
 
   --color-background: #FFFFFF;
-  /* blanc - fond par défaut */
-  --color-surface: #F4F4F4;
-  /* gris-clair - fonds formulaires, cartes */
+  --color-surface: #F5F5F5;
 
-  --color-text-main: #4A4A4A;
-  /* gris-fonce - textes principaux */
-  --color-text-muted: #9E9E9E;
-  /* gris-moyen - textes secondaires */
+  --color-text-main: #1F2A44;
+  --color-text-muted: #6B7280;
 
-  --color-border: #E8E8E8;
-  /* argent - bordures */
-}
-
-/* Hide scrollbar on overflow scroll (e.g. breadcrumb on mobile) */
-.scrollbar-hide {
-  -ms-overflow-style: none;
-  scrollbar-width: none;
-}
-
-.scrollbar-hide::-webkit-scrollbar {
-  display: none;
+  --color-border: #E5E7EB;
 }
