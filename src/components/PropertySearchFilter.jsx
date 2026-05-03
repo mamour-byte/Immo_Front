@@ -465,7 +465,7 @@ export default function PropertySearchFilter() {
           <div className="mt-4 sm:mt-6">
             <button
               onClick={handleSubmit}
-              className="w-full bg-primary hover:bg-primary-hover text-white py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 shadow-lg shadow-rose-500/30"
+              className="w-full bg-primary hover:bg-primary-hover text-white py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 shadow-lg shadow-secondary/30"
             >
               <Search size={20} />
               <span>Chercher</span>
