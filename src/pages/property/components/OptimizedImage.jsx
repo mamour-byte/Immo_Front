@@ -32,7 +32,7 @@ export default function OptimizedImage({
     <div className="relative overflow-hidden">
       {/* Skeleton loading */}
       {isLoading && (
-        <div className={`${className} bg-slate-200 animate-pulse absolute inset-0`} />
+        <div className={`${className} bg-border animate-pulse absolute inset-0`} />
       )}
 
       {/* Actual image */}

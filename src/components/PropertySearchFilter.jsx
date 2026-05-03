@@ -124,13 +124,13 @@ export default function PropertySearchFilter() {
       <div className="bg-white rounded-xl sm:rounded-2xl shadow-xl overflow-hidden">
         
         {/* TYPE DE TRANSACTION */}
-        <div className="grid grid-cols-3 gap-1 sm:gap-0 border-b border-slate-200 bg-slate-50">
+        <div className="grid grid-cols-3 gap-1 sm:gap-0 border-b border-border bg-surface">
           <button
             onClick={() => setTransactionType('achat')}
             className={`min-w-0 px-2 py-3 sm:py-4 text-[11px] sm:text-sm font-semibold leading-tight transition-colors rounded-sm sm:rounded-none ${
               transactionType === 'achat'
-                ? 'bg-white text-rose-500 border-b-2 border-rose-500'
-                : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
+                ? 'bg-white text-primary border-b-2 border-primary'
+                : 'bg-surface text-text-muted hover:bg-surface'
             }`}
           >
             Achat
@@ -139,8 +139,8 @@ export default function PropertySearchFilter() {
             onClick={() => setTransactionType('location')}
             className={`min-w-0 px-2 py-3 sm:py-4 text-[11px] sm:text-sm font-semibold leading-tight transition-colors rounded-sm sm:rounded-none ${
               transactionType === 'location'
-                ? 'bg-white text-rose-500 border-b-2 border-rose-500'
-                : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
+                ? 'bg-white text-primary border-b-2 border-primary'
+                : 'bg-surface text-text-muted hover:bg-surface'
             }`}
           >
             <span className="hidden sm:inline">Location mensuelle</span>
@@ -150,8 +150,8 @@ export default function PropertySearchFilter() {
             onClick={() => setTransactionType('location-journaliere')}
             className={`min-w-0 px-2 py-3 sm:py-4 text-[11px] sm:text-sm font-semibold leading-tight transition-colors rounded-sm sm:rounded-none ${
               transactionType === 'location-journaliere'
-                ? 'bg-white text-rose-500 border-b-2 border-rose-500'
-                : 'bg-slate-50 text-slate-500 hover:bg-slate-100'
+                ? 'bg-white text-primary border-b-2 border-primary'
+                : 'bg-surface text-text-muted hover:bg-surface'
             }`}
           >
             <span className="hidden sm:inline">Location Journaliere</span>
@@ -165,13 +165,13 @@ export default function PropertySearchFilter() {
             
             {/* Type de bien */}
             <div className="relative">
-              <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">
                 Type de biens
               </label>
               <select
                 value={filters.propertyType}
                 onChange={(e) => handleFilterChange('propertyType', e.target.value)}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
               >
                 <option value="">Tous les types</option>
                 <option value="appartement">Appartement</option>
@@ -180,14 +180,14 @@ export default function PropertySearchFilter() {
                 <option value="bureau">Bureau</option>
                 <option value="commerce">Commerce</option>
               </select>
-              <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+              <ChevronDown className="absolute right-3 top-10 text-text-muted pointer-events-none" size={18} />
             </div>
 
            
 
             {/* Ville dynamique */}
             <div className="relative">
-              <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">
                 Ville
               </label>
               <select
@@ -197,14 +197,14 @@ export default function PropertySearchFilter() {
                   setSelectedDistrictIds([]);
                   handleFilterChange('city', e.target.value);
                 }}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
               >
                 <option value="">Toutes les villes</option>
                 {cities.map(city => (
                   <option key={city.id} value={city.id}>{city.name}</option>
                 ))}
               </select>
-              <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+              <ChevronDown className="absolute right-3 top-10 text-text-muted pointer-events-none" size={18} />
             </div>
             {/* Quartier dynamique */}
             <DistrictMultiSelect
@@ -216,7 +216,7 @@ export default function PropertySearchFilter() {
               }}
             />
             {/* <div className="relative">
-              <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+              <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">
                 Quartier
               </label>
               <select
@@ -227,20 +227,20 @@ export default function PropertySearchFilter() {
                   setSelectedDistrictIds(values);
                   handleFilterChange('district', values.join(','));
                 }}
-                className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
               >
                 {cities.find(c => String(c.id) === String(selectedCityId))?.districts?.map(q => (
                   <option key={q.id} value={q.id}>{q.name}</option>
                 )) || []}
               </select>
-              <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+              <ChevronDown className="absolute right-3 top-10 text-text-muted pointer-events-none" size={18} />
             </div> */}
 
             {/* Bouton Avancée */}
             <div className="flex items-end">
               <button
                 onClick={() => setShowAdvanced(!showAdvanced)}
-                className="w-full bg-rose-500 hover:bg-rose-700 text-white py-3 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center space-x-2"
+                className="w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-lg font-semibold text-sm transition-colors flex items-center justify-center space-x-2"
               >
                 {showAdvanced ? (
                   <>
@@ -265,12 +265,12 @@ export default function PropertySearchFilter() {
                 : 'max-h-0 opacity-0 mt-0'
             }`}
           >
-            <div className="pt-6 border-t border-slate-200">
+            <div className="pt-6 border-t border-border">
               <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-8">
                 
                 {/* Prix */}
                 <div className="min-w-0">
-                  <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                  <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                     Budget
                   </label>
                   <div className="flex items-center space-x-2">
@@ -279,15 +279,15 @@ export default function PropertySearchFilter() {
                       placeholder="Min"
                       value={filters.minPrice}
                       onChange={(e) => handleFilterChange('minPrice', e.target.value)}
-                      className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      className="flex-1 min-w-0 px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
-                    <span className="text-slate-400 flex-shrink-0">-</span>
+                    <span className="text-text-muted flex-shrink-0">-</span>
                     <input
                       type="number"
                       placeholder="Max"
                       value={filters.maxPrice}
                       onChange={(e) => handleFilterChange('maxPrice', e.target.value)}
-                      className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                      className="flex-1 min-w-0 px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                     />
                   </div>
                 </div>
@@ -295,7 +295,7 @@ export default function PropertySearchFilter() {
                 {isDailyRental ? (
                   <>
                     <div className="min-w-0">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Nombre de personnes
                       </label>
                       <input
@@ -304,24 +304,24 @@ export default function PropertySearchFilter() {
                         placeholder="Ex: 2"
                         value={filters.guests}
                         onChange={(e) => handleFilterChange('guests', e.target.value)}
-                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        className="w-full px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       />
                     </div>
 
                     <div className="min-w-0">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Date de debut
                       </label>
                       <input
                         type="date"
                         value={filters.startDate}
                         onChange={(e) => handleFilterChange('startDate', e.target.value)}
-                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        className="w-full px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       />
                     </div>
 
                     <div className="min-w-0">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Date de fin
                       </label>
                       <input
@@ -329,13 +329,13 @@ export default function PropertySearchFilter() {
                         min={filters.startDate || undefined}
                         value={filters.endDate}
                         onChange={(e) => handleFilterChange('endDate', e.target.value)}
-                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        className="w-full px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       />
-                      {stayDaysFromDates && <p className="text-xs text-slate-500 mt-2">Duree estimee: {stayDaysFromDates} jour(s)</p>}
+                      {stayDaysFromDates && <p className="text-xs text-text-muted mt-2">Duree estimee: {stayDaysFromDates} jour(s)</p>}
                     </div>
 
                     <div className="min-w-0">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Nombre de jours
                       </label>
                       <input
@@ -344,13 +344,13 @@ export default function PropertySearchFilter() {
                         placeholder="Ex: 3"
                         value={filters.stayDays}
                         onChange={(e) => handleFilterChange('stayDays', e.target.value)}
-                        className="w-full px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                        className="w-full px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                       />
                     </div>
 
-                    <div className="min-w-0 sm:col-span-2 lg:col-span-3 rounded-lg border border-rose-100 bg-rose-50 p-3">
-                      <p className="text-xs font-semibold uppercase tracking-wide text-rose-700 mb-1">Estimation rapide</p>
-                      <p className="text-sm text-slate-700">
+                    <div className="min-w-0 sm:col-span-2 lg:col-span-3 rounded-lg border border-rose-100 bg-secondary-light p-3">
+                      <p className="text-xs font-semibold uppercase tracking-wide text-primary-hover mb-1">Estimation rapide</p>
+                      <p className="text-sm text-text-main">
                         Total sejour ({effectiveStayDays || 0} jour(s)):
                         {" "}
                         {estimatedMinTotal ? `${estimatedMinTotal.toLocaleString()} FCFA` : "-"}
@@ -365,7 +365,7 @@ export default function PropertySearchFilter() {
                   <>
                     {/* Surface */}
                     <div className="min-w-0">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Surface (m2)
                       </label>
                       <div className="flex items-center space-x-2">
@@ -374,28 +374,28 @@ export default function PropertySearchFilter() {
                           placeholder="Min"
                           value={filters.minSurface}
                           onChange={(e) => handleFilterChange('minSurface', e.target.value)}
-                          className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                          className="flex-1 min-w-0 px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                         />
-                        <span className="text-slate-400 flex-shrink-0">-</span>
+                        <span className="text-text-muted flex-shrink-0">-</span>
                         <input
                           type="number"
                           placeholder="Max"
                           value={filters.maxSurface}
                           onChange={(e) => handleFilterChange('maxSurface', e.target.value)}
-                          className="flex-1 min-w-0 px-3 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+                          className="flex-1 min-w-0 px-3 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
                         />
                       </div>
                     </div>
 
                     {/* Chambres */}
                     <div className="relative">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Chambres
                       </label>
                       <select
                         value={filters.bedrooms}
                         onChange={(e) => handleFilterChange('bedrooms', e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
                       >
                         <option value="">Indifferent</option>
                         <option value="1">1+</option>
@@ -404,18 +404,18 @@ export default function PropertySearchFilter() {
                         <option value="4">4+</option>
                         <option value="5">5+</option>
                       </select>
-                      <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+                      <ChevronDown className="absolute right-3 top-10 text-text-muted pointer-events-none" size={18} />
                     </div>
 
                     {/* Salles de bains */}
                     <div className="relative">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Salles de bains
                       </label>
                       <select
                         value={filters.bathrooms}
                         onChange={(e) => handleFilterChange('bathrooms', e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
                       >
                         <option value="">Indifferent</option>
                         <option value="1">1+</option>
@@ -423,18 +423,18 @@ export default function PropertySearchFilter() {
                         <option value="3">3+</option>
                         <option value="4">4+</option>
                       </select>
-                      <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+                      <ChevronDown className="absolute right-3 top-10 text-text-muted pointer-events-none" size={18} />
                     </div>
 
                     {/* Pieces */}
                     <div className="relative">
-                      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-3">
+                      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-3">
                         Pieces
                       </label>
                       <select
                         value={filters.rooms}
                         onChange={(e) => handleFilterChange('rooms', e.target.value)}
-                        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-slate-700 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent appearance-none cursor-pointer"
+                        className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-text-main focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent appearance-none cursor-pointer"
                       >
                         <option value="">Indifferent</option>
                         <option value="2">2+</option>
@@ -443,7 +443,7 @@ export default function PropertySearchFilter() {
                         <option value="5">5+</option>
                         <option value="6">6+</option>
                       </select>
-                      <ChevronDown className="absolute right-3 top-10 text-slate-400 pointer-events-none" size={18} />
+                      <ChevronDown className="absolute right-3 top-10 text-text-muted pointer-events-none" size={18} />
                     </div>
                   </>
                 )}
@@ -452,7 +452,7 @@ export default function PropertySearchFilter() {
                 <div className="flex items-end">
                   <button
                     onClick={resetFilters}
-                    className="w-full py-3 border-2 border-slate-300 text-slate-600 rounded-lg font-semibold text-sm hover:bg-slate-50 transition-colors"
+                    className="w-full py-3 border-2 border-border text-text-muted rounded-lg font-semibold text-sm hover:bg-surface transition-colors"
                   >
                     Réinitialiser
                   </button>
@@ -465,7 +465,7 @@ export default function PropertySearchFilter() {
           <div className="mt-4 sm:mt-6">
             <button
               onClick={handleSubmit}
-              className="w-full bg-rose-500 hover:bg-rose-700 text-white py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 shadow-lg shadow-rose-500/30"
+              className="w-full bg-primary hover:bg-primary-hover text-white py-3.5 sm:py-4 rounded-lg font-semibold text-sm sm:text-base transition-colors flex items-center justify-center gap-2 shadow-lg shadow-rose-500/30"
             >
               <Search size={20} />
               <span>Chercher</span>

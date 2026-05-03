@@ -49,19 +49,19 @@ export default function ContactPage() {
   };
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-surface">
       
       {/* Hero Section */}
-      <div className="bg-slate-900 text-white py-10 sm:py-16">
+      <div className="bg-primary-dark text-white py-10 sm:py-16">
         <div className="max-w-7xl mx-auto px-4 sm:px-6">
           <div className="max-w-3xl">
-            <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-block bg-primary/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Contact
             </div>
             <h1 className="text-2xl sm:text-4xl lg:text-5xl font-bold mb-3 sm:mb-4">
               Parlons de votre projet
             </h1>
-            <p className="text-base sm:text-lg text-slate-300">
+            <p className="text-base sm:text-lg text-border">
               Notre équipe est à votre disposition pour répondre à toutes vos questions et vous accompagner dans votre recherche immobilière.
             </p>
           </div>
@@ -77,56 +77,56 @@ export default function ContactPage() {
             
             {/* Contact Cards */}
             <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-secondary-light text-primary rounded-xl flex items-center justify-center mb-4">
                 <Phone size={24} />
               </div>
-              <h3 className="font-semibold text-lg text-slate-900 mb-2">Téléphone</h3>
-              <a href="tel:+221770000000" className="text-slate-600 hover:text-rose-500 transition-colors">
+              <h3 className="font-semibold text-lg text-text-main mb-2">Téléphone</h3>
+              <a href="tel:+221770000000" className="text-text-muted hover:text-primary transition-colors">
                 +221 78 147 90 90
               </a>
-              <p className="text-sm text-slate-500 mt-1">Lun - Sam: 8h - 18h</p>
+              <p className="text-sm text-text-muted mt-1">Lun - Sam: 8h - 18h</p>
             </div>
 
             <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-secondary-light text-primary rounded-xl flex items-center justify-center mb-4">
                 <Mail size={24} />
               </div>
-              <h3 className="font-semibold text-lg text-slate-900 mb-2">Email</h3>
-              <a href="mailto:contact@ethic.com" className="text-slate-600 hover:text-rose-500 transition-colors">
+              <h3 className="font-semibold text-lg text-text-main mb-2">Email</h3>
+              <a href="mailto:contact@ethic.com" className="text-text-muted hover:text-primary transition-colors">
                 immo@ethic-group.com
               </a>
-              <p className="text-sm text-slate-500 mt-1">Réponse sous 24h</p>
+              <p className="text-sm text-text-muted mt-1">Réponse sous 24h</p>
             </div>
 
             <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-secondary-light text-primary rounded-xl flex items-center justify-center mb-4">
                 <MapPin size={24} />
               </div>
-              <h3 className="font-semibold text-lg text-slate-900 mb-2">Adresse</h3>
-              <p className="text-slate-600">
+              <h3 className="font-semibold text-lg text-text-main mb-2">Adresse</h3>
+              <p className="text-text-muted">
                 Avenue Léopold Sédar Senghor<br />
                 Dakar, Sénégal
               </p>
-              <a href="#map" className="text-sm text-rose-500 hover:text-rose-700 mt-2 inline-block">
+              <a href="#map" className="text-sm text-primary hover:text-primary-hover mt-2 inline-block">
                 Voir sur la carte →
               </a>
             </div>
 
             <div className="bg-white rounded-xl p-6 hover:shadow-lg transition-shadow">
-              <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-4">
+              <div className="w-12 h-12 bg-secondary-light text-primary rounded-xl flex items-center justify-center mb-4">
                 <Clock size={24} />
               </div>
-              <h3 className="font-semibold text-lg text-slate-900 mb-2">Horaires</h3>
+              <h3 className="font-semibold text-lg text-text-main mb-2">Horaires</h3>
               <div className="space-y-1 text-sm">
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-text-muted">
                   <span>Lundi - Vendredi</span>
                   <span className="font-medium">8h - 18h</span>
                 </div>
-                <div className="flex justify-between text-slate-600">
+                <div className="flex justify-between text-text-muted">
                   <span>Samedi</span>
                   <span className="font-medium">9h - 14h</span>
                 </div>
-                <div className="flex justify-between text-slate-400">
+                <div className="flex justify-between text-text-muted">
                   <span>Dimanche</span>
                   <span className="font-medium">Fermé</span>
                 </div>
@@ -138,10 +138,10 @@ export default function ContactPage() {
           <div className="lg:col-span-2">
             <div className="bg-white rounded-xl p-4 sm:p-6 lg:p-8 shadow-sm">
               <div className="mb-8">
-                <h2 className="text-2xl font-bold text-slate-900 mb-2">
+                <h2 className="text-2xl font-bold text-text-main mb-2">
                   Envoyez-nous un message
                 </h2>
-                <p className="text-slate-600">
+                <p className="text-text-muted">
                   Remplissez le formulaire ci-dessous et nous vous répondrons dans les plus brefs délais.
                 </p>
               </div>
@@ -151,10 +151,10 @@ export default function ContactPage() {
                   <div className="w-16 h-16 bg-green-50 text-green-600 rounded-full flex items-center justify-center mx-auto mb-4">
                     <CheckCircle size={32} />
                   </div>
-                  <h3 className="text-2xl font-bold text-slate-900 mb-2">
+                  <h3 className="text-2xl font-bold text-text-main mb-2">
                     Message envoyé !
                   </h3>
-                  <p className="text-slate-600">
+                  <p className="text-text-muted">
                     Nous avons bien reçu votre message et vous répondrons rapidement.
                   </p>
                 </div>
@@ -164,36 +164,36 @@ export default function ContactPage() {
                   {/* Nom et Prénom */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-text-main mb-2">
                         Prénom *
                       </label>
                       <div className="relative">
-                        <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <input
                           type="text"
                           name="firstName"
                           value={formData.firstName}
                           onChange={handleChange}
                           required
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                          className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                           placeholder="Aliou"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-text-main mb-2">
                         Nom *
                       </label>
                       <div className="relative">
-                        <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <User size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <input
                           type="text"
                           name="lastName"
                           value={formData.lastName}
                           onChange={handleChange}
                           required
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                          className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                           placeholder="Ndiaye"
                         />
                       </div>
@@ -203,36 +203,36 @@ export default function ContactPage() {
                   {/* Email et Téléphone */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-text-main mb-2">
                         Email *
                       </label>
                       <div className="relative">
-                        <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <input
                           type="email"
                           name="email"
                           value={formData.email}
                           onChange={handleChange}
                           required
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                          className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                           placeholder="aliou.ndiaye@email.com"
                         />
                       </div>
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-text-main mb-2">
                         Téléphone *
                       </label>
                       <div className="relative">
-                        <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <Phone size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <input
                           type="tel"
                           name="phone"
                           value={formData.phone}
                           onChange={handleChange}
                           required
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all"
+                          className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all"
                           placeholder="+221 77 123 45 67"
                         />
                       </div>
@@ -242,17 +242,17 @@ export default function ContactPage() {
                   {/* Sujet et Type de bien */}
                   <div className="grid md:grid-cols-2 gap-6">
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-text-main mb-2">
                         Sujet *
                       </label>
                       <div className="relative">
-                        <MessageSquare size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <MessageSquare size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <select
                           name="subject"
                           value={formData.subject}
                           onChange={handleChange}
                           required
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+                          className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all appearance-none cursor-pointer"
                         >
                           <option value="">Choisir un sujet</option>
                           <option value="achat">Achat de bien</option>
@@ -266,16 +266,16 @@ export default function ContactPage() {
                     </div>
 
                     <div>
-                      <label className="block text-sm font-semibold text-slate-700 mb-2">
+                      <label className="block text-sm font-semibold text-text-main mb-2">
                         Type de bien
                       </label>
                       <div className="relative">
-                        <Building2 size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                        <Building2 size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                         <select
                           name="propertyType"
                           value={formData.propertyType}
                           onChange={handleChange}
-                          className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all appearance-none cursor-pointer"
+                          className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all appearance-none cursor-pointer"
                         >
                           <option value="">Tous les types</option>
                           <option value="appartement">Appartement</option>
@@ -290,7 +290,7 @@ export default function ContactPage() {
 
                   {/* Message */}
                   <div>
-                    <label className="block text-sm font-semibold text-slate-700 mb-2">
+                    <label className="block text-sm font-semibold text-text-main mb-2">
                       Message *
                     </label>
                     <textarea
@@ -299,7 +299,7 @@ export default function ContactPage() {
                       onChange={handleChange}
                       required
                       rows="6"
-                      className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent transition-all resize-none"
+                      className="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent transition-all resize-none"
                       placeholder="Décrivez votre projet ou votre demande..."
                     />
                   </div>
@@ -308,7 +308,7 @@ export default function ContactPage() {
                   <button
                     type="submit"
                     disabled={isLoading}
-                    className="w-full bg-slate-900 text-white py-4 rounded-lg font-semibold hover:bg-slate-800 transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="w-full bg-primary-dark text-white py-4 rounded-lg font-semibold hover:bg-primary-dark transition-colors flex items-center justify-center gap-2 disabled:opacity-50 disabled:cursor-not-allowed"
                   >
                     {isLoading ? (
                       <>
@@ -323,7 +323,7 @@ export default function ContactPage() {
                     )}
                   </button>
 
-                  <p className="text-sm text-slate-500 text-center">
+                  <p className="text-sm text-text-muted text-center">
                     * Champs obligatoires
                   </p>
                 </form>
@@ -333,44 +333,44 @@ export default function ContactPage() {
         </div>
 
         {/* Section Rendez-vous */}
-        <div className="bg-slate-900 rounded-2xl p-6 sm:p-8 lg:p-12 text-white mb-12 sm:mb-16">
+        <div className="bg-primary-dark rounded-2xl p-6 sm:p-8 lg:p-12 text-white mb-12 sm:mb-16">
           <div className="grid lg:grid-cols-2 gap-6 sm:gap-8 items-center">
             <div>
-              <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
+              <div className="inline-block bg-primary/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
                 Prendre rendez-vous
               </div>
               <h2 className="text-2xl sm:text-3xl font-bold mb-3 sm:mb-4">
                 Visitez notre agence
               </h2>
-              <p className="text-slate-300 mb-6">
+              <p className="text-border mb-6">
                 Rencontrez nos experts en personne pour discuter de votre projet immobilier. Nous sommes disponibles du lundi au samedi pour vous recevoir dans nos bureaux.
               </p>
               <div className="space-y-3">
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Calendar size={20} className="text-rose-400" />
                   </div>
                   <div>
                     <p className="font-semibold">Réservation facile</p>
-                    <p className="text-sm text-slate-400">En ligne ou par téléphone</p>
+                    <p className="text-sm text-text-muted">En ligne ou par téléphone</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <User size={20} className="text-rose-400" />
                   </div>
                   <div>
                     <p className="font-semibold">Conseil personnalisé</p>
-                    <p className="text-sm text-slate-400">Un expert dédié à votre projet</p>
+                    <p className="text-sm text-text-muted">Un expert dédié à votre projet</p>
                   </div>
                 </div>
                 <div className="flex items-center gap-3">
-                  <div className="w-10 h-10 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-10 h-10 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <CheckCircle size={20} className="text-rose-400" />
                   </div>
                   <div>
                     <p className="font-semibold">Sans engagement</p>
-                    <p className="text-sm text-slate-400">Consultation gratuite</p>
+                    <p className="text-sm text-text-muted">Consultation gratuite</p>
                   </div>
                 </div>
               </div>
@@ -378,7 +378,7 @@ export default function ContactPage() {
             <div className="flex justify-center lg:justify-end">
               <a
                 href="tel:+221770000000"
-                className="w-full sm:w-auto text-center inline-block bg-rose-500 hover:bg-rose-700 text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold transition-colors touch-manipulation"
+                className="w-full sm:w-auto text-center inline-block bg-primary hover:bg-primary-hover text-white px-6 sm:px-8 py-3.5 sm:py-4 rounded-lg font-semibold transition-colors touch-manipulation"
               >
                 Réserver un rendez-vous
               </a>
@@ -388,11 +388,11 @@ export default function ContactPage() {
 
         {/* Carte */}
         <div id="map" className="overflow-hidden rounded-2xl bg-white shadow-sm">
-          <div className="flex h-72 items-center justify-center bg-slate-200 sm:h-96">
+          <div className="flex h-72 items-center justify-center bg-border sm:h-96">
             <div className="text-center">
-              <MapPin size={48} className="text-slate-400 mx-auto mb-4" />
-              <p className="text-slate-500 font-medium">Carte interactive (Google Maps API)</p>
-              <p className="text-sm text-slate-400 mt-2">Avenue Léopold Sédar Senghor, Dakar</p>
+              <MapPin size={48} className="text-text-muted mx-auto mb-4" />
+              <p className="text-text-muted font-medium">Carte interactive (Google Maps API)</p>
+              <p className="text-sm text-text-muted mt-2">Avenue Léopold Sédar Senghor, Dakar</p>
             </div>
           </div>
         </div>

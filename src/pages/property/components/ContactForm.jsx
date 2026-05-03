@@ -94,14 +94,14 @@ export default function ContactForm({ property }) {
 
   return (
     <div className="rounded-xl bg-white p-4 sm:p-6 lg:sticky lg:top-24 lg:mt-10">
-      <h3 className="mb-2 text-lg font-bold text-slate-900 sm:text-xl">Demander ce bien</h3>
-      <p className="mb-5 text-sm leading-relaxed text-slate-600">
+      <h3 className="mb-2 text-lg font-bold text-text-main sm:text-xl">Demander ce bien</h3>
+      <p className="mb-5 text-sm leading-relaxed text-text-muted">
         Votre demande est transmise directement à Ethic Immobilier. Toutes les réponses passent par notre équipe.
       </p>
 
-      <div className="mb-6 rounded-lg border border-slate-200 bg-slate-50 p-3">
-        <p className="text-sm font-semibold text-slate-900">Contact central</p>
-        <a href={`tel:${CENTRAL_WHATSAPP}`} className="mt-2 flex items-center gap-2 text-sm font-medium text-rose-600">
+      <div className="mb-6 rounded-lg border border-border bg-surface p-3">
+        <p className="text-sm font-semibold text-text-main">Contact central</p>
+        <a href={`tel:${CENTRAL_WHATSAPP}`} className="mt-2 flex items-center gap-2 text-sm font-medium text-primary">
           <Phone size={16} />
           {CENTRAL_PHONE_DISPLAY}
         </a>
@@ -114,7 +114,7 @@ export default function ContactForm({ property }) {
           required
           value={contactForm.name}
           onChange={(e) => setContactForm({ ...contactForm, name: e.target.value })}
-          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
+          className="w-full rounded-lg border border-border bg-surface px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           type="email"
@@ -122,14 +122,14 @@ export default function ContactForm({ property }) {
           required
           value={contactForm.email}
           onChange={(e) => setContactForm({ ...contactForm, email: e.target.value })}
-          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
+          className="w-full rounded-lg border border-border bg-surface px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <input
           type="tel"
           placeholder="Votre téléphone"
           value={contactForm.phone}
           onChange={(e) => setContactForm({ ...contactForm, phone: e.target.value })}
-          className="w-full rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
+          className="w-full rounded-lg border border-border bg-surface px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         />
         <textarea
           rows="4"
@@ -137,7 +137,7 @@ export default function ContactForm({ property }) {
           required
           value={contactForm.message}
           onChange={(e) => setContactForm({ ...contactForm, message: e.target.value })}
-          className="w-full resize-none rounded-lg border border-slate-200 bg-slate-50 px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-rose-500"
+          className="w-full resize-none rounded-lg border border-border bg-surface px-4 py-3 transition-all focus:border-transparent focus:outline-none focus:ring-2 focus:ring-primary"
         />
 
         {submitSuccess && (
@@ -155,7 +155,7 @@ export default function ContactForm({ property }) {
         <button
           type="submit"
           disabled={isSubmitting}
-          className="flex w-full items-center justify-center gap-2 rounded-lg bg-slate-900 py-3 font-semibold text-white transition-colors hover:bg-slate-800 disabled:cursor-not-allowed disabled:opacity-50"
+          className="flex w-full items-center justify-center gap-2 rounded-lg bg-primary-dark py-3 font-semibold text-white transition-colors hover:bg-primary-dark disabled:cursor-not-allowed disabled:opacity-50"
         >
           <Mail size={18} />
           {isSubmitting ? 'Envoi en cours...' : 'Envoyer la demande'}

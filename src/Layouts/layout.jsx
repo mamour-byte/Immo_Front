@@ -44,10 +44,10 @@ export default function Layout() {
 
                         {/* LOGO */}
                         <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group min-w-0">
-                            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-slate-900 rounded-lg flex items-center justify-center transition-transform group-hover:scale-105 flex-shrink-0">
+                            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary-dark rounded-lg flex items-center justify-center transition-transform group-hover:scale-105 flex-shrink-0">
                                 <span className="text-white font-semibold text-sm sm:text-base">E</span>
                             </div>
-                            <span className="text-base sm:text-xl font-semibold text-slate-900 tracking-tight truncate">
+                            <span className="text-base sm:text-xl font-semibold text-text-main tracking-tight truncate">
                                 Ethic Immobilier
                             </span>
                         </Link>
@@ -61,7 +61,7 @@ export default function Layout() {
 
                             <Link
                                 to={dashboardPath}
-                                className="inline-flex items-center gap-2 text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium"
+                                className="inline-flex items-center gap-2 text-text-muted hover:text-text-main transition-colors text-sm font-medium"
                             >
                                 {/* <LayoutDashboard size={18} /> */}
                                 <span>Tableau de bord</span>
@@ -72,7 +72,7 @@ export default function Layout() {
                                 to={profilePath}
                                 aria-label="Profil"
                                 title="Profil"
-                                className="p-2 text-slate-600 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors"
+                                className="p-2 text-text-muted hover:text-text-main hover:bg-surface rounded-lg transition-colors"
                             >
                                 <User size={20} />
                             </Link>
@@ -80,7 +80,7 @@ export default function Layout() {
                             {/* CTA */}
                             <Link
                                 to="/search"
-                                className="bg-slate-900 text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-slate-800 transition-colors"
+                                className="bg-primary-dark text-white px-5 py-2.5 rounded-lg text-sm font-medium hover:bg-primary-dark transition-colors"
                             >
                                 Trouver un bien
                             </Link>
@@ -90,7 +90,7 @@ export default function Layout() {
                         <div className="lg:hidden">
                             <button
                                 onClick={() => setMenuOpen(!menuOpen)}
-                                className="p-2 text-slate-700 hover:bg-slate-50 rounded-lg transition-colors"
+                                className="p-2 text-text-main hover:bg-surface rounded-lg transition-colors"
                             >
                                 {menuOpen ? <X size={24} /> : <Menu size={24} />}
                             </button>
@@ -99,7 +99,7 @@ export default function Layout() {
 
                     {/* MOBILE MENU */}
                     {menuOpen && (
-                        <div className="lg:hidden py-4 border-t border-slate-100">
+                        <div className="lg:hidden py-4 border-t border-border">
                             <div className="space-y-1">
                                 <MobileNavLink to="/" label="Accueil" />
                                 <MobileNavLink to="/search" label="Biens Immobillier" />
@@ -112,7 +112,7 @@ export default function Layout() {
                                 <div className="pt-4">
                                     <Link
                                         to="/search"
-                                        className="block w-full bg-slate-900 text-white text-center py-3 rounded-lg font-medium hover:bg-slate-800 transition-colors"
+                                        className="block w-full bg-primary-dark text-white text-center py-3 rounded-lg font-medium hover:bg-primary-dark transition-colors"
                                     >
                                         Trouver un bien
                                     </Link>
@@ -129,7 +129,7 @@ export default function Layout() {
             </main>
 
             {/* FOOTER */}
-            <footer className="bg-slate-900 text-slate-300 mt-12 sm:mt-24">
+            <footer className="bg-primary-dark text-border mt-12 sm:mt-24">
                 <div className="mx-auto w-full max-w-7xl px-4 sm:px-6 lg:px-8">
                     
                     {/* Contenu principal */}
@@ -139,11 +139,11 @@ export default function Layout() {
                         <div className="space-y-4">
                             <div className="flex items-center space-x-3">
                                 <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center">
-                                    <span className="text-slate-900 font-semibold text-base">E</span>
+                                    <span className="text-text-main font-semibold text-base">E</span>
                                 </div>
                                 <h2 className="text-lg font-semibold text-white">Ethic Immobilier</h2>
                             </div>
-                            <p className="text-sm leading-relaxed text-slate-400">
+                            <p className="text-sm leading-relaxed text-text-muted">
                                 Votre partenaire de confiance pour tous vos projets immobiliers au Sénégal.
                             </p>
                         </div>
@@ -173,17 +173,17 @@ export default function Layout() {
                             <h3 className="text-sm font-semibold text-white mb-4 uppercase tracking-wider">Contact</h3>
                             <div className="space-y-3">
                                 <div className="flex items-start space-x-3">
-                                    <Phone size={16} className="mt-0.5 text-slate-400" />
+                                    <Phone size={16} className="mt-0.5 text-text-muted" />
                                     <span className="text-sm">+221 78 147 90 90 </span>
                                 </div>
 
                                 <div className="flex items-start space-x-3">
-                                    <Mail size={16} className="mt-0.5 text-slate-400" />
+                                    <Mail size={16} className="mt-0.5 text-text-muted" />
                                     <span className="text-sm">immo@ethic-group.com</span>
                                 </div>
 
                                 <div className="flex items-start space-x-3">
-                                    <MapPin size={16} className="mt-0.5 text-slate-400" />
+                                    <MapPin size={16} className="mt-0.5 text-text-muted" />
                                     <span className="text-sm">Dakar, Sénégal</span>
                                 </div>
                             </div>
@@ -191,8 +191,8 @@ export default function Layout() {
                     </div>
 
                     {/* Copyright */}
-                    <div className="border-t border-slate-800 py-4 sm:py-6 px-4">
-                        <p className="text-center text-xs sm:text-sm text-slate-500">
+                    <div className="border-t border-text-main py-4 sm:py-6 px-4">
+                        <p className="text-center text-xs sm:text-sm text-text-muted">
                             © {new Date().getFullYear()} Ethic Immobilier. Tous droits réservés.
                         </p>
                     </div>
@@ -208,7 +208,7 @@ function NavLink({ to, label }) {
     return (
         <Link
             to={to}
-            className="text-slate-600 hover:text-slate-900 transition-colors text-sm font-medium"
+            className="text-text-muted hover:text-text-main transition-colors text-sm font-medium"
         >
             {label}
         </Link>
@@ -219,7 +219,7 @@ function MobileNavLink({ to, label, indent = false }) {
     return (
         <Link 
             to={to} 
-            className={`block py-3 text-slate-700 hover:text-slate-900 hover:bg-slate-50 rounded-lg transition-colors text-sm font-medium ${
+            className={`block py-3 text-text-main hover:text-text-main hover:bg-surface rounded-lg transition-colors text-sm font-medium ${
                 indent ? 'pl-6' : 'px-3'
             }`}
         >
@@ -232,7 +232,7 @@ function FooterLink({ to, label }) {
     return (
         <Link 
             to={to} 
-            className="block text-sm text-slate-400 hover:text-white transition-colors"
+            className="block text-sm text-text-muted hover:text-white transition-colors"
         >
             {label}
         </Link>

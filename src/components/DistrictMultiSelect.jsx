@@ -81,24 +81,24 @@ useEffect(() => {
     <div
       ref={dropdownRef}
       style={dropdownStyle}
-      className="bg-white border border-slate-200 rounded-xl shadow-2xl overflow-hidden"
+      className="bg-white border border-border rounded-xl shadow-2xl overflow-hidden"
     >
       {/* Search */}
-      <div className="p-2.5 border-b border-slate-100">
+      <div className="p-2.5 border-b border-border">
         <input
           ref={searchRef}
           type="text"
           value={query}
           onChange={e => setQuery(e.target.value)}
           placeholder="Rechercher un quartier..."
-          className="w-full px-3 py-2 text-sm bg-slate-50 border border-slate-200 rounded-md focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+          className="w-full px-3 py-2 text-sm bg-surface border border-border rounded-md focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
         />
       </div>
 
       {/* Options */}
       <div className="max-h-52 overflow-y-auto p-1.5">
         {filtered.length === 0 ? (
-          <p className="text-center text-sm text-slate-400 py-4">Aucun quartier trouvé</p>
+          <p className="text-center text-sm text-text-muted py-4">Aucun quartier trouvé</p>
         ) : filtered.map(d => {
           const isSelected = selectedIds.includes(d.id);
           return (
@@ -106,11 +106,11 @@ useEffect(() => {
               key={d.id}
               onClick={() => toggle(d.id)}
               className={`flex items-center gap-3 px-3 py-2.5 rounded-md cursor-pointer text-sm transition-colors ${
-                isSelected ? 'bg-rose-50 text-rose-700' : 'text-slate-700 hover:bg-slate-50'
+                isSelected ? 'bg-secondary-light text-primary-hover' : 'text-text-main hover:bg-surface'
               }`}
             >
               <div className={`w-4 h-4 rounded flex items-center justify-center flex-shrink-0 border transition-colors ${
-                isSelected ? 'bg-rose-500 border-rose-500' : 'border-slate-300 bg-white'
+                isSelected ? 'bg-primary border-primary' : 'border-border bg-white'
               }`}>
                 {isSelected && <Check size={10} color="white" strokeWidth={3} />}
               </div>
@@ -121,10 +121,10 @@ useEffect(() => {
       </div>
 
       {/* Footer */}
-      <div className="flex items-center justify-between px-3 py-2 border-t border-slate-100">
-        <span className="text-xs text-slate-400">{selectedIds.length} sélectionné(s)</span>
+      <div className="flex items-center justify-between px-3 py-2 border-t border-border">
+        <span className="text-xs text-text-muted">{selectedIds.length} sélectionné(s)</span>
         {selectedIds.length > 0 && (
-          <button onClick={() => onChange([])} className="text-xs text-rose-500 hover:text-rose-700">
+          <button onClick={() => onChange([])} className="text-xs text-primary hover:text-primary-hover">
             Tout effacer
           </button>
         )}
@@ -134,7 +134,7 @@ useEffect(() => {
 
   return (
     <div className="relative">
-      <label className="block text-xs font-semibold text-slate-600 uppercase tracking-wider mb-2">
+      <label className="block text-xs font-semibold text-text-muted uppercase tracking-wider mb-2">
         Quartier
       </label>
 
@@ -143,24 +143,24 @@ useEffect(() => {
         ref={triggerRef}
         type="button"
         onClick={() => setOpen(!open)}
-        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg text-sm text-left flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-rose-500 focus:border-transparent"
+        className="w-full px-4 py-3 bg-surface border border-border rounded-lg text-sm text-left flex items-center gap-2 focus:outline-none focus:ring-2 focus:ring-primary focus:border-transparent"
       >
         <div className="flex flex-wrap gap-1 flex-1 min-w-0">
           {selectedIds.length === 0 ? (
-            <span className="text-slate-400">Tous les quartiers</span>
+            <span className="text-text-muted">Tous les quartiers</span>
           ) : (
             selectedIds.map(id => {
               const d = districts.find(x => x.id === id);
               return (
                 <span
                   key={id}
-                  className="flex items-center gap-1 bg-rose-50 border border-rose-200 text-rose-700 text-xs rounded-full px-2.5 py-0.5"
+                  className="flex items-center gap-1 bg-secondary-light border border-rose-200 text-primary-hover text-xs rounded-full px-2.5 py-0.5"
                 >
                   <span className="truncate max-w-[100px]">{d?.name}</span>
                   <span
                     role="button"
                     onClick={(e) => { e.stopPropagation(); toggle(id); }}
-                    className="flex items-center cursor-pointer hover:text-rose-900"
+                    className="flex items-center cursor-pointer hover:text-primary-dark"
                   >
                     <X size={11} />
                   </span>
@@ -171,7 +171,7 @@ useEffect(() => {
         </div>
         <ChevronDown
           size={18}
-          className={`text-slate-400 flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
+          className={`text-text-muted flex-shrink-0 transition-transform duration-200 ${open ? 'rotate-180' : ''}`}
         />
       </button>
 

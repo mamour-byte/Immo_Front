@@ -2,24 +2,24 @@ import LottieLoader from "../../../components/LottieLoader";
 
 export default function PropertyLoading() {
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-surface">
       <div className="fixed inset-0 z-10 grid place-items-center pointer-events-none">
-        <div className="flex flex-col items-center gap-2 rounded-xl bg-white/80 px-6 py-5 shadow-sm ring-1 ring-slate-200">
+        <div className="flex flex-col items-center gap-2 rounded-xl bg-white/80 px-6 py-5 shadow-sm ring-1 ring-border">
           <LottieLoader size={120} title="Chargement..." />
-          <div className="text-sm font-medium text-slate-700">Chargement...</div>
+          <div className="text-sm font-medium text-text-main">Chargement...</div>
         </div>
       </div>
 
-      <div className="bg-white border-b border-slate-200 px-6 py-4">
-        <div className="max-w-7xl mx-auto h-6 bg-slate-200 rounded w-1/3 animate-pulse"></div>
+      <div className="bg-white border-b border-border px-6 py-4">
+        <div className="max-w-7xl mx-auto h-6 bg-border rounded w-1/3 animate-pulse"></div>
       </div>
       
       <div className="max-w-7xl mx-auto px-6 py-8">
         {/* Header skeleton */}
         <div className="mb-6 space-y-4">
-          <div className="h-10 bg-slate-200 rounded w-3/4 animate-pulse"></div>
-          <div className="h-6 bg-slate-200 rounded w-1/2 animate-pulse"></div>
-          <div className="h-8 bg-slate-200 rounded w-1/4 animate-pulse"></div>
+          <div className="h-10 bg-border rounded w-3/4 animate-pulse"></div>
+          <div className="h-6 bg-border rounded w-1/2 animate-pulse"></div>
+          <div className="h-8 bg-border rounded w-1/4 animate-pulse"></div>
         </div>
 
         {/* Image skeleton */}
@@ -37,12 +37,12 @@ export default function PropertyLoading() {
           <div className="lg:col-span-2 space-y-8">
             {/* Characteristics */}
             <div className="bg-white rounded-xl p-6">
-              <div className="h-8 bg-slate-200 rounded w-1/3 mb-6 animate-pulse"></div>
+              <div className="h-8 bg-border rounded w-1/3 mb-6 animate-pulse"></div>
               <div className="grid grid-cols-4 gap-6">
                 {[...Array(4)].map((_, i) => (
-                  <div key={i} className="bg-slate-50 rounded-lg p-4 animate-pulse">
-                    <div className="h-8 bg-slate-200 rounded mx-auto mb-2 w-1/2"></div>
-                    <div className="h-4 bg-slate-200 rounded"></div>
+                  <div key={i} className="bg-surface rounded-lg p-4 animate-pulse">
+                    <div className="h-8 bg-border rounded mx-auto mb-2 w-1/2"></div>
+                    <div className="h-4 bg-border rounded"></div>
                   </div>
                 ))}
               </div>
@@ -50,11 +50,11 @@ export default function PropertyLoading() {
 
             {/* Tabs */}
             <div className="bg-white rounded-xl overflow-hidden">
-              <div className="h-12 bg-slate-200 animate-pulse"></div>
+              <div className="h-12 bg-border animate-pulse"></div>
               <div className="p-6 space-y-4">
-                <div className="h-4 bg-slate-200 rounded w-full animate-pulse"></div>
-                <div className="h-4 bg-slate-200 rounded w-full animate-pulse"></div>
-                <div className="h-4 bg-slate-200 rounded w-3/4 animate-pulse"></div>
+                <div className="h-4 bg-border rounded w-full animate-pulse"></div>
+                <div className="h-4 bg-border rounded w-full animate-pulse"></div>
+                <div className="h-4 bg-border rounded w-3/4 animate-pulse"></div>
               </div>
             </div>
           </div>
@@ -62,9 +62,9 @@ export default function PropertyLoading() {
           {/* Sidebar skeleton */}
           <div>
             <div className="bg-white rounded-xl p-6 space-y-4 animate-pulse">
-              <div className="h-6 bg-slate-200 rounded w-3/4"></div>
+              <div className="h-6 bg-border rounded w-3/4"></div>
               {[...Array(4)].map((_, i) => (
-                <div key={i} className="h-10 bg-slate-200 rounded"></div>
+                <div key={i} className="h-10 bg-border rounded"></div>
               ))}
             </div>
           </div>

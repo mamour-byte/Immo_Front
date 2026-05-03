@@ -177,13 +177,13 @@ function PropertiesPanelBase({ title, subtitle, filters, setFilters, listQuery, 
           <div className="mb-4 flex flex-col gap-4 sm:flex-row sm:items-center sm:justify-between">
             <div>
               <h2 className="text-lg font-semibold text-slate-950">{title} ({total})</h2>
-              {subtitle && <p className="text-sm text-slate-600">{subtitle}</p>}
+              {subtitle && <p className="text-sm text-text-muted">{subtitle}</p>}
             </div>
             <div className="flex flex-col gap-3 sm:flex-row sm:items-center">
-              <div className="text-sm text-slate-600">Page {filters.page} / {totalPages}</div>
+              <div className="text-sm text-text-muted">Page {filters.page} / {totalPages}</div>
               <button
                 onClick={openCreate}
-                className="rounded-lg bg-slate-900 px-4 py-2 text-sm font-semibold text-white hover:bg-slate-800"
+                className="rounded-lg bg-primary-dark px-4 py-2 text-sm font-semibold text-white hover:bg-primary-dark"
               >
                 Ajouter
               </button>

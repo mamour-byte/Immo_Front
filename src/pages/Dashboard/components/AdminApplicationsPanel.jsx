@@ -95,7 +95,7 @@ export default function AdminApplicationsPanel() {
                     <div className="flex flex-wrap items-center gap-2">
                       <button
                         onClick={() => setSelectedApp(app)}
-                        className="px-3 py-2 bg-slate-900 text-white rounded hover:bg-slate-800 text-xs"
+                        className="px-3 py-2 bg-primary-dark text-white rounded hover:bg-primary-dark text-xs"
                         type="button"
                       >
                         Voir
@@ -113,7 +113,7 @@ export default function AdminApplicationsPanel() {
                           <button
                             onClick={() => handleReject(app.id)}
                             disabled={rejectMutation.isPending}
-                            className="px-3 py-2 bg-rose-600 text-white rounded hover:bg-rose-700 disabled:opacity-50 text-xs"
+                            className="px-3 py-2 bg-primary text-white rounded hover:bg-primary-hover disabled:opacity-50 text-xs"
                             type="button"
                           >
                             Refuser
@@ -197,7 +197,7 @@ export default function AdminApplicationsPanel() {
               <button
                 type="button"
                 onClick={() => setSelectedApp(null)}
-                className="px-4 py-2 text-sm rounded bg-slate-900 text-white hover:bg-slate-800"
+                className="px-4 py-2 text-sm rounded bg-primary-dark text-white hover:bg-primary-dark"
               >
                 Fermer
               </button>

@@ -133,8 +133,8 @@ export default function Account() {
 
   if (loading) {
     return (
-      <div className="min-h-screen flex items-center justify-center bg-slate-50">
-        <p className="text-sm text-slate-400">Chargement...</p>
+      <div className="min-h-screen flex items-center justify-center bg-surface">
+        <p className="text-sm text-text-muted">Chargement...</p>
       </div>
     );
   }
@@ -152,32 +152,32 @@ export default function Account() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50 px-4 py-8 sm:px-6">
+    <div className="min-h-screen bg-surface px-4 py-8 sm:px-6">
       <div className="max-w-2xl mx-auto space-y-6">
 
         {/* Header */}
-        <div className="flex items-center justify-between pb-5 border-b border-slate-200">
+        <div className="flex items-center justify-between pb-5 border-b border-border">
           <div className="flex items-center gap-3">
-            <div className="w-10 h-10 rounded-full bg-slate-100 border border-slate-200 flex items-center justify-center text-sm font-medium text-slate-500 shrink-0">
+            <div className="w-10 h-10 rounded-full bg-surface border border-border flex items-center justify-center text-sm font-medium text-text-muted shrink-0">
               {getInitials(me?.fullName)}
             </div>
             <div>
-              <p className="text-sm font-medium text-slate-900 leading-tight">{me?.fullName || "—"}</p>
-              <p className="text-xs text-slate-400 mt-0.5">{me?.email} · {me?.role}</p>
+              <p className="text-sm font-medium text-text-main leading-tight">{me?.fullName || "—"}</p>
+              <p className="text-xs text-text-muted mt-0.5">{me?.email} · {me?.role}</p>
             </div>
           </div>
           <div className="flex gap-2">
             {(me?.role === "AGENT" || me?.role === "ADMIN") && (
               <Link
                 to="/dashboard"
-                className="text-xs text-slate-600 border border-slate-200 rounded-lg px-3 py-1.5 hover:bg-slate-100 transition-colors"
+                className="text-xs text-text-muted border border-border rounded-lg px-3 py-1.5 hover:bg-surface transition-colors"
               >
                 {me.role === "ADMIN" ? "Admin" : "Tableau de bord"}
               </Link>
             )}
             <button
               onClick={logout}
-              className="text-xs text-slate-600 border border-slate-200 rounded-lg px-3 py-1.5 hover:bg-slate-100 transition-colors"
+              className="text-xs text-text-muted border border-border rounded-lg px-3 py-1.5 hover:bg-surface transition-colors"
             >
               Déconnexion
             </button>
@@ -185,19 +185,19 @@ export default function Account() {
         </div>
 
         {/* Card */}
-        <div className="bg-white rounded-2xl border border-slate-100 overflow-hidden">
+        <div className="bg-white rounded-2xl border border-border overflow-hidden">
 
           {/* Tabs */}
           {tabs.length > 1 && (
-            <div className="flex border-b border-slate-100 px-6">
+            <div className="flex border-b border-border px-6">
               {tabs.map((tab) => (
                 <button
                   key={tab.id}
                   onClick={() => setActiveTab(tab.id)}
                   className={`text-sm py-3 mr-6 border-b-[1.5px] -mb-px transition-colors ${
                     activeTab === tab.id
-                      ? "border-slate-900 text-slate-900"
-                      : "border-transparent text-slate-400 hover:text-slate-600"
+                      ? "border-text-main text-text-main"
+                      : "border-transparent text-text-muted hover:text-text-muted"
                   }`}
                 >
                   {tab.label}
@@ -209,7 +209,7 @@ export default function Account() {
           {/* Profile Tab */}
           {activeTab === "profile" && (
             <form onSubmit={saveProfile} className="p-6 space-y-4">
-              <p className="text-[11px] font-medium tracking-widest uppercase text-slate-400 mb-5">
+              <p className="text-[11px] font-medium tracking-widest uppercase text-text-muted mb-5">
                 Informations
               </p>
               <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
@@ -230,7 +230,7 @@ export default function Account() {
                 <button
                   type="submit"
                   disabled={saving}
-                  className="text-sm bg-slate-900 text-white rounded-lg px-5 py-2 hover:bg-slate-700 disabled:opacity-40 transition-colors"
+                  className="text-sm bg-primary-dark text-white rounded-lg px-5 py-2 hover:bg-primary-dark disabled:opacity-40 transition-colors"
                 >
                   {saving ? "Sauvegarde..." : "Sauvegarder"}
                 </button>
@@ -245,21 +245,21 @@ export default function Account() {
                 <>
                   {/* Status row */}
                   <div className="flex items-center justify-between mb-4">
-                    <p className="text-sm text-slate-500">Statut de votre demande</p>
-                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusConfig[me.agentApplication.status]?.classes || "bg-slate-100 text-slate-600"}`}>
+                    <p className="text-sm text-text-muted">Statut de votre demande</p>
+                    <span className={`text-xs font-medium px-2.5 py-1 rounded-full ${statusConfig[me.agentApplication.status]?.classes || "bg-surface text-text-muted"}`}>
                       {statusConfig[me.agentApplication.status]?.label || me.agentApplication.status}
                     </span>
                   </div>
 
                   {/* Decision note */}
                   {me.agentApplication.decisionNote && (
-                    <div className="bg-slate-50 rounded-xl p-4 text-sm text-slate-600 whitespace-pre-wrap mb-5 leading-relaxed">
+                    <div className="bg-surface rounded-xl p-4 text-sm text-text-muted whitespace-pre-wrap mb-5 leading-relaxed">
                       {me.agentApplication.decisionNote}
                     </div>
                   )}
 
                   {me.agentApplication.status === "APPROVED" && (
-                    <p className="text-sm text-slate-500 mb-5">
+                    <p className="text-sm text-text-muted mb-5">
                       Votre compte a été approuvé. Déconnectez-vous puis reconnectez-vous si l'accès agent n'est pas visible.
                     </p>
                   )}
@@ -267,7 +267,7 @@ export default function Account() {
                   {/* Editable form for PENDING */}
                   {me.agentApplication.status === "PENDING" && (
                     <form onSubmit={saveApplication} className="space-y-3 mt-2">
-                      <p className="text-[11px] font-medium tracking-widest uppercase text-slate-400 mb-4">Mettre à jour</p>
+                      <p className="text-[11px] font-medium tracking-widest uppercase text-text-muted mb-4">Mettre à jour</p>
                       <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                         <Field label="Nom complet" name="fullName" value={applicationForm.fullName} onChange={onApplicationChange} />
                         <Field label="Téléphone" name="phone" value={applicationForm.phone} onChange={onApplicationChange} />
@@ -282,7 +282,7 @@ export default function Account() {
                         <button
                           type="submit"
                           disabled={appSaving}
-                          className="text-sm bg-slate-900 text-white rounded-lg px-5 py-2 hover:bg-slate-700 disabled:opacity-40 transition-colors"
+                          className="text-sm bg-primary-dark text-white rounded-lg px-5 py-2 hover:bg-primary-dark disabled:opacity-40 transition-colors"
                         >
                           {appSaving ? "Sauvegarde..." : "Mettre à jour"}
                         </button>
@@ -294,8 +294,8 @@ export default function Account() {
                 /* No application yet */
                 <form onSubmit={createApplication} className="space-y-3">
                   <div className="mb-5">
-                    <p className="text-sm font-medium text-slate-900">Devenir agent</p>
-                    <p className="text-xs text-slate-400 mt-0.5">Vous n'avez pas encore soumis de demande.</p>
+                    <p className="text-sm font-medium text-text-main">Devenir agent</p>
+                    <p className="text-xs text-text-muted mt-0.5">Vous n'avez pas encore soumis de demande.</p>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 gap-3">
                     <Field label="Nom complet" name="fullName" value={applicationForm.fullName} onChange={onApplicationChange} />
@@ -308,14 +308,14 @@ export default function Account() {
                   <TextArea label="Bio" name="bio" value={applicationForm.bio} onChange={onApplicationChange} />
                   <Field label="URL Avatar" name="avatarUrl" value={applicationForm.avatarUrl} onChange={onApplicationChange} placeholder="https://..." />
                   <div className="flex items-center justify-between pt-2">
-                    <p className="text-xs text-slate-400">
+                    <p className="text-xs text-text-muted">
                       Ou via{" "}
                       <Link className="underline" to="/agent/apply">le formulaire public</Link>.
                     </p>
                     <button
                       type="submit"
                       disabled={appSaving}
-                      className="text-sm bg-slate-900 text-white rounded-lg px-5 py-2 hover:bg-slate-700 disabled:opacity-40 transition-colors"
+                      className="text-sm bg-primary-dark text-white rounded-lg px-5 py-2 hover:bg-primary-dark disabled:opacity-40 transition-colors"
                     >
                       {appSaving ? "Envoi..." : "Envoyer la demande"}
                     </button>
@@ -333,13 +333,13 @@ export default function Account() {
 function Field({ label, placeholder, ...props }) {
   return (
     <div>
-      <label className="block text-[11px] font-medium tracking-widest uppercase text-slate-400 mb-1.5">
+      <label className="block text-[11px] font-medium tracking-widest uppercase text-text-muted mb-1.5">
         {label}
       </label>
       <input
         {...props}
         placeholder={placeholder}
-        className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 transition-all"
+        className="w-full px-3 py-2.5 text-sm bg-surface border border-border rounded-lg text-text-main placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-border transition-all"
       />
     </div>
   );
@@ -348,13 +348,13 @@ function Field({ label, placeholder, ...props }) {
 function TextArea({ label, ...props }) {
   return (
     <div>
-      <label className="block text-[11px] font-medium tracking-widest uppercase text-slate-400 mb-1.5">
+      <label className="block text-[11px] font-medium tracking-widest uppercase text-text-muted mb-1.5">
         {label}
       </label>
       <textarea
         {...props}
         rows={3}
-        className="w-full px-3 py-2.5 text-sm bg-slate-50 border border-slate-200 rounded-lg text-slate-900 placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-slate-400 transition-all resize-none"
+        className="w-full px-3 py-2.5 text-sm bg-surface border border-border rounded-lg text-text-main placeholder-slate-300 focus:outline-none focus:ring-1 focus:ring-slate-400 focus:border-border transition-all resize-none"
       />
     </div>
   );

@@ -1,10 +1,52 @@
 @import "tailwindcss";
 
+@theme {
+  /* Couleurs de la palette (Noms originaux du brief) */
+  --color-rouge-fonce: #3B0A0A;
+  --color-bordeaux: #7B1A1A;
+  --color-rouge-moyen: #A02020;
+  --color-rose-pale: #F5E6E6;
+  --color-rose-logo: #F5C0C0;
+  --color-gris-clair: #F4F4F4;
+  --color-gris-moyen: #9E9E9E;
+  --color-gris-fonce: #4A4A4A;
+  --color-argent: #E8E8E8;
+  --color-blanc: #FFFFFF;
+  --color-noir: #1A1A1A;
+
+  /* Couleurs sémantiques (Primaire, Secondaire, etc.) pour une meilleure maintenance */
+  --color-primary: #7B1A1A;
+  /* bordeaux - couleur principale, boutons */
+  --color-primary-hover: #A02020;
+  /* rouge-moyen - hover, accents */
+  --color-primary-dark: #3B0A0A;
+  /* rouge-fonce - fond navbar, hero, footer */
+
+  --color-secondary: #F5C0C0;
+  /* rose-logo - contour logo, accents secondaires */
+  --color-secondary-light: #F5E6E6;
+  /* rose-pale - fonds clairs, tags */
+
+  --color-background: #FFFFFF;
+  /* blanc - fond par défaut */
+  --color-surface: #F4F4F4;
+  /* gris-clair - fonds formulaires, cartes */
+
+  --color-text-main: #4A4A4A;
+  /* gris-fonce - textes principaux */
+  --color-text-muted: #9E9E9E;
+  /* gris-moyen - textes secondaires */
+
+  --color-border: #E8E8E8;
+  /* argent - bordures */
+}
+
 /* Hide scrollbar on overflow scroll (e.g. breadcrumb on mobile) */
 .scrollbar-hide {
   -ms-overflow-style: none;
   scrollbar-width: none;
 }
+
 .scrollbar-hide::-webkit-scrollbar {
   display: none;
 }

@@ -25,7 +25,7 @@ function renderInfoValue(value) {
 function InfoRow({ label, value }) {
   return (
     <p>
-      <span className="font-medium text-slate-700">{label}:</span> {renderInfoValue(value)}
+      <span className="font-medium text-text-main">{label}:</span> {renderInfoValue(value)}
     </p>
   );
 }
@@ -236,7 +236,7 @@ export default function AdminUsersPanel() {
                           <button
                             onClick={() => removeUser(u)}
                             disabled={deleteMutation.isPending}
-                            className="px-3 py-2 bg-rose-600 text-white rounded hover:bg-rose-700 disabled:opacity-50"
+                            className="px-3 py-2 bg-primary text-white rounded hover:bg-primary-hover disabled:opacity-50"
                           >
                             Supprimer
                           </button>
@@ -264,9 +264,9 @@ export default function AdminUsersPanel() {
             <div className="flex items-start justify-between gap-4 mb-4">
               <div>
                 <h3 className="text-lg font-semibold">Modifier l'agent</h3>
-                <p className="text-sm text-slate-600">{editingUser.email}</p>
+                <p className="text-sm text-text-muted">{editingUser.email}</p>
               </div>
-              <button onClick={closeEdit} className="px-3 py-2 rounded hover:bg-slate-50">
+              <button onClick={closeEdit} className="px-3 py-2 rounded hover:bg-surface">
                 Fermer
               </button>
             </div>
@@ -295,7 +295,7 @@ export default function AdminUsersPanel() {
                 <button
                   type="submit"
                   disabled={updateMutation.isPending}
-                  className="px-4 py-2 bg-slate-900 text-white rounded hover:bg-slate-800 disabled:opacity-50"
+                  className="px-4 py-2 bg-primary-dark text-white rounded hover:bg-primary-dark disabled:opacity-50"
                 >
                   {updateMutation.isPending ? "Sauvegarde..." : "Sauvegarder"}
                 </button>
@@ -311,15 +311,15 @@ export default function AdminUsersPanel() {
             <div className="px-5 py-4 border-b flex items-center justify-between gap-4">
               <div>
                 <h3 className="text-lg font-semibold">Fiche utilisateur</h3>
-                <p className="text-sm text-slate-600">{userDetails?.email || "Chargement..."}</p>
+                <p className="text-sm text-text-muted">{userDetails?.email || "Chargement..."}</p>
               </div>
-              <button onClick={closeDetails} className="px-3 py-2 rounded hover:bg-slate-50" type="button">
+              <button onClick={closeDetails} className="px-3 py-2 rounded hover:bg-surface" type="button">
                 Fermer
               </button>
             </div>
 
             <div className="px-5 py-4 space-y-6 text-sm">
-              {isUserDetailsLoading && <p className="text-slate-600">Chargement des details...</p>}
+              {isUserDetailsLoading && <p className="text-text-muted">Chargement des details...</p>}
 
               {isUserDetailsError && (
                 <div className="p-3 rounded border border-red-200 bg-red-50 text-red-700">
@@ -330,7 +330,7 @@ export default function AdminUsersPanel() {
               {!isUserDetailsLoading && !isUserDetailsError && userDetails && (
                 <>
                   <section className="space-y-2">
-                    <h4 className="font-semibold text-slate-900">Compte</h4>
+                    <h4 className="font-semibold text-text-main">Compte</h4>
                     <InfoRow label="ID" value={userDetails.id} />
                     <InfoRow label="Role" value={userDetails.role} />
                     <InfoRow label="Nom" value={userDetails.fullName} />
@@ -342,7 +342,7 @@ export default function AdminUsersPanel() {
                   </section>
 
                   <section className="space-y-2">
-                    <h4 className="font-semibold text-slate-900">Activite</h4>
+                    <h4 className="font-semibold text-text-main">Activite</h4>
                     <InfoRow label="Biens rattaches" value={counts?.properties} />
                     <InfoRow label="Favoris" value={counts?.favorites} />
                     <InfoRow label="Rdv en tant que demandeur" value={counts?.appointmentsAsUser} />
@@ -351,7 +351,7 @@ export default function AdminUsersPanel() {
 
                   {application && (
                     <section className="space-y-2">
-                      <h4 className="font-semibold text-slate-900">Demande agent</h4>
+                      <h4 className="font-semibold text-text-main">Demande agent</h4>
                       <InfoRow label="Statut" value={application.status} />
                       <InfoRow label="Type profil" value={application.profileType} />
                       <InfoRow label="Prenom" value={application.firstName} />
@@ -382,7 +382,7 @@ export default function AdminUsersPanel() {
 
                   {profile && (
                     <section className="space-y-2">
-                      <h4 className="font-semibold text-slate-900">Profil agent actif</h4>
+                      <h4 className="font-semibold text-text-main">Profil agent actif</h4>
                       <InfoRow label="Type profil" value={profile.profileType} />
                       <InfoRow label="Nom agence" value={profile.agencyName} />
                       <InfoRow label="Societe" value={profile.companyName} />
@@ -410,7 +410,7 @@ export default function AdminUsersPanel() {
               <button
                 type="button"
                 onClick={closeDetails}
-                className="px-4 py-2 text-sm rounded bg-slate-900 text-white hover:bg-slate-800"
+                className="px-4 py-2 text-sm rounded bg-primary-dark text-white hover:bg-primary-dark"
               >
                 Fermer
               </button>
@@ -425,10 +425,10 @@ export default function AdminUsersPanel() {
 function Field({ label, ...props }) {
   return (
     <div>
-      <label className="block text-sm font-semibold text-slate-700 mb-2">{label}</label>
+      <label className="block text-sm font-semibold text-text-main mb-2">{label}</label>
       <input
         {...props}
-        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all text-slate-900"
+        className="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-dark focus:border-transparent transition-all text-text-main"
       />
     </div>
   );

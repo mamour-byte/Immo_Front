@@ -143,7 +143,7 @@ export default function Search() {
                 )}
               </>
             ) : (
-              <div className="p-6 bg-white rounded-lg shadow-sm text-center text-slate-600">
+              <div className="p-6 bg-white rounded-lg shadow-sm text-center text-text-muted">
                 Aucun bien ne correspond à ces critères pour le moment.
               </div>
             )}

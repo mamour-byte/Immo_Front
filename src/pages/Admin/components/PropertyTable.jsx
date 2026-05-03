@@ -61,7 +61,7 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
   return (
     <div className="overflow-x-auto">
       <table className="min-w-[980px] w-full text-left text-sm">
-        <thead className="bg-slate-900 text-white">
+        <thead className="bg-primary-dark text-white">
           <tr>
             <th className="p-3">ID</th>
             {showAgent && <th className="p-3">Agent</th>}
@@ -82,7 +82,7 @@ export default function PropertyTable({ data = [], loading, onEdit, onDelete, sh
               {showAgent && (
                 <td className="p-3">
                   <div className="font-medium">{p.agent?.fullName || "-"}</div>
-                  <div className="text-xs text-slate-600">{p.agent?.email || ""}</div>
+                  <div className="text-xs text-text-muted">{p.agent?.email || ""}</div>
                 </td>
               )}
               <td className="p-3">{p.title}</td>

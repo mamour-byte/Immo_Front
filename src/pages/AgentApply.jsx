@@ -125,20 +125,20 @@ export default function AgentApply() {
   }
 
   return (
-    <div className="min-h-screen bg-slate-50">
-      <section className="relative overflow-hidden bg-slate-900">
+    <div className="min-h-screen bg-surface">
+      <section className="relative overflow-hidden bg-primary-dark">
         <div className="absolute inset-0 bg-[radial-gradient(circle_at_30%_10%,rgba(244,63,94,0.25),transparent_55%),radial-gradient(circle_at_80%_40%,rgba(244,63,94,0.18),transparent_55%)]" />
         <div className="relative max-w-6xl mx-auto px-4 sm:px-6 py-10 sm:py-14">
           <div className="flex flex-col gap-6 sm:flex-row sm:items-start sm:justify-between">
             <div>
-              <div className="inline-flex items-center gap-2 bg-rose-500/20 text-rose-300 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider">
+              <div className="inline-flex items-center gap-2 bg-primary/20 text-rose-300 px-4 py-2 rounded-full text-xs sm:text-sm font-semibold uppercase tracking-wider">
                 <span className="w-2 h-2 rounded-full bg-rose-400" />
                 Candidature agent
               </div>
               <h1 className="mt-4 text-2xl sm:text-4xl font-bold text-white leading-tight">
                 Rejoignez notre réseau d’agents
               </h1>
-              <p className="mt-3 text-slate-300 max-w-2xl">
+              <p className="mt-3 text-border max-w-2xl">
                 Un formulaire simple, en 4 étapes, pour valider votre profil.
               </p>
             </div>
@@ -151,13 +151,13 @@ export default function AgentApply() {
           </div>
 
           <div className="mt-8">
-            <div className="flex items-center justify-between text-xs text-slate-300">
+            <div className="flex items-center justify-between text-xs text-border">
               <span>Étape {step} / {STEPS.length}</span>
               <span className="text-rose-200 font-semibold">{Math.round(progressPct)}%</span>
             </div>
             <div className="mt-2 h-2 w-full bg-white/10 rounded-full overflow-hidden">
               <div
-                className="h-full bg-rose-500 rounded-full transition-all duration-300"
+                className="h-full bg-primary rounded-full transition-all duration-300"
                 style={{ width: `${progressPct}%` }}
               />
             </div>
@@ -175,7 +175,7 @@ export default function AgentApply() {
                     className={[
                       "group flex items-center gap-3 rounded-xl px-3 py-3 border transition",
                       isActive
-                        ? "bg-white text-slate-900 border-white"
+                        ? "bg-white text-text-main border-white"
                         : "bg-white/5 text-slate-200 border-white/10 hover:bg-white/10",
                     ].join(" ")}
                     aria-current={isActive ? "step" : undefined}
@@ -185,19 +185,19 @@ export default function AgentApply() {
                       className={[
                         "w-9 h-9 rounded-lg flex items-center justify-center transition",
                         isActive
-                          ? "bg-rose-50 text-rose-600"
+                          ? "bg-secondary-light text-primary"
                           : isDone
-                            ? "bg-rose-500/20 text-rose-200"
+                            ? "bg-primary/20 text-rose-200"
                             : "bg-white/10 text-slate-200",
                       ].join(" ")}
                     >
                       {isDone ? <FiCheck /> : <Icon />}
                     </span>
                     <span className="min-w-0 text-left">
-                      <span className={["block text-sm font-semibold", isActive ? "text-slate-900" : ""].join(" ")}>
+                      <span className={["block text-sm font-semibold", isActive ? "text-text-main" : ""].join(" ")}>
                         {s.label}
                       </span>
-                      <span className={["block text-xs", isActive ? "text-slate-600" : "text-slate-400"].join(" ")}>
+                      <span className={["block text-xs", isActive ? "text-text-muted" : "text-text-muted"].join(" ")}>
                         {isDone ? "Terminé" : isActive ? "En cours" : "À venir"}
                       </span>
                     </span>
@@ -210,24 +210,24 @@ export default function AgentApply() {
       </section>
 
       <main className="max-w-6xl mx-auto px-4 sm:px-6 py-10">
-        <div className="bg-white rounded-2xl border border-slate-200 shadow-sm overflow-hidden">
-          <div className="flex flex-col gap-4 border-b border-slate-100 px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
+        <div className="bg-white rounded-2xl border border-border shadow-sm overflow-hidden">
+          <div className="flex flex-col gap-4 border-b border-border px-6 py-6 sm:flex-row sm:items-center sm:justify-between sm:px-10">
             <div>
-              <h2 className="text-lg sm:text-xl font-bold text-slate-900">
+              <h2 className="text-lg sm:text-xl font-bold text-text-main">
                 {step === 1 && "Informations personnelles"}
                 {step === 2 && "Profil professionnel"}
                 {step === 3 && "Contact & présentation"}
                 {step === 4 && "Documents & validation"}
               </h2>
-              <p className="text-sm text-slate-600 mt-1">
+              <p className="text-sm text-text-muted mt-1">
                 {step === 1 && "Vos informations de base pour créer votre compte agent."}
                 {step === 2 && "Décrivez votre activité et votre expérience."}
                 {step === 3 && "Coordonnées publiques et présentation visible sur votre profil."}
                 {step === 4 && "Ajoutez les documents requis et confirmez les conditions."}
               </p>
             </div>
-            <div className="hidden sm:flex items-center gap-2 text-xs text-slate-600">
-              <FiLock className="text-rose-500" />
+            <div className="hidden sm:flex items-center gap-2 text-xs text-text-muted">
+              <FiLock className="text-primary" />
               Données sécurisées
             </div>
           </div>
@@ -264,8 +264,8 @@ export default function AgentApply() {
                           className={[
                             "cursor-pointer rounded-2xl border p-5 transition",
                             checked
-                              ? "border-rose-500 bg-rose-50"
-                              : "border-slate-200 hover:border-slate-300 bg-white",
+                              ? "border-primary bg-secondary-light"
+                              : "border-border hover:border-border bg-white",
                           ].join(" ")}
                         >
                           <input
@@ -277,12 +277,12 @@ export default function AgentApply() {
                             className="sr-only"
                           />
                           <div className="flex items-start gap-4">
-                            <div className={["w-11 h-11 rounded-xl flex items-center justify-center", checked ? "bg-rose-500 text-white" : "bg-slate-100 text-slate-700"].join(" ")}>
+                            <div className={["w-11 h-11 rounded-xl flex items-center justify-center", checked ? "bg-primary text-white" : "bg-surface text-text-main"].join(" ")}>
                               <Icon />
                             </div>
                             <div>
-                              <div className="font-bold text-slate-900">{t.label}</div>
-                              <div className="text-sm text-slate-600 mt-1">{t.desc}</div>
+                              <div className="font-bold text-text-main">{t.label}</div>
+                              <div className="text-sm text-text-muted mt-1">{t.desc}</div>
                             </div>
                           </div>
                         </label>
@@ -337,7 +337,7 @@ export default function AgentApply() {
                     )}
                   </div>
 
-                  <div className="rounded-2xl bg-slate-50 border border-slate-200 p-5">
+                  <div className="rounded-2xl bg-surface border border-border p-5">
                     <CheckField name="acceptedTerms" checked={form.acceptedTerms} onChange={onChange} label="J'accepte les conditions d'utilisation" required />
                     <CheckField name="certifiedTrue" checked={form.certifiedTrue} onChange={onChange} label="Je certifie que les informations sont exactes" required />
                   </div>
@@ -350,7 +350,7 @@ export default function AgentApply() {
                 <button
                   type="button"
                   onClick={() => goTo(step - 1)}
-                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-slate-200 text-slate-700 font-semibold hover:bg-slate-50 transition"
+                  className="inline-flex items-center gap-2 px-4 py-2.5 rounded-lg border border-border text-text-main font-semibold hover:bg-surface transition"
                 >
                   <FiArrowLeft />
                   Retour
@@ -363,7 +363,7 @@ export default function AgentApply() {
                 <button
                   type="button"
                   onClick={() => goTo(step + 1)}
-                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-rose-500 text-white font-semibold hover:bg-rose-700 transition"
+                  className="inline-flex items-center gap-2 px-5 py-2.5 rounded-lg bg-primary text-white font-semibold hover:bg-primary-hover transition"
                 >
                   Suivant
                   <FiArrowRight />
@@ -372,7 +372,7 @@ export default function AgentApply() {
                 <button
                   type="submit"
                   disabled={isLoading}
-                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-slate-900 text-white font-semibold hover:bg-slate-800 disabled:opacity-60 disabled:cursor-not-allowed transition"
+                  className="inline-flex items-center justify-center gap-2 px-5 py-2.5 rounded-lg bg-primary-dark text-white font-semibold hover:bg-primary-dark disabled:opacity-60 disabled:cursor-not-allowed transition"
                 >
                   {isLoading ? <Spinner /> : <>
                     Envoyer la demande
@@ -382,9 +382,9 @@ export default function AgentApply() {
               )}
             </div>
 
-            <div className="mt-6 text-sm text-slate-600">
+            <div className="mt-6 text-sm text-text-muted">
               Déjà un compte ?{" "}
-              <Link to="/login" className="font-semibold text-rose-600 hover:text-rose-700">
+              <Link to="/login" className="font-semibold text-primary hover:text-primary-hover">
                 Connectez-vous
               </Link>
               .
@@ -400,18 +400,18 @@ export default function AgentApply() {
 function Field({ label, icon: Icon, className = "", ...props }) {
   return (
     <div className={["w-full", className].join(" ")}>
-      <label className="block text-sm font-semibold text-slate-700 mb-2">{label}</label>
+      <label className="block text-sm font-semibold text-text-main mb-2">{label}</label>
       <div className="relative">
         {Icon ? (
-          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-slate-400">
+          <span className="absolute left-3 top-1/2 -translate-y-1/2 text-text-muted">
             <Icon />
           </span>
         ) : null}
         <input
           {...props}
           className={[
-            "w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg",
-            "focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-300 transition-all text-slate-900",
+            "w-full px-4 py-3 bg-surface border border-border rounded-lg",
+            "focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-rose-300 transition-all text-text-main",
             Icon ? "pl-10" : "",
           ].join(" ")}
         />
@@ -422,11 +422,11 @@ function Field({ label, icon: Icon, className = "", ...props }) {
 function TextArea({ label, ...props }) {
   return (
     <div className="w-full">
-      <label className="block text-sm font-semibold text-slate-700 mb-2">{label}</label>
+      <label className="block text-sm font-semibold text-text-main mb-2">{label}</label>
       <textarea
         rows={5}
         {...props}
-        className="w-full px-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500/40 focus:border-rose-300 transition-all text-slate-900"
+        className="w-full px-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/40 focus:border-rose-300 transition-all text-text-main"
       />
     </div>
   );
@@ -434,29 +434,29 @@ function TextArea({ label, ...props }) {
 function FileField({ label, name, onChange, required, accept, value }) {
   return (
     <div className="w-full">
-      <label className="block text-sm font-semibold text-slate-700 mb-2">{label}</label>
+      <label className="block text-sm font-semibold text-text-main mb-2">{label}</label>
       <label
         className={[
           "group w-full flex items-center justify-between gap-3 px-4 py-3 rounded-lg border border-dashed",
-          value ? "bg-rose-50 border-rose-200" : "bg-slate-50 border-slate-300 hover:border-slate-400",
+          value ? "bg-secondary-light border-rose-200" : "bg-surface border-border hover:border-border",
           "transition cursor-pointer",
         ].join(" ")}
       >
         <input type="file" name={name} onChange={onChange} required={required} accept={accept} className="hidden" />
         <span className="flex items-center gap-3 min-w-0">
-          <span className={["w-10 h-10 rounded-lg flex items-center justify-center", value ? "bg-rose-500 text-white" : "bg-white text-slate-700 border border-slate-200"].join(" ")}>
+          <span className={["w-10 h-10 rounded-lg flex items-center justify-center", value ? "bg-primary text-white" : "bg-white text-text-main border border-border"].join(" ")}>
             <FiUploadCloud />
           </span>
           <span className="min-w-0">
-            <span className="block text-sm font-semibold text-slate-900 truncate">
+            <span className="block text-sm font-semibold text-text-main truncate">
               {value ? value.name : "Choisir un fichier"}
             </span>
-            <span className="block text-xs text-slate-600">
+            <span className="block text-xs text-text-muted">
               {accept?.includes("pdf") ? "Images ou PDF" : "Images uniquement"}
             </span>
           </span>
         </span>
-        <span className={["text-xs font-semibold", value ? "text-rose-700" : "text-slate-700"].join(" ")}>
+        <span className={["text-xs font-semibold", value ? "text-primary-hover" : "text-text-main"].join(" ")}>
           {value ? "Sélectionné" : "Parcourir"}
         </span>
       </label>
@@ -472,9 +472,9 @@ function CheckField({ name, checked, onChange, label, required }) {
         checked={checked}
         onChange={onChange}
         required={required}
-        className="mt-1 h-4 w-4 rounded border-slate-300 text-rose-600 focus:ring-rose-500"
+        className="mt-1 h-4 w-4 rounded border-border text-primary focus:ring-primary"
       />
-      <span className="text-sm text-slate-700">{label}</span>
+      <span className="text-sm text-text-main">{label}</span>
     </label>
   );
 }

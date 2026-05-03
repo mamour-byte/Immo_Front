@@ -29,11 +29,11 @@ export default function Property3DViewer({ asset }) {
   }
 
   return (
-    <div className={`relative min-w-0 bg-slate-100 rounded-xl overflow-hidden border border-slate-200 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
-      <div className="flex flex-col gap-3 p-4 bg-white border-b border-slate-200 sm:flex-row sm:items-center sm:justify-between">
+    <div className={`relative min-w-0 bg-surface rounded-xl overflow-hidden border border-border ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
+      <div className="flex flex-col gap-3 p-4 bg-white border-b border-border sm:flex-row sm:items-center sm:justify-between">
         <div className="min-w-0">
-          <h3 className="font-semibold text-slate-900 wrap-break-word">{asset.title || 'Visite 3D'}</h3>
-          <p className="text-sm text-slate-500 capitalize">{asset.provider}</p>
+          <h3 className="font-semibold text-text-main wrap-break-word">{asset.title || 'Visite 3D'}</h3>
+          <p className="text-sm text-text-muted capitalize">{asset.provider}</p>
         </div>
 
         <div className="flex items-center gap-2 flex-wrap">
@@ -41,7 +41,7 @@ export default function Property3DViewer({ asset }) {
             href={publicUrl || asset.assetUrl}
             target="_blank"
             rel="noopener noreferrer"
-            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors text-sm"
+            className="flex items-center gap-2 bg-surface hover:bg-border text-text-main px-3 py-2 rounded-lg transition-colors text-sm"
           >
             <ExternalLink size={16} />
             Ouvrir
@@ -49,7 +49,7 @@ export default function Property3DViewer({ asset }) {
 
           <button
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-surface hover:bg-border text-text-main px-3 py-2 rounded-lg transition-colors"
           >
             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
           </button>
@@ -70,10 +70,10 @@ export default function Property3DViewer({ asset }) {
         ) : (
           <>
             {isLoading && (
-              <div className="absolute inset-0 flex items-center justify-center bg-slate-100">
+              <div className="absolute inset-0 flex items-center justify-center bg-surface">
                 <div className="text-center">
-                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
-                  <p className="text-slate-600">Chargement de la visite 3D...</p>
+                  <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+                  <p className="text-text-muted">Chargement de la visite 3D...</p>
                 </div>
               </div>
             )}

@@ -17,7 +17,7 @@ const DEFAULTS = {
   pageSize: 10,
 };
 
-const inputClass = "w-full rounded-lg border border-slate-200 bg-white p-2 text-sm text-slate-900";
+const inputClass = "w-full rounded-lg border border-border bg-white p-2 text-sm text-text-main";
 
 export default function PropertyFilters({ filters, setFilters }) {
   const { data: cities = [] } = useCities();
@@ -40,7 +40,7 @@ export default function PropertyFilters({ filters, setFilters }) {
   const filteredDistricts = districts.filter((d) => !local.cityId || String(d.cityId) === String(local.cityId));
 
   return (
-    <div className="rounded-lg border border-slate-200 bg-slate-50 p-4">
+    <div className="rounded-lg border border-border bg-surface p-4">
       <h3 className="mb-3 text-sm font-semibold text-slate-950">Filtres</h3>
       <div className="space-y-3">
         <input
@@ -67,7 +67,7 @@ export default function PropertyFilters({ filters, setFilters }) {
         <select
           value={local.rentalMode || ""}
           onChange={(e) => setLocal({ ...local, rentalMode: e.target.value })}
-          className={`${inputClass} disabled:bg-slate-100`}
+          className={`${inputClass} disabled:bg-surface`}
           disabled={local.purpose && local.purpose !== "LOCATION"}
         >
           <option value="">Mode de location (tous)</option>
@@ -106,10 +106,10 @@ export default function PropertyFilters({ filters, setFilters }) {
         </select>
 
         <div className="flex gap-2">
-          <button onClick={apply} className="flex-1 rounded-lg bg-slate-900 py-2 text-sm font-semibold text-white">
+          <button onClick={apply} className="flex-1 rounded-lg bg-primary-dark py-2 text-sm font-semibold text-white">
             Appliquer
           </button>
-          <button onClick={reset} className="flex-1 rounded-lg border border-slate-200 bg-white py-2 text-sm font-medium text-slate-700">
+          <button onClick={reset} className="flex-1 rounded-lg border border-border bg-white py-2 text-sm font-medium text-text-main">
             Réinitialiser
           </button>
         </div>

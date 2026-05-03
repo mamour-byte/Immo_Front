@@ -706,7 +706,7 @@ export default function PropertyForm({
             </button>
             <button 
               type="submit" 
-              className={`px-4 py-2 bg-rose-500 text-white rounded hover:bg-rose-700 disabled:opacity-50 flex items-center gap-2`}
+              className={`px-4 py-2 bg-primary text-white rounded hover:bg-primary-hover disabled:opacity-50 flex items-center gap-2`}
               disabled={isLoading}
             >
               {isLoading ? (

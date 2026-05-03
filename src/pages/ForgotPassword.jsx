@@ -57,22 +57,22 @@ export default function ForgotPasswordPage() {
   };
 
   return (
-    <div className="min-h-screen flex items-center justify-center bg-slate-50 p-6">
+    <div className="min-h-screen flex items-center justify-center bg-surface p-6">
       <div className="w-full max-w-md">
         <div className="text-center mb-8">
-          <h1 className="text-3xl font-bold text-slate-900 mb-2">
+          <h1 className="text-3xl font-bold text-text-main mb-2">
             Mot de passe oublie
           </h1>
-          <p className="text-slate-600">
+          <p className="text-text-muted">
             Entrez votre email pour recevoir un lien de reinitialisation.
           </p>
         </div>
 
         <div className="bg-white rounded-2xl p-8 shadow-sm">
           {error && (
-            <div className="mb-6 p-4 bg-rose-50 border border-rose-200 rounded-lg flex items-start gap-3">
-              <AlertCircle size={20} className="text-rose-500 shrink-0 mt-0.5" />
-              <p className="text-sm font-medium text-rose-700">{error}</p>
+            <div className="mb-6 p-4 bg-secondary-light border border-rose-200 rounded-lg flex items-start gap-3">
+              <AlertCircle size={20} className="text-primary shrink-0 mt-0.5" />
+              <p className="text-sm font-medium text-primary-hover">{error}</p>
             </div>
           )}
 
@@ -85,11 +85,11 @@ export default function ForgotPasswordPage() {
 
           <form className="space-y-5" onSubmit={handleSubmit}>
             <div>
-              <label className="block text-sm font-semibold text-slate-700 mb-2">
+              <label className="block text-sm font-semibold text-text-main mb-2">
                 Email
               </label>
               <div className="relative">
-                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-slate-400" />
+                <Mail size={18} className="absolute left-4 top-1/2 -translate-y-1/2 text-text-muted" />
                 <input
                   type="email"
                   name="email"
@@ -97,7 +97,7 @@ export default function ForgotPasswordPage() {
                   onChange={(e) => setEmail(e.target.value)}
                   required
                   autoComplete="email"
-                  className="w-full pl-12 pr-4 py-3 bg-slate-50 border border-slate-200 rounded-lg focus:outline-none focus:ring-2 focus:ring-slate-900 focus:border-transparent transition-all text-slate-900"
+                  className="w-full pl-12 pr-4 py-3 bg-surface border border-border rounded-lg focus:outline-none focus:ring-2 focus:ring-primary-dark focus:border-transparent transition-all text-text-main"
                   placeholder="admin@ethic.com"
                 />
               </div>
@@ -106,7 +106,7 @@ export default function ForgotPasswordPage() {
             <button
               type="submit"
               disabled={isLoading}
-              className="w-full bg-slate-900 text-white py-3.5 rounded-lg font-semibold hover:bg-slate-800 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+              className="w-full bg-primary-dark text-white py-3.5 rounded-lg font-semibold hover:bg-primary-dark transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
             >
               {isLoading ? "Envoi en cours..." : "Recevoir un lien"}
             </button>
@@ -116,7 +116,7 @@ export default function ForgotPasswordPage() {
         <div className="mt-6 text-center">
           <Link
             to="/login"
-            className="inline-flex items-center gap-2 text-sm text-slate-600 hover:text-slate-900 transition-colors"
+            className="inline-flex items-center gap-2 text-sm text-text-muted hover:text-text-main transition-colors"
           >
             <ArrowLeft size={16} />
             Retour a la connexion

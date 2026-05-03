@@ -83,14 +83,14 @@ export default function Simple3DManager({ propertyId, assets3D = [], onUpdate })
       <div className="flex gap-2">
         <button
           onClick={() => setMode('url')}
-          className={`px-4 py-2 rounded-lg ${mode === 'url' ? 'bg-rose-500 text-white' : 'bg-gray-100'}`}
+          className={`px-4 py-2 rounded-lg ${mode === 'url' ? 'bg-primary text-white' : 'bg-gray-100'}`}
         >
           <Link className="w-4 h-4 inline mr-2" />
           URL externe
         </button>
         <button
           onClick={() => setMode('file')}
-          className={`px-4 py-2 rounded-lg ${mode === 'file' ? 'bg-rose-500 text-white' : 'bg-gray-100'}`}
+          className={`px-4 py-2 rounded-lg ${mode === 'file' ? 'bg-primary text-white' : 'bg-gray-100'}`}
         >
           <Upload className="w-4 h-4 inline mr-2" />
           Fichier GLB
@@ -130,7 +130,7 @@ export default function Simple3DManager({ propertyId, assets3D = [], onUpdate })
           <button
             onClick={handleUrlSubmit}
             disabled={!url.trim() || !title.trim() || !isMatterportUrl}
-            className="px-4 py-2 bg-rose-500 text-white rounded-lg disabled:opacity-50"
+            className="px-4 py-2 bg-primary text-white rounded-lg disabled:opacity-50"
           >
             Ajouter visite
           </button>

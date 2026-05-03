@@ -29,17 +29,17 @@ export default function SimilarPropertyCard({ property }) {
         />
       </div>
       <div className="p-5">
-        <h3 className="font-semibold text-lg text-slate-900 mb-2 line-clamp-1">
+        <h3 className="font-semibold text-lg text-text-main mb-2 line-clamp-1">
           {property.title}
         </h3>
-        <p className="text-rose-500 font-bold text-xl mb-3">
+        <p className="text-primary font-bold text-xl mb-3">
           {formatPrice(property.price)} FCFA{priceSuffix}
         </p>
-        <p className="text-slate-500 text-sm mb-4 flex items-center gap-1">
+        <p className="text-text-muted text-sm mb-4 flex items-center gap-1">
           <MapPin size={14} />
           {property.address || property.city?.name || 'Localisation'}
         </p>
-        <div className="flex items-center gap-4 text-sm text-slate-600 pt-4 border-t border-slate-100">
+        <div className="flex items-center gap-4 text-sm text-text-muted pt-4 border-t border-border">
           <span>{property.bedrooms || '-'} ch.</span>
           <span>•</span>
           <span>{property.bathrooms || '-'} sdb</span>

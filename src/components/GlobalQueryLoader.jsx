@@ -37,9 +37,9 @@ export default function GlobalQueryLoader({
 
   return (
     <div className="fixed inset-0 z-40 grid place-items-center bg-white/70 backdrop-blur-sm">
-      <div className="flex flex-col items-center gap-3 rounded-xl bg-white/80 px-6 py-5 shadow-sm ring-1 ring-slate-200">
+      <div className="flex flex-col items-center gap-3 rounded-xl bg-white/80 px-6 py-5 shadow-sm ring-1 ring-border">
         <LottieLoader size={120} title={message} />
-        <div className="text-sm font-medium text-slate-700">{message}</div>
+        <div className="text-sm font-medium text-text-main">{message}</div>
       </div>
     </div>
   );

@@ -111,7 +111,7 @@ export default function PropertyDetailPage() {
         <meta charSet="utf-8" />
       </Helmet>
 
-      <div className="min-h-screen bg-slate-50">
+      <div className="min-h-screen bg-surface">
         {/* Breadcrumb */}
         <Breadcrumb property={property} />
 

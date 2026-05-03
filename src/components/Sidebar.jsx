@@ -28,15 +28,15 @@ export default function Sidebar({ activeItem = "overview", isAdmin = false, onSe
   const items = isAdmin ? adminItems : agentItems;
 
   return (
-    <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 flex-col border-r border-slate-200 bg-white lg:flex">
-      <div className="border-b border-slate-200 px-6 py-6">
+    <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 flex-col border-r border-border bg-white lg:flex">
+      <div className="border-b border-border px-6 py-6">
         <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-slate-900 text-base font-semibold text-white">
+          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-dark text-base font-semibold text-white">
             E
           </span>
           <span className="min-w-0">
             <span className="block truncate text-base font-semibold text-slate-950">Ethic Immobilier</span>
-            <span className="block text-xs font-medium uppercase tracking-[0.14em] text-rose-600">
+            <span className="block text-xs font-medium uppercase tracking-[0.14em] text-primary">
               {isAdmin ? "Administration" : "Espace agent"}
             </span>
           </span>
@@ -56,8 +56,8 @@ export default function Sidebar({ activeItem = "overview", isAdmin = false, onSe
               className={[
                 "flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-medium transition-colors",
                 isActive
-                  ? "bg-slate-900 text-white"
-                  : "text-slate-600 hover:bg-slate-50 hover:text-slate-950",
+                  ? "bg-primary-dark text-white"
+                  : "text-text-muted hover:bg-surface hover:text-slate-950",
               ].join(" ")}
             >
               <Icon size={18} />
@@ -67,17 +67,17 @@ export default function Sidebar({ activeItem = "overview", isAdmin = false, onSe
         })}
       </nav>
 
-      <div className="space-y-2 border-t border-slate-200 p-3">
+      <div className="space-y-2 border-t border-border p-3">
         <Link
           to="/account"
-          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-text-muted transition-colors hover:bg-surface hover:text-slate-950"
         >
           <UserRound size={18} />
           Mon compte
         </Link>
         <Link
           to="/"
-          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-slate-600 transition-colors hover:bg-slate-50 hover:text-slate-950"
+          className="flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium text-text-muted transition-colors hover:bg-surface hover:text-slate-950"
         >
           <Home size={18} />
           Retour au site
@@ -85,7 +85,7 @@ export default function Sidebar({ activeItem = "overview", isAdmin = false, onSe
         <button
           type="button"
           onClick={onLogout}
-          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-rose-700 transition-colors hover:bg-rose-50"
+          className="flex w-full items-center gap-3 rounded-lg px-3 py-2.5 text-left text-sm font-semibold text-primary-hover transition-colors hover:bg-secondary-light"
         >
           <LogOut size={18} />
           Déconnexion

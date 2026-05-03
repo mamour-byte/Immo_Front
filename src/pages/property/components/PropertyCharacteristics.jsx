@@ -4,7 +4,7 @@ import FeatureItem from './FeatureItem';
 export default function PropertyCharacteristics({ property }) {
   return (
     <div className="bg-white rounded-xl p-4 sm:p-6">
-      <h2 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">Caractéristiques</h2>
+      <h2 className="text-xl sm:text-2xl font-bold text-text-main mb-4 sm:mb-6">Caractéristiques</h2>
       <div className="grid grid-cols-2 md:grid-cols-4 gap-4 sm:gap-6">
         <FeatureItem icon={<Bed size={24} />} label="Chambres" value={property.bedrooms} />
         <FeatureItem icon={<Bath size={24} />} label="Salles de bain" value={property.bathrooms} />

@@ -102,10 +102,10 @@ export default function ConstructionPage() {
   ];
 
   return (
-    <div className="min-h-screen bg-slate-50">
+    <div className="min-h-screen bg-surface">
       
       {/* Hero Section */}
-      <section className="relative min-h-[50vh] sm:min-h-[60vh] lg:h-[70vh] flex items-center bg-slate-900 overflow-hidden py-12 sm:py-0">
+      <section className="relative min-h-[50vh] sm:min-h-[60vh] lg:h-[70vh] flex items-center bg-primary-dark overflow-hidden py-12 sm:py-0">
         <div className="absolute inset-0">
           <img
             src="https://images.unsplash.com/photo-1503387762-592deb58ef4e"
@@ -117,19 +117,19 @@ export default function ConstructionPage() {
         
         <div className="relative z-10 max-w-7xl mx-auto px-4 sm:px-6 w-full">
           <div className="max-w-3xl">
-            <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4 sm:mb-6">
+            <div className="inline-block bg-primary/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4 sm:mb-6">
               Ethic Construction
             </div>
             <h1 className="text-2xl sm:text-4xl lg:text-6xl font-bold text-white mb-4 sm:mb-6 leading-tight">
               Bâtissons ensemble vos projets d'avenir
             </h1>
-            <p className="text-base sm:text-xl text-slate-300 mb-6 sm:mb-8">
+            <p className="text-base sm:text-xl text-border mb-6 sm:mb-8">
               De l'étude à la réalisation, Ethic Construction vous accompagne dans tous vos projets immobiliers avec expertise et professionnalisme.
             </p>
             <div className="flex flex-wrap gap-3 sm:gap-4">
               <a
                 href="#contact"
-                className="bg-rose-500 hover:bg-rose-700 text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 touch-manipulation"
+                className="bg-primary hover:bg-primary-hover text-white px-6 sm:px-8 py-3 sm:py-4 rounded-lg font-semibold transition-colors inline-flex items-center gap-2 touch-manipulation"
               >
                 Demander un devis
                 <ArrowRight size={20} className="w-5 h-5" />
@@ -163,26 +163,26 @@ export default function ConstructionPage() {
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div>
-              <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4 sm:mb-6">
+              <div className="inline-block bg-secondary-light text-primary px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4 sm:mb-6">
                 À propos
               </div>
-              <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-4 sm:mb-6">
+              <h2 className="text-2xl sm:text-4xl font-bold text-text-main mb-4 sm:mb-6">
                 Ethic Construction, votre partenaire bâtisseur
               </h2>
-              <p className="text-slate-600 text-lg leading-relaxed mb-6">
+              <p className="text-text-muted text-lg leading-relaxed mb-6">
                 Ethic, votre partenaire de confiance pour tous vos projets de construction. Basée à Dakar, notre entreprise accompagne particuliers, professionnels et institutions dans la conception de plans de construction jusqu’à la réalisation complète de leurs ouvrages. 
               </p>
-              <p className="text-slate-600 text-lg leading-relaxed mb-8">
+              <p className="text-text-muted text-lg leading-relaxed mb-8">
                 Fondée par Thiendella Fall, ingénieur en génie civil, Ethic s’appuie sur une équipe jeune, dynamique et talentueuse pour concrétiser vos idées avec rigueur et innovation.
               </p>
               <div className="flex flex-wrap gap-4">
                 <div className="flex items-center gap-3">
-                  <div className="w-12 h-12 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center">
+                  <div className="w-12 h-12 bg-secondary-light text-primary rounded-xl flex items-center justify-center">
                     <Award size={24} />
                   </div>
                   <div>
-                    <p className="font-semibold text-slate-900">Certifié </p>
-                    <p className="text-sm text-slate-500">Qualité garantie</p>
+                    <p className="font-semibold text-text-main">Certifié </p>
+                    <p className="text-sm text-text-muted">Qualité garantie</p>
                   </div>
                 </div>
               </div>
@@ -207,13 +207,13 @@ export default function ConstructionPage() {
       <section className="bg-white py-12 sm:py-20 px-4 sm:px-6">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
-            <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-block bg-secondary-light text-primary px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Nos services
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-4xl font-bold text-text-main mb-4">
               Une expertise complète pour vos projets
             </h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+            <p className="text-text-muted text-lg max-w-2xl mx-auto">
               De la conception à la réalisation, nous couvrons tous les aspects de votre projet immobilier.
             </p>
           </div>
@@ -241,8 +241,8 @@ export default function ConstructionPage() {
             />
           </div>
 
-          <div className="mt-8 sm:mt-12 bg-slate-50 rounded-2xl p-4 sm:p-6 lg:p-8">
-            <h3 className="text-xl sm:text-2xl font-bold text-slate-900 mb-4 sm:mb-6">Notre processus</h3>
+          <div className="mt-8 sm:mt-12 bg-surface rounded-2xl p-4 sm:p-6 lg:p-8">
+            <h3 className="text-xl sm:text-2xl font-bold text-text-main mb-4 sm:mb-6">Notre processus</h3>
             <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-5 gap-6">
               <ProcessStep number="1" title="Étude" description="Analyse du projet et faisabilité" />
               <ProcessStep number="2" title="Conception" description="Plans et design architectural" />
@@ -255,16 +255,16 @@ export default function ConstructionPage() {
       </section>
 
       {/* Galerie de réalisations */}
-      <section id="realisations" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-50">
+      <section id="realisations" className="py-12 sm:py-20 px-4 sm:px-6 bg-surface">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-8 sm:mb-12">
-            <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-block bg-secondary-light text-primary px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Portfolio
             </div>
-            <h2 className="text-2xl sm:text-4xl font-bold text-slate-900 mb-4">
+            <h2 className="text-2xl sm:text-4xl font-bold text-text-main mb-4">
               Nos réalisations
             </h2>
-            <p className="text-slate-600 text-lg">
+            <p className="text-text-muted text-lg">
               Découvrez quelques-uns de nos projets emblématiques
             </p>
           </div>
@@ -275,8 +275,8 @@ export default function ConstructionPage() {
               onClick={() => setActiveCategory('all')}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-all sm:px-6 sm:text-base ${
                 activeCategory === 'all'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600 hover:bg-slate-100'
+                  ? 'bg-primary-dark text-white'
+                  : 'bg-white text-text-muted hover:bg-surface'
               }`}
             >
               Tous les projets
@@ -285,8 +285,8 @@ export default function ConstructionPage() {
               onClick={() => setActiveCategory('residential')}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-all sm:px-6 sm:text-base ${
                 activeCategory === 'residential'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600 hover:bg-slate-100'
+                  ? 'bg-primary-dark text-white'
+                  : 'bg-white text-text-muted hover:bg-surface'
               }`}
             >
               Résidentiel
@@ -295,8 +295,8 @@ export default function ConstructionPage() {
               onClick={() => setActiveCategory('commercial')}
               className={`rounded-full px-4 py-2 text-sm font-medium transition-all sm:px-6 sm:text-base ${
                 activeCategory === 'commercial'
-                  ? 'bg-slate-900 text-white'
-                  : 'bg-white text-slate-600 hover:bg-slate-100'
+                  ? 'bg-primary-dark text-white'
+                  : 'bg-white text-text-muted hover:bg-surface'
               }`}
             >
               Commercial
@@ -320,13 +320,13 @@ export default function ConstructionPage() {
       <section className="py-12 sm:py-20 px-4 sm:px-6 bg-white">
         <div className="max-w-7xl mx-auto">
           <div className="text-center mb-10 sm:mb-16">
-            <div className="inline-block bg-rose-50 text-rose-500 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
+            <div className="inline-block bg-secondary-light text-primary px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-4">
               Notre équipe
             </div>
-            <h2 className="mb-4 text-2xl font-bold text-slate-900 sm:text-4xl">
+            <h2 className="mb-4 text-2xl font-bold text-text-main sm:text-4xl">
               Des experts à votre service
             </h2>
-            <p className="text-slate-600 text-lg max-w-2xl mx-auto">
+            <p className="text-text-muted text-lg max-w-2xl mx-auto">
               Une équipe pluridisciplinaire composée d'architectes, d'ingénieurs et de chefs de projet expérimentés.
             </p>
           </div>
@@ -340,27 +340,27 @@ export default function ConstructionPage() {
       </section>
 
       {/* Section Contact */}
-      <section id="contact" className="py-12 sm:py-20 px-4 sm:px-6 bg-slate-900 text-white">
+      <section id="contact" className="py-12 sm:py-20 px-4 sm:px-6 bg-primary-dark text-white">
         <div className="max-w-7xl mx-auto">
           <div className="grid lg:grid-cols-2 gap-8 sm:gap-12 items-center">
             <div>
-              <div className="inline-block bg-rose-500/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
+              <div className="inline-block bg-primary/20 text-rose-400 px-4 py-2 rounded-full text-sm font-semibold uppercase tracking-wider mb-6">
                 Contact
               </div>
               <h2 className="text-2xl sm:text-4xl font-bold mb-4 sm:mb-6">
                 Discutons de votre projet
               </h2>
-              <p className="mb-8 text-base text-slate-300 sm:text-lg">
+              <p className="mb-8 text-base text-border sm:text-lg">
                 Notre équipe est à votre disposition pour étudier votre projet et vous proposer des solutions adaptées à vos besoins et votre budget.
               </p>
 
               <div className="space-y-4">
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Phone size={20} className="text-rose-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Téléphone</p>
+                    <p className="text-sm text-text-muted">Téléphone</p>
                     <a href="tel:+221781479090" className="text-lg font-semibold hover:text-rose-400 transition-colors">
                       +221 78 147 90 90
                     </a>
@@ -368,11 +368,11 @@ export default function ConstructionPage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Mail size={20} className="text-rose-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Email</p>
+                    <p className="text-sm text-text-muted">Email</p>
                     <a href="mailto:mamour@ethic-group.com" className="text-lg font-semibold hover:text-rose-400 transition-colors">
                       mamour@ethic-group.com
                     </a>
@@ -380,11 +380,11 @@ export default function ConstructionPage() {
                 </div>
 
                 <div className="flex items-center gap-4">
-                  <div className="w-12 h-12 bg-rose-500/20 rounded-lg flex items-center justify-center flex-shrink-0">
+                  <div className="w-12 h-12 bg-primary/20 rounded-lg flex items-center justify-center flex-shrink-0">
                     <Globe size={20} className="text-rose-400" />
                   </div>
                   <div>
-                    <p className="text-sm text-slate-400">Site web</p>
+                    <p className="text-sm text-text-muted">Site web</p>
                     <a 
                       href="https://www.ethic-group.com" 
                       target="_blank" 
@@ -404,19 +404,19 @@ export default function ConstructionPage() {
                 <input
                   type="text"
                   placeholder="Votre nom complet"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-slate-400"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder-slate-400"
                 />
                 <input
                   type="email"
                   placeholder="Votre email"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-slate-400"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder-slate-400"
                 />
                 <input
                   type="tel"
                   placeholder="Votre téléphone"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-slate-400"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder-slate-400"
                 />
-                <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white appearance-none cursor-pointer">
+                <select className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white appearance-none cursor-pointer">
                   <option value="">Type de projet</option>
                   <option value="residential">Construction résidentielle</option>
                   <option value="commercial">Construction commerciale</option>
@@ -426,9 +426,9 @@ export default function ConstructionPage() {
                 <textarea
                   rows="4"
                   placeholder="Décrivez votre projet"
-                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-rose-500 text-white placeholder-slate-400 resize-none"
+                  className="w-full px-4 py-3 bg-white/10 border border-white/20 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary text-white placeholder-slate-400 resize-none"
                 />
-                <button className="w-full bg-rose-500 hover:bg-rose-700 text-white py-3 rounded-lg font-semibold transition-colors">
+                <button className="w-full bg-primary hover:bg-primary-hover text-white py-3 rounded-lg font-semibold transition-colors">
                   Envoyer la demande
                 </button>
               </div>
@@ -454,7 +454,7 @@ export default function ConstructionPage() {
             />
             <div className="text-white">
               <h3 className="text-xl sm:text-3xl font-bold mb-2">{selectedImage.title}</h3>
-              <p className="text-slate-300 text-lg mb-4">{selectedImage.description}</p>
+              <p className="text-border text-lg mb-4">{selectedImage.description}</p>
               <div className="flex flex-wrap gap-3 text-sm">
                 <span className="bg-white/10 px-3 py-1 rounded-full">{selectedImage.location}</span>
                 <span className="bg-white/10 px-3 py-1 rounded-full">{selectedImage.year}</span>
@@ -472,20 +472,20 @@ export default function ConstructionPage() {
 function StatCard({ number, label }) {
   return (
     <div className="text-center">
-      <div className="text-4xl lg:text-5xl font-bold text-slate-900 mb-2">{number}</div>
-      <div className="text-slate-600 font-medium">{label}</div>
+      <div className="text-4xl lg:text-5xl font-bold text-text-main mb-2">{number}</div>
+      <div className="text-text-muted font-medium">{label}</div>
     </div>
   );
 }
 
 function ServiceCard({ icon, title, description }) {
   return (
-    <div className="bg-slate-50 p-8 rounded-xl hover:shadow-lg transition-all group">
-      <div className="w-14 h-14 bg-rose-50 text-rose-500 rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
+    <div className="bg-surface p-8 rounded-xl hover:shadow-lg transition-all group">
+      <div className="w-14 h-14 bg-secondary-light text-primary rounded-xl flex items-center justify-center mb-6 group-hover:scale-110 transition-transform">
         {icon}
       </div>
-      <h3 className="font-bold text-xl text-slate-900 mb-3">{title}</h3>
-      <p className="text-slate-600 leading-relaxed">{description}</p>
+      <h3 className="font-bold text-xl text-text-main mb-3">{title}</h3>
+      <p className="text-text-muted leading-relaxed">{description}</p>
     </div>
   );
 }
@@ -493,11 +493,11 @@ function ServiceCard({ icon, title, description }) {
 function ProcessStep({ number, title, description }) {
   return (
     <div className="text-center">
-      <div className="w-12 h-12 bg-rose-500 text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">
+      <div className="w-12 h-12 bg-primary text-white rounded-full flex items-center justify-center font-bold text-lg mx-auto mb-4">
         {number}
       </div>
-      <h4 className="font-semibold text-slate-900 mb-2">{title}</h4>
-      <p className="text-sm text-slate-600">{description}</p>
+      <h4 className="font-semibold text-text-main mb-2">{title}</h4>
+      <p className="text-sm text-text-muted">{description}</p>
     </div>
   );
 }
@@ -519,12 +519,12 @@ function ProjectCard({ project, onClick }) {
           <h3 className="font-bold text-xl mb-1">{project.title}</h3>
           <p className="text-sm text-slate-200">{project.location}</p>
         </div>
-        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-slate-900">
+        <div className="absolute top-4 right-4 bg-white/90 backdrop-blur-sm px-3 py-1 rounded-full text-xs font-semibold text-text-main">
           {project.year}
         </div>
       </div>
       <div className="p-6">
-        <p className="text-slate-600">{project.description}</p>
+        <p className="text-text-muted">{project.description}</p>
       </div>
     </div>
   );
@@ -532,7 +532,7 @@ function ProjectCard({ project, onClick }) {
 
 function TeamCard({ member }) {
   return (
-    <div className="bg-slate-50 rounded-xl overflow-hidden hover:shadow-lg transition-all group">
+    <div className="bg-surface rounded-xl overflow-hidden hover:shadow-lg transition-all group">
       <div className="relative h-64 overflow-hidden">
         <img
           src={member.image}
@@ -541,9 +541,9 @@ function TeamCard({ member }) {
         />
       </div>
       <div className="p-6 text-center">
-        <h3 className="font-bold text-lg text-slate-900 mb-1">{member.name}</h3>
-        <p className="text-rose-500 font-medium mb-2">{member.role}</p>
-        <p className="text-sm text-slate-500">{member.experience}</p>
+        <h3 className="font-bold text-lg text-text-main mb-1">{member.name}</h3>
+        <p className="text-primary font-medium mb-2">{member.role}</p>
+        <p className="text-sm text-text-muted">{member.experience}</p>
       </div>
     </div>
   );

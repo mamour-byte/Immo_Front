@@ -6,7 +6,7 @@ export default function SearchHeader({ viewMode, setViewMode, sortBy, setSortBy 
       <div className="flex items-center gap-2 sm:gap-3">
         <button
           onClick={() => setViewMode("grid")}
-          className={`p-2.5 rounded-lg touch-manipulation ${viewMode === "grid" ? "bg-rose-500 text-white" : "bg-slate-100 text-slate-600"}`}
+          className={`p-2.5 rounded-lg touch-manipulation ${viewMode === "grid" ? "bg-primary text-white" : "bg-surface text-text-muted"}`}
           aria-label="Vue grille"
         >
           <Grid3x3 size={20} className="w-5 h-5" />
@@ -14,7 +14,7 @@ export default function SearchHeader({ viewMode, setViewMode, sortBy, setSortBy 
 
         <button
           onClick={() => setViewMode("list")}
-          className={`p-2.5 rounded-lg touch-manipulation ${viewMode === "list" ? "bg-rose-500 text-white" : "bg-slate-100 text-slate-600"}`}
+          className={`p-2.5 rounded-lg touch-manipulation ${viewMode === "list" ? "bg-primary text-white" : "bg-surface text-text-muted"}`}
           aria-label="Vue liste"
         >
           <List size={20} className="w-5 h-5" />
@@ -25,7 +25,7 @@ export default function SearchHeader({ viewMode, setViewMode, sortBy, setSortBy 
         <select
           value={sortBy}
           onChange={(e) => setSortBy(e.target.value)}
-          className="w-full min-w-0 max-w-full rounded-lg border border-slate-200 bg-slate-50 px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-rose-500 sm:w-auto"
+          className="w-full min-w-0 max-w-full rounded-lg border border-border bg-surface px-3 py-2.5 text-sm focus:outline-none focus:ring-2 focus:ring-primary sm:w-auto"
         >
           <option value="recent">Plus récents</option>
           <option value="priceLow">Prix croissant</option>

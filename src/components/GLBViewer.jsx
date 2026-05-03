@@ -38,7 +38,7 @@ function Loader() {
   return (
     <Html center>
       <div className="flex items-center justify-center">
-        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600"></div>
+        <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary"></div>
       </div>
     </Html>
   );
@@ -52,7 +52,7 @@ function ErrorFallback({ onRetry }) {
         <p className="mb-4">Erreur de chargement du modèle 3D</p>
         <button
           onClick={onRetry}
-          className="px-4 py-2 bg-rose-600 text-white rounded hover:bg-rose-700"
+          className="px-4 py-2 bg-primary text-white rounded hover:bg-primary-hover"
         >
           Réessayer
         </button>
@@ -90,18 +90,18 @@ export default function GLBViewer({ asset }) {
   };
 
   return (
-    <div className={`relative bg-slate-100 rounded-xl overflow-hidden border border-slate-200 ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
+    <div className={`relative bg-surface rounded-xl overflow-hidden border border-border ${isFullscreen ? 'fixed inset-0 z-50' : ''}`}>
       {/* Header */}
-      <div className="flex items-center justify-between p-4 bg-white border-b border-slate-200">
+      <div className="flex items-center justify-between p-4 bg-white border-b border-border">
         <div>
-          <h3 className="font-semibold text-slate-900">{asset.title || 'Modèle 3D'}</h3>
-          <p className="text-sm text-slate-500">Fichier GLB/GLTF</p>
+          <h3 className="font-semibold text-text-main">{asset.title || 'Modèle 3D'}</h3>
+          <p className="text-sm text-text-muted">Fichier GLB/GLTF</p>
         </div>
 
         <div className="flex items-center gap-2">
           <button
             onClick={resetCamera}
-            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-surface hover:bg-border text-text-main px-3 py-2 rounded-lg transition-colors"
             title="Réinitialiser la caméra"
           >
             <RotateCcw size={16} />
@@ -109,7 +109,7 @@ export default function GLBViewer({ asset }) {
 
           <button
             onClick={() => setIsFullscreen(!isFullscreen)}
-            className="flex items-center gap-2 bg-slate-100 hover:bg-slate-200 text-slate-700 px-3 py-2 rounded-lg transition-colors"
+            className="flex items-center gap-2 bg-surface hover:bg-border text-text-main px-3 py-2 rounded-lg transition-colors"
           >
             {isFullscreen ? <Minimize2 size={16} /> : <Maximize2 size={16} />}
           </button>
@@ -119,7 +119,7 @@ export default function GLBViewer({ asset }) {
       {/* 3D Viewer */}
       <div className={`relative ${isFullscreen ? 'h-[calc(100vh-80px)]' : 'h-96'}`}>
         {!isWebGLSupported && (
-          <div className="absolute inset-0 z-20 flex items-center justify-center bg-slate-100 p-6">
+          <div className="absolute inset-0 z-20 flex items-center justify-center bg-surface p-6">
             <div className="max-w-md rounded-xl border border-amber-200 bg-amber-50 p-4 text-center text-amber-900">
               <p className="font-semibold">WebGL non supporte sur ce navigateur.</p>
               <p className="mt-2 text-sm">
@@ -140,10 +140,10 @@ export default function GLBViewer({ asset }) {
         )}
 
         {isLoading && !hasError && (
-          <div className="absolute inset-0 flex items-center justify-center bg-slate-100 z-10">
+          <div className="absolute inset-0 flex items-center justify-center bg-surface z-10">
             <div className="text-center">
-              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-rose-600 mx-auto mb-4"></div>
-              <p className="text-slate-600">Chargement du modèle 3D...</p>
+              <div className="animate-spin rounded-full h-12 w-12 border-b-2 border-primary mx-auto mb-4"></div>
+              <p className="text-text-muted">Chargement du modèle 3D...</p>
             </div>
           </div>
         )}
