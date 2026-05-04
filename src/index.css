@@ -1,28 +1,27 @@
 @import "tailwindcss";
 
 @theme {
-  /* Palette 1  */
   /* Couleurs principales du logo */
-  /* --color-bleu-fonce: #1F2A44; */
+  --color-bleu-fonce: #1F2A44;
   /* texte "im" + maison */
-  /* --color-bleu-nuit: #162035; */
+  --color-bleu-nuit: #162035;
   /* version plus sombre */
-  /* --color-bleu-clair: #2E3F63; */
+  --color-bleu-clair: #2E3F63;
   /* hover / variantes */
 
-  /* --color-orange: #F47A20; */
+  --color-orange: #F47A20;
   /* "obile" + accent cible */
-  /* --color-orange-hover: #FF8C3A; */
+  --color-orange-hover: #FF8C3A;
   /* hover */
-  /* --color-orange-soft: #FFD6B8; */
+  --color-orange-soft: #FFD6B8;
   /* fond léger */
 
   /* Neutres */
-  /* --color-blanc: #FFFFFF;
+  --color-blanc: #FFFFFF;
   --color-gris-clair: #F5F5F5;
   --color-gris-moyen: #9CA3AF;
   --color-gris-fonce: #374151;
-  --color-noir: #111827; */
+  --color-noir: #111827;
 
   /* ========================= */
   /* 🎯 Couleurs sémantiques */
@@ -30,50 +29,13 @@
 
   --color-primary: #1F2A44;
   /* bleu foncé (branding principal) */
-  /* --color-primary-hover: #2E3F63;
+  --color-primary-hover: #2E3F63;
   --color-primary-dark: #162035;
 
-  --color-secondary: #F47A20; */
+  --color-secondary: #F47A20;
   /* orange accent */
-  /* --color-secondary-hover: #FF8C3A;
+  --color-secondary-hover: #FF8C3A;
   --color-secondary-light: #FFD6B8;
-
-  --color-background: #FFFFFF;
-  --color-surface: #F5F5F5;
-
-  --color-text-main: #1F2A44;
-  --color-text-muted: #6B7280; */
-
-  /* --color-border: #E5E7EB; */
-
-
-
-
-
-
-
-
-  /* Palette  2  */
-  /* Couleurs principales */
-  --color-orange: #F47A20;
-  --color-orange-dark: #D96510;
-  --color-orange-light: #FFD6B8;
-
-  --color-bleu: #1F2A44;
-  --color-bleu-light: #2E3F63;
-
-  /* Neutres */
-  --color-blanc: #FFFFFF;
-  --color-gris-clair: #F5F5F5;
-  --color-gris-moyen: #9CA3AF;
-  --color-gris-fonce: #374151;
-
-  /* Sémantique */
-  --color-primary: #F47A20;          /* ORANGE dominant */
-  --color-primary-hover: #D96510;
-
-  --color-secondary: #1F2A44;        /* BLEU secondaire */
-  --color-secondary-hover: #2E3F63;
 
   --color-background: #FFFFFF;
   --color-surface: #F5F5F5;
