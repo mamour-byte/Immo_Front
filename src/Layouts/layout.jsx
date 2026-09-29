@@ -1,6 +1,7 @@
 import React, { useState, useEffect } from 'react'
 import { Link, Outlet, useLocation } from 'react-router-dom'
 import { Menu, X, Phone, MapPin, Mail, User } from 'lucide-react'
+import LogoHorizontal from '../assets/logo/LogoHorizontal.png'
 
 export default function Layout() {
     const [menuOpen, setMenuOpen] = useState(false)
@@ -43,13 +44,8 @@ export default function Layout() {
                     <div className="flex items-center justify-between h-16 sm:h-20">
 
                         {/* LOGO */}
-                        <Link to="/" className="flex items-center space-x-2 sm:space-x-3 group min-w-0">
-                            <div className="w-8 h-8 sm:w-9 sm:h-9 bg-primary-dark rounded-lg flex items-center justify-center transition-transform group-hover:scale-105 flex-shrink-0">
-                                <span className="text-white font-semibold text-sm sm:text-base">E</span>
-                            </div>
-                            <span className="text-base sm:text-xl font-semibold text-text-main tracking-tight truncate">
-                                Ethic Immobilier
-                            </span>
+                        <Link to="/" className="flex items-center group min-w-0">
+                            <img src={LogoHorizontal} alt="Forge Immobilier" className="h-10 sm:h-12 w-auto transition-transform group-hover:scale-105" />
                         </Link>
 
                         {/* NAV DESKTOP */}
@@ -137,11 +133,8 @@ export default function Layout() {
 
                         {/* LOGO & DESCRIPTION */}
                         <div className="space-y-4">
-                            <div className="flex items-center space-x-3">
-                                <div className="w-9 h-9 bg-white rounded-lg flex items-center justify-center">
-                                    <span className="text-text-main font-semibold text-base">E</span>
-                                </div>
-                                <h2 className="text-lg font-semibold text-white">Ethic Immobilier</h2>
+                            <div className="flex items-center">
+                                <img src={LogoHorizontal} alt="Forge Immobilier" className="h-10 w-auto brightness-0 invert" />
                             </div>
                             <p className="text-sm leading-relaxed text-text-muted">
                                 Votre partenaire de confiance pour tous vos projets immobiliers au Sénégal.
@@ -193,7 +186,7 @@ export default function Layout() {
                     {/* Copyright */}
                     <div className="border-t border-text-main py-4 sm:py-6 px-4">
                         <p className="text-center text-xs sm:text-sm text-text-muted">
-                            © {new Date().getFullYear()} Ethic Immobilier. Tous droits réservés.
+                            © {new Date().getFullYear()} Forge Immobilier. Tous droits réservés.
                         </p>
                     </div>
                 </div>

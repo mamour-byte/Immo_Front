@@ -1,5 +1,6 @@
 import React from "react";
 import { Link } from "react-router-dom";
+import LogoHorizontal from '../assets/logo/LogoHorizontal.png';
 import {
   BarChart3,
   Building2,
@@ -30,15 +31,10 @@ export default function Sidebar({ activeItem = "overview", isAdmin = false, onSe
   return (
     <aside className="fixed inset-y-0 left-0 z-40 hidden w-72 flex-col border-r border-border bg-white lg:flex">
       <div className="border-b border-border px-6 py-6">
-        <Link to="/" className="flex items-center gap-3">
-          <span className="flex h-10 w-10 items-center justify-center rounded-lg bg-primary-dark text-base font-semibold text-white">
-            E
-          </span>
-          <span className="min-w-0">
-            <span className="block truncate text-base font-semibold text-slate-950">Ethic Immobilier</span>
-            <span className="block text-xs font-medium uppercase tracking-[0.14em] text-primary">
-              {isAdmin ? "Administration" : "Espace agent"}
-            </span>
+        <Link to="/" className="flex flex-col gap-1">
+          <img src={LogoHorizontal} alt="Forge Immobilier" className="h-9 w-auto" />
+          <span className="block text-xs font-medium uppercase tracking-[0.14em] text-primary">
+            {isAdmin ? "Administration" : "Espace agent"}
           </span>
         </Link>
       </div>

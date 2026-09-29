@@ -12,7 +12,7 @@ export default function HomePage() {
                 <div className="absolute inset-0">
                     <img
                         src="https://images.unsplash.com/photo-1721013244188-5c4f4593ee72?w=600&auto=format&fit=crop&q=60&ixlib=rb-4.1.0&ixid=M3wxMjA3fDB8MHxzZWFyY2h8M3x8RGFrYXJ8ZW58MHx8MHx8fDA%3D"
-                        alt="ethic immobilier hero"
+                        alt="forge immobilier hero"
                         className="w-full h-full object-cover opacity-100"
                     />
                 </div>
@@ -60,7 +60,7 @@ export default function HomePage() {
                                 Votre partenaire immobilier de confiance
                             </h2>
                             <p className="text-text-muted text-base sm:text-lg leading-relaxed mb-4 sm:mb-6">
-                                Ethic Immobilier est une agence moderne et dynamique, spécialisée dans la vente, la location et la gestion de biens immobiliers au Sénégal. Nous accompagnons nos clients dans leurs projets avec professionnalisme et transparence.
+                                Forge Immobilier est une agence moderne et dynamique, spécialisée dans la vente, la location et la gestion de biens immobiliers au Sénégal. Nous accompagnons nos clients dans leurs projets avec professionnalisme et transparence.
                             </p>
                             <p className="text-text-muted text-lg leading-relaxed">
                                 Notre expertise locale et notre réseau étendu nous permettent de vous proposer les meilleures opportunités du marché, tout en garantissant des transactions sécurisées et un service personnalisé.
